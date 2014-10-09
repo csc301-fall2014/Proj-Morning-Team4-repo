@@ -1,0 +1,53 @@
+FEATURES
+
+CARL
+user system *
+-->invitations to events
+-->invitations to the system
+
+developer options
+-->api
+
+SANGAH
+third-party integration
+-->facebook, gmail, google glass, iwatch, pebble
+
+language
+
+payment for events
+
+TOMMY
+notifications
+-->new content *
+-->reminders
+-->suggestions
+
+MICHAEL
+instructor generated content *
+-->deadlines, info sessions, etc
+
+student generated content *
+-->deadlines, info sessions, etc
+-->validation by instructor
+
+MATT
+content feedback
+-->comments
+-->endorsements, i.e. "likes"
+
+media attachments *
+-->descriptions
+BINURI
+-->syllabus, photos, youtube embedding
+
+privacy 
+-->private events
+-->semi-private events
+
+AMRUTHA
+-->public events -- non registered users
+
+map of lectures + tutorials
+
+calendar view *
+-->overlaying calendars
