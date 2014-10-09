@@ -1,4 +1,8 @@
-** October 9 **
+To-Do's
+=======
+
+October 9
+---------
 - Write 3 user stories each based on the features below your name in FEATURES
 - Write a bio
 - Write a persona
