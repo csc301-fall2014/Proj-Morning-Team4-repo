@@ -18,13 +18,13 @@ I am a fourth year student in my graduating year at U of T progressing towards a
 **Matt:**
 I am a fourth year student in my last year at U of T in the computer science specialist program. This last summer I was part of UofT's accelerator program, The Hatchery, where I worked developing iOS and server side applications for enterprise instant messaging. I have a strong background in Go, Objective-C and Python. I've worked primarily with NoSQL databases like MongoDB and web frameworks such as Martini and Django. In previous years I've been involved with startups dealing dealing with instant messaging for mobile (Blackberry and iOS). 
 
-**Amrutha: **
+**Amrutha:**
 I am a third-year computer science specialist also doing a minor in English. I am interested in user interface design and graphic designing is a hobby of mine, I hope to pursue both simultaneously after I graduate. I have done multiple summer internships in the past in the provincial government and I volunteer with many different associations by helping out with fundraisers, designing posters, setting up charity races. 
 
-**Sang-Ah: **
+**Sang-Ah:**
 I am a third-year computer science specialist with a focus in Human-Computer Interaction. I recently completed a 15 month-long work term at IBM Canada Software Lab, where I worked on proof-of-concept software (including an IaaS cloud service and a web application) for CAS Research. I’m also very interested in user interface design. My other academic interests lie in sociology (social stratification and social mobility) and psychology (perception, as well as social psychology). Recreation-wise, I enjoy running, weight lifting, and rollerblading.
 
-**Michael: **
+**Michael:**
 	I am a third year student in the computer science specialist program with a focus in		computer systems. I plan on spending next year working in the PEY internship			program, and am currently in the application process. My hobbies include playing the		drums and swimming.
 
 
