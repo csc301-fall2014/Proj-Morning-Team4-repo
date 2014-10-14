@@ -1,7 +1,7 @@
 #Introducing the Team
 
 
-[The awesomest team](team4.jpg)
+![The awesomest team](team4.jpg)
 
 ##Biographies
 
@@ -34,31 +34,31 @@ Our group has chosen to implement the time management tool. As full-time student
 
 #Personas
 
-[Sara Jacobsen](personas/saraj.png)
+![Sara Jacobsen](personas/saraj.png)
 
 *Sara Jacobsen, 25 years old; born and raised in Toronto*
 
 Sara has been working for about a year and a half at a local web development company as a graphic designer. She’s been working a lot on designing the user interfaces for her projects, and the higher-ups at her company have suggested she learn some front-end programming. As well as a bit of self-learning from the Internet, she’s enrolled in part-time courses in computer science at a downtown university. She lives in the downtown core and likes going out to local restaurants. She knows all the best places for ice cream in the city. Though she has great artistic vision, she’s not one for organization. Sara likes to keep post-it notes to remind her of the tasks she needs to do, but has a tendency to lose these post-it notes and sometimes miss deadlines, and it’s usually her boyfriend who has to remind her of what she’s forgetting. 
 
-[Dana Johnson](personas/danaj.png)
+![Dana Johnson](personas/danaj.png)
 
 *Dana Johnson, 18 years old; from Woodbridge, ON*
 
 In her first year at York University, Dana Johnson is a very driven student. She was the valedictorian of her high school’s graduating class and participated in many clubs. Dana hopes to get into law school after finishing her undergraduate studies. At school, she hopes to be just as involved in university organizations as she was in high school. Among her hour-long commute to campus, full course load and participation in different organizations, she must maintain a strict schedule to complete all of her tasks. She is often the event organizer for the different clubs she joins at school. Though very intelligent and outgoing, she’s always had a difficult time finding good study buddies. On a daily basis, Dana carries around multiple textbooks, her tablet, her day planner, and a mug for her daily coffee.
 
-[Andrew Philips](personas/andrewpjr.png)
+![Andrew Philips](personas/andrewpjr.png)
 
 *Andrew Philips Jr., 23 years old; from London, England*
 
 Andrew Philips Jr. is an International Student part of an exchange program from the University of London. Andrew is a smart, hard working student with lots of ambition willing to do whatever it takes to get the job done. Being an international student, Andrew pays enormous tuition fees. As a result Andrew takes part in the work study program offered by the university where he works as an office administrator for drama department. Andrew is majoring in economics with dreams of attending the London School of Business and following in the footsteps of his father, a well known economist working at Barclays International. Andrew hopes his work in the Drama department will demonstrate to admissions his well rounded and dynamic personality. With all this in mind, Andrew is extremely busy managing work and school and he's a tad disorganized inciting his friends to quip that “he would lose his head if it wasn’t screwed on!” As a result Andrew works diligently using time organization apps to keep his schedule in check and so he can maintain a healthy work-school life. 
 
-[Jonathan Rosenwald](personas/jonathanr.png)
+![Jonathan Rosenwald](personas/jonathanr.png)
 
 *Jonathan Rosenwald, 61 years old; from Louisville, Kentucky*
 
 Jonathan Rosenwald is a professor of philosophical meta-ethics from Kentucky State University. He is a fully tenured professor who has worked for over 20 years for the university. He is passionate about teaching and has worked diligently to inspire students both young and old. With teaching awards and guest appearances on the local news station WHAS11 he is an exemplary citizen and well known in the community. In a school setting he is well known around campus. His first year course: Ethics: An Exploration Of Reason is a hit, with rave reviews in Kentucky State’s anti-calendar and online. Jonathan is passionate about keeping the university current, always looking to implement the latest and greatest learning technology in his courses to make students lives easier and facilitate a better academic experience. 
 
-[Ju-wong Shin](personas/juwongs.png)
+![Ju-wong Shin](personas/juwongs.png)
 
 *Ju-wong Shin, 47 years old; from Seoul, South Korea*
 
@@ -200,27 +200,27 @@ The first iteration will depend on creating the main object classes with the fol
 #CRC Cards
 
 ###User
-[User CRC Card](crc/user.png)
+![User CRC Card](crc/user.png)
 ###Instructor
-[Instructor CRC Card](crc/instructor.png)
+![Instructor CRC Card](crc/instructor.png)
 ###Student
-[Student CRC Card](crc/student.png)
+![Student CRC Card](crc/student.png)
 ###School_Admin
-[School Admin CRC Card](crc/school_admin.png)
+![School Admin CRC Card](crc/school_admin.png)
 ###School
-[School CRC Card](crc/school.png)
+![School CRC Card](crc/school.png)
 ###Course
-[Course CRC Card](crc/course.png)
+![Course CRC Card](crc/course.png)
 ###Calendar
-[Calendar CRC Card](crc/calendar.png)
+![Calendar CRC Card](crc/calendar.png)
 ###Event
-[Event CRC Card](crc/event.png)
+![Event CRC Card](crc/event.png)
 ###Reminder
-[Reminder CRC Card](crc/reminder.png)
+![Reminder CRC Card](crc/reminder.png)
 ###Notification
-[Notification CRC Card](crc/notification.png)
+![Notification CRC Card](crc/notification.png)
 ###Interface
-[Interface CRC Card](crc/interface.png)
+![Interface CRC Card](crc/interface.png)
 
 ##User stories played out to our CRC cards:
 
