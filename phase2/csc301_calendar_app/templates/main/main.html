@@ -8,7 +8,16 @@
     <body>
         Welcome to the <strong>{{ app_description }}
             </strong> calendar app! Yup :) <br />
-        <a href='/register'>Register</a><br />
+        {% if user.is_authenticated %}
+            <h1>Sup {{ user.username }}!</h1>
+            <a href='logout/'>Logout? :(</a><br />
+        {% else %}
+            <h1>Hey Stranger!</h1>
+            <a href='register/'>Register</a><br />
+            <a href='login/'>or you know... login</a><br />
+        {% endif %}
+
+
     </body>
 
 </html>
