@@ -11,6 +11,7 @@
         {% if user.is_authenticated %}
             <h1>Sup {{ user.username }}!</h1>
             <a href='logout/'>Logout? :(</a><br />
+            <a href='/school/add_school/'>Add School? (or don't and save your money)</a><br />
         {% else %}
             <h1>Hey Stranger!</h1>
             <a href='register/'>Register</a><br />
