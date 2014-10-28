@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rango</title>
+    </head>
+
+    <body>
+        <h1>Add School</h1>
+        
+        {% if user.is_authenticated %}
+          
+
+            <form id="add_school_form" method="post" action="/main/login/">
+                {% csrf_token %}
+                School: <input type="text" name="school_name" value="" size="50" />
+                <br /><br />
+
+                <input type="submit" value="submit" />
+            </form>
+        {% endif %}
+    </body>
+</html>
