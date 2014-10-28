@@ -44,7 +44,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main'
+    'main',
+    'school',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -76,9 +77,9 @@ WSGI_APPLICATION = 'csc301_calendar_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'csc301_users',
+        'NAME': 'csc301users',
         'USER' : 'root',
-        'PASSWORD' : '1234',
+        'PASSWORD' : 'Jeff1093',
         'HOST' : '127.0.0.1'
     }
 }
