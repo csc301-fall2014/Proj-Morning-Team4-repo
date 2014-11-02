@@ -14,7 +14,8 @@
                 {% csrf_token %}
                 School: <input type="text" name="username" value="" size="50" />
                 <br /><br />
-
+                {{ school_form.as_p }}
+                
                 <input type="submit" value="submit" />
             </form>
         {% endif %}
