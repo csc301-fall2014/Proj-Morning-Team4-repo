@@ -1,0 +1,26 @@
+<!-- ... -->
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>CourseMate</title>
+    </head>
+
+    <body>
+
+    <h1>{{event.name}}</h1>
+
+    <h3>Details</h3>
+    <ul>
+    {% if event %}
+        <li> start time: {{event.start}}</li>
+        <li> end time: {{event.end}}</li>
+        <li> location: {{event.location}}</li>
+    {% else %}
+        This event does not exist
+    {% endif %}
+    </ul>
+    <a href="update/">Update Event</a><br />
+    </body>
+
+</html>
