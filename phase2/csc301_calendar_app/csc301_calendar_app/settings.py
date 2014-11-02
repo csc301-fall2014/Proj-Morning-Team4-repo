@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'scheduler',
     'school',
 )
 
@@ -73,13 +74,13 @@ WSGI_APPLICATION = 'csc301_calendar_app.wsgi.application'
 #    }
 #}
 
-
+AUTH_PROFILE_MODULE = 'main.models.UserProfile'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '***REMOVED***',
+        'NAME':  YOUR_DATABASENAME',
         'USER' : 'root',
-        'PASSWORD' : '***REMOVED***',
+        'PASSWORD' : YOUR_PASSWORD,
         'HOST' : '127.0.0.1'
     }
 }

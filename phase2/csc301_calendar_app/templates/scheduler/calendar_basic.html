@@ -1,0 +1,26 @@
+<!-- ... -->
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Calendar</title>
+    </head>
+
+    <body>
+
+    <h1>{{calendar.name}}</h1>
+
+    <h3>Scheduled events</h3>
+    <ul>
+    {% if calendar %}
+    {% for e in events %}
+        <li><a href='event/{{e.id}}/'>{{e.name}} - {{e.start}}<a></li>
+    {% endfor %}
+    {% else %}
+        There are no records in the system
+    {% endif %}
+    </ul>
+    <a href="add/">Add Event</a><br />
+    </body>
+
+</html>

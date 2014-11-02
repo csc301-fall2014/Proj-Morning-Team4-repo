@@ -8,6 +8,7 @@ from main.models import UserProfile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+from scheduler.models import Calendar
 
 def index(request):
     # Request the context of the request.
@@ -20,10 +21,12 @@ def index(request):
     for e in UserProfile.objects.all():
         school = e.school
         print(school)
-        
-    
-    context_dict = {'app_description' : 'super duper', 'school' : UserProfile.objects.get().getSchool()}
-    
+
+    if request.user.is_authenticated():
+        school = UserProfile.objects.get(user=request.user).getSchool()
+
+    context_dict = {'app_description' : 'super duper','school' : school}
+
     #context= { 'school' : UserProfile.objects.all()}
 
     return render_to_response('main/main.html', context_dict, context)
@@ -61,8 +64,15 @@ def registration(request):
             profile = profile_form.save(commit=False)
             profile.user = user
 
+            # Add the personal calendar for the user
+            calendar = Calendar( name = user.username + "'s personal calendar")
+            calendar.save()
+            profile.cal = calendar
+
             # Now we save the UserProfile model instance.
             profile.save()
+
+
 
             # Update our variable to tell the template registration was successful.
             registered = True
