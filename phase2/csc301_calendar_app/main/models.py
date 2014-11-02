@@ -7,6 +7,11 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     nickname = models.CharField(max_length=128, unique=True)
+    
+    school = models.CharField(max_length=129, default='UofT' )
 
     def __unicode__(self):
         return self.user.username
+    
+    def getSchool(self):
+            return self.school   
