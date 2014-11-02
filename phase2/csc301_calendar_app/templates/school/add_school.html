@@ -10,7 +10,7 @@
         {% if user.is_authenticated %}
           
 
-            <form id="login_form" method="post" action="/main/login/">
+            <form id="add_school_form" method="post" action="/main/">
                 {% csrf_token %}
                 School: <input type="text" name="username" value="" size="50" />
                 <br /><br />
