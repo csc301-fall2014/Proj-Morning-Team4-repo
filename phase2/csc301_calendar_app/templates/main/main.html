@@ -10,6 +10,7 @@
             </strong> calendar app! Yup :) <br />
         {% if user.is_authenticated %}
             <h1>Sup {{ user.username }}!</h1>
+            <h1>School name {{ school }}!</h1>
             <a href='logout/'>Logout? :(</a><br />
             <a href='/school/add_school/'>Add School? (or don't and save your money)</a><br />
         {% else %}
