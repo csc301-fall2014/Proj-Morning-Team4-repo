@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'csc301users',
         'USER' : 'root',
-        'PASSWORD' : 'password',
+        'PASSWORD' : 'Jeff1093',
         'HOST' : '127.0.0.1'
     }
 }
