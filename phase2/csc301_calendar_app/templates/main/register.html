@@ -9,11 +9,11 @@
 
         {% if registered %}
         <strong>Thank you for registering! #YOLO</strong>
-        <a href="/main/">Return to the homepage.</a><br />
+        <a href="/">Return to the homepage.</a><br />
         {% else %}
         Rango says: <strong>Register here!</strong><br />
 
-        <form id="user_form" method="post" action="/main/register/"
+        <form id="user_form" method="post" action="/register/"
                 enctype="multipart/form-data">
 
             {% csrf_token %}
