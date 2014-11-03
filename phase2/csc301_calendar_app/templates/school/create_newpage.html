@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rango</title>
+    </head>
+
+    <body>
+        <h1>Create New Course</h1>
+        
+        {% if user.is_authenticated %}
+            <form id="add_course_form" method="post" action="/main/">
+                {% csrf_token %}
+                Course: <input type="text" name="username" value="" size="50" />
+                <br /><br />
+                {{ course_form.as_p }}
+                
+                <input type="submit" value="submit" />
+            </form>
+        {% endif %}
+    </body>
+</html>
