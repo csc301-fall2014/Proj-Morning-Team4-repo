@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-  
+
     <title>API Documentation for CourseMate</title>
 
     <!-- Bootstrap core CSS -->
@@ -29,7 +29,7 @@
         <h1>CourseMate API</h1>
         <p class="lead">Get to work, guys.</p>
       </div>
-    
+
       <h2>URLs</h2>
 
       <h3>School</h3>
@@ -37,7 +37,7 @@
         <tr>
           <td><b>URL</b></td><td><b>Method</b></td><td><b>Description</b></td><td><b>Response</b></td>
         </tr>
-       
+
       </table>
 
       <h3>Scheduler</h3>
@@ -50,7 +50,7 @@
       <h2>Object Structures</h2>
 
       <p>Here are the structures of the JSONs we expect and will give.</p>
-      
+
       <h3 id="course-structure">Course</h3>
       <table class="table table-striped table-bordered table-responsive" id="scheduler-table">
         <tr>
@@ -86,7 +86,7 @@
           </td>
         </tr>
       </table>
-      
+
       <h3 id="school-structure">School</h3>
        <table class="table table-striped table-bordered table-responsive" id="scheduler-table">
         <tr>
@@ -112,7 +112,7 @@
           <tr>
           <td>email-domains</td><td>list of the e-mail domain names that one must have to be considered part of this school</td>
           </tr>
-          
+
           <tr>
           <td>calendar-id</td><td>ID of the course calendar</td>
           </tr>
@@ -142,7 +142,7 @@
                 <tr>
           <td>events</td><td>list of event id's in this calendar</td>
         </tr>
-      
+
       </table>
           </td>
         </tr>
@@ -168,7 +168,7 @@
         </tr>
         <tr>
           <td>id</td><td>ID of the event in question</td>
-        </tr> 
+        </tr>
         <tr>
           <td>calendar-id</td><td>ID of the calendar that contains this event</td>
         </tr>
@@ -196,7 +196,7 @@
       </table>
   </div>
 
- 
+
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery-1.11.1.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -233,7 +233,7 @@
         var html = "";
         typeof ordered == "undefined" || !ordered ? html += "<ul>" : html += "<ol>";
         for (code in responseList) {
-            var desc = addStructureSectionLinks(responseList[code]);     
+            var desc = addStructureSectionLinks(responseList[code]);
             html += "<li>Status " + code + ": " + desc + "</li>";
         }
         typeof ordered == "undefined" || !ordered ? html += "</ul>" : html += "</ol>";
@@ -247,12 +247,12 @@
           var urlArgs = doc.url.match(/(\{[\da-z\-]*\})/g);
           var url = surroundHTML(urlArgs, doc.url, '<span style="color: #' + COLOURS[0] + ';">', '</span>');
           html += "<tr><td>" + (typeof prefix == "undefined" ? url : prefix + url) + "</td><td>" + doc.method.toUpperCase() + "</td><td>" + doc.description + "</td><td>" + responseToList(doc.response) + "</td></tr>";
-        } 
+        }
         $(idString).append(html);
       }
 
       courseDocs = [
-        new Doc("", "post","Create a new course, if the currently logged-in user has admin rights to the given school.", 
+        new Doc("", "post","Create a new course, if the currently logged-in user has admin rights to the given school.",
           {
             200: "Request was successful. Returns the newly created {course}.",
             401: "The currently-logged in user does not have admin rights to the school."
@@ -264,7 +264,7 @@
       schoolDocs = [
         //new Doc("/", "post","Create a new school.", ""),
         new Doc("{id}", "get", "Get school with given ID", ""),
-        new Doc("{id}/enrol", "put", "Enrol currently logged-in user in the school with given ID, only if the user is a student.", ""), 
+        new Doc("{id}/enrol", "put", "Enrol currently logged-in user in the school with given ID, only if the user is a student.", ""),
         new Doc("{id}/update", "put", "Update the information in the school with given ID, only if the currently logged-in user has admin rights.", ""),
 
       ]
@@ -273,14 +273,18 @@
         //new Doc("/", "post","Create a new calendar.", ""),
         new Doc("school/{school-id}/calendar/", "get", "Get the calendar object for the school with the given ID if the currently-logged in user is enrolled in the school.", ""),
         new Doc("school/{school-id}/calendar/add", "post", "Add a new event to the calendar for the school with the given ID if the currently-logged in user has admin rights.", ""),
-        new Doc("school/{school-id}/calendar/update/{event-id}", "put", "Update event with given event-id in the calendar for the school with the given ID if the currently-logged in user has admin rights.", ""),
+        new Doc("school/{school-id}/calendar/{event-id}", "get", "Get the event given an event-id only if it belongs to the school calendar and the current user is enrolled in the school.", ""),
+        new Doc("school/{school-id}/calendar/{event-id}/update", "put", "Update event with given event-id in the calendar for the school with the given ID if the currently-logged in user has admin rights.", ""),
 
-        new Doc("course/{course-id}/calendar/{calendar-id}" ,"get", "Get the calendar object s.t. its ID is calendar-id, only if the course specified by course-id is the owner of that calendar, and the currently logged-in user is enrolled in the course or is an instructor for the course." ,""),
-        new Doc("course/{course-id}/calendar/{calendar-id}/add", "post", "Add a new event to the calendar object with the given calendar-id, only if the course specified by course-id is the owner of the calendar, and the currently logged-in user is an instructor for the course.", ""),
-        new Doc("course/{course-id}/calendar/{calendar-id}/update/{event-id}", "put", "Add a new event to the calendar object with the given calendar-id, only if the course specified by course-id is the owner of the calendar, and the currently logged-in user is an instructor for the course.", ""),
+        new Doc("course/{course-id}/calendar/" ,"get", "Get the calendar object of the course with course-id, only if the currently logged-in user is enrolled in the course or is an instructor for the course." ,""),
+        new Doc("course/{course-id}/calendar/add", "post", "Add a new event to the calendar object of the course with given course-id, only if the currently logged-in user is an instructor for the course.", ""),
+        new Doc("course/{course-id}/calendar/{event-id}/", "get", "View the details of an event given an event-id only if the calendar of the course specified by course-id is the owner of the event, and the currently logged-in user is enrolled in the course.", ""),
+        new Doc("course/{course-id}/calendar/{event-id}/update/", "put", "Update an already existing event in the calendar object of the course with the given calendar-id, only if the currently logged-in user is an instructor for the course and created the event.", ""),
 
-        new Doc("calendar/{calendar-id}" ,"get", "Get the calendar object s.t. its ID is calendar-id, only if the currently logged-in user is the owner of that calendar." ,""),
-        new Doc("calendar/{calendar-id}/add", "post", "Add a new event to the calendar object with the given calendar-id, only if the currently logged-in user is the owner of that calendar.", ""),
+        new Doc("user/{user-id}/calendar/" ,"get", "Get the calendar object of the currently logged-in user." ,""),
+        new Doc("user/{user-id}/calendar/add", "post", "Add a new event to the personal calendar of the currently logged in user.", ""),
+        new Doc("user/{user-id}/calendar/{event-id}/", "get", "View the details of an event given an event-id only if the event belongs to the calendar of the currently logged in user", ""),
+        new Doc("user/{user-id}/calendar/{event-id}/update/", "put", "Update an already existing event given the event-id only if the event belongs to the personal calendar of the currently logged-in user.", ""),
 
 
 
@@ -291,7 +295,7 @@
 
       addDoc(calendarDocs, "#scheduler-table")
 
-      
+
     </script>
   </body>
 </html>
