@@ -9,10 +9,10 @@
 
         {% if user.is_authenticated %}
             <strong>You are already logged in!</strong>
-            <a href="/main/">Return to the homepage.</a><br />>
+            <a href="/">Return to the homepage.</a><br />>
         {% else %}
 
-            <form id="login_form" method="post" action="/main/login/">
+            <form id="login_form" method="post" action="/login/">
                 {% csrf_token %}
                 Username: <input type="text" name="username" value="" size="50" />
                 <br /><br />
