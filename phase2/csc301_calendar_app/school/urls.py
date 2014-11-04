@@ -6,6 +6,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'csc301_calendar_app.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^add_school/$', views.add_school, name='Add School'),
+    url(r'^enrol/$', views.add_school, name='Enrol in School'),
     
 )

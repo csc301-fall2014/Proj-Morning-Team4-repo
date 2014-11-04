@@ -23,7 +23,7 @@ def add_school(request):
 
 
     # Render the template depending on the context.
-    return render_to_response('school/add_school.html', {}, context)    
+    return render_to_response('school/enrolment_school.html', {}, context)    
     
 
     
