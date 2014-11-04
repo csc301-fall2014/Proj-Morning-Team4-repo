@@ -19,6 +19,11 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     TEMPLATE_PATH,
+
+    os.path.join(
+        os.path.dirname(__file__),
+        'static/templates',
+    ),
 )
 
 # Quick-start development settings - unsuitable for production
@@ -78,10 +83,9 @@ AUTH_PROFILE_MODULE = 'main.models.UserProfile'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':  YOUR_DATABASENAME',
-        'USER' : 'root',
-        'PASSWORD' : YOUR_PASSWORD,
-        'HOST' : '127.0.0.1'
+        'NAME':  'YOUR_DB_NAME_HERE',
+        'USER' : 'YOUR_DB_USER_HERE',
+        'PASSWORD' :'YOUR_DB_PW_HERE',
     }
 }
 
@@ -103,3 +107,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+        os.path.join(
+            os.path.dirname(__file__),
+            'static',
+        ),
+)

@@ -1,25 +1,22 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Login</title>
-    </head>
+{% extends "page.html" %}
 
-    <body>
-        <h1>Do you even calendar bro?</h1>
+{% block content %}
+          
 
-        {% if user.is_authenticated %}
-            <strong>You are already logged in!</strong>
-            <a href="/">Return to the homepage.</a><br />>
-        {% else %}
+            <div class="col-xs-12 col-sm-4 col-sm-offset-4">
 
-            <form id="login_form" method="post" action="/login/">
-                {% csrf_token %}
-                Username: <input type="text" name="username" value="" size="50" />
-                <br /><br />
-                Password: <input type="password" name="password" value="" size="50" />
-                <br />
-                <input type="submit" value="submit" />
-            </form>
-        {% endif %}
-    </body>
-</html>
+                {% if user.is_authenticated %}
+                    <h2>You are already logged in!</h2>
+                    <p><a href="/">Return to the homepage.</a></p>
+                {% else %}
+                    <form class="form-signin" role="form" id="login_form" method="post" action="/login/">
+                        <h2 class="form-signin-heading">Please sign in</h2>
+                        {% csrf_token %}
+                        <input name="username" type="text" class="form-control" placeholder="Username" required autofocus>
+                        <input name="password" type="password" class="form-control" placeholder="Password" required>
+                        <br />
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    </form>
+                {% endif %}
+            </div>
+{% endblock %}

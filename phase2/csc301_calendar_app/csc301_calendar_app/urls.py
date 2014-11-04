@@ -1,11 +1,13 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
+from django.conf.urls.static import static
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin # UNCOMMENT THIS LINE
 admin.autodiscover() # UNCOMMENT THIS LINE, TOO!
 
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'csc301_calendar_app.views.home', name='home'),
@@ -17,7 +19,7 @@ urlpatterns = patterns('',
     url(r'^school/', include('school.urls')),
 	url(r'^accounts/', include('main.urls')),
     url(r'^admin/', include(admin.site.urls)),
-)
+)  + staticfiles_urlpatterns() 
 
 if settings.DEBUG:
         urlpatterns += patterns(
