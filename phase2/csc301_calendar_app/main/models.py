@@ -15,4 +15,13 @@ class UserProfile(models.Model):
         return self.user.username
     
     def getSchool(self):
-            return self.school   
+        return self.school
+
+    class Meta:
+        permissions = (
+            ('create_event', 'Create an event'),
+            ('join_event', 'Join an event'),
+            ('leave_event', 'Leave and event'),
+            ('enroll_course', 'Enroll in a course'),
+            ('drop_course', 'Drop a course'),
+        )
