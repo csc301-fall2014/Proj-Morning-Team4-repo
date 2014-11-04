@@ -2,6 +2,7 @@ from scheduler.models import Calendar, Event
 from django.contrib.auth.models import User
 from django import forms
 
+
 class EventForm(forms.ModelForm):
 
     name = forms.CharField(required=True)
