@@ -10,17 +10,17 @@
 {% endblock %}
 {% block content %}
     {% if user.is_authenticated %}
-                  <div class="col-xs-12 col-sm-9">
-
-                      <a class="btn btn-primary btn-lg" href="/user/{{ user.id }}/calendar">Calendar <span class="glyphicon glyphicon-calendar"></span></a>
-                      <a class="btn btn-primary btn-lg" href="/school/add_school/">Add School <span class="glyphicon glyphicon-tower"></span></a>
-                  </table>
-                </div>
+        <div class="col-xs-12 col-sm-9">
+            <a class="btn btn-primary btn-lg" href="/user/edit"><span class="glyphicon glyphicon-pencil"></span>Edit Profile</a>
+            <a class="btn btn-primary btn-lg" href="/user/{{ user.id }}/calendar"><span class="glyphicon glyphicon-calendar"></span> Calendar</a>
+            <a class="btn btn-primary btn-lg" href="/school/add_school/"><span class="glyphicon glyphicon-tower"></span> Add School</a>
+          </table>
+        </div>
     {% else %}
-            <div class="col-xs-12">
-                <a class="btn btn-primary btn-lg" href="/register">
-                <span class="glyphicon glyphicon-thumbs-up"> Register</span></a>
-                <a class="btn btn-primary btn-lg" href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
-            </div>
+        <div class="col-xs-12">
+            <a class="btn btn-primary btn-lg" href="/register">
+            <span class="glyphicon glyphicon-thumbs-up"> Register</span></a>
+            <a class="btn btn-primary btn-lg" href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+        </div>
     {% endif %}
 {% endblock %}
