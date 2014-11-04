@@ -326,6 +326,7 @@ description: ...
         //new Doc("/", "post","Create a new school.", ""),
         new Doc("{id}", "get", "Get school with given ID", ""),
         new Doc("{id}/enrol", "put", "Enrol currently logged-in user in the school with given ID, only if the user is a student.", ""),
+        new Doc("{id}/enrol", "get", "Get a list of all available schools.", ""),
         new Doc("{id}/update", "put", "Update the information in the school with given ID, only if the currently logged-in user has admin rights.", ""),
 
       ];
