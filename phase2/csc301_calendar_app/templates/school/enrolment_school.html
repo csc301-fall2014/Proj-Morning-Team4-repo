@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rango</title>
+    </head>
+
+    <body>
+        <h1>Enrol in School</h1>
+        <h5>This a user can use while to add a school would be admin (?)</h5>
+        {% if user.is_authenticated %}
+          
+        
+            <form id="add_school_form" method="post" action="/main/">
+                {% csrf_token %}
+                School: <input type="text" name="username" value="" size="50" />
+                <br /><br />
+                {{ school_form.as_p }}
+                
+                <input type="submit" value="submit" />
+            </form>
+        {% endif %}
+    </body>
+</html>
