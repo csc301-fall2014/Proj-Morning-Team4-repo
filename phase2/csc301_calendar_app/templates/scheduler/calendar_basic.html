@@ -1,26 +1,55 @@
-<!-- ... -->
-<!DOCTYPE html>
-<html>
+{% extends "page.html" %}
 
-    <head>
-        <title>Calendar</title>
-    </head>
+{% load static %}
 
-    <body>
+{% block css %}
+{{ block.super }}
+  <link href="{% static 'css/jquery-ui.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/fullcalendar.print.css' %}" rel="stylesheet" madia="print">
+  <link href="{% static 'css/fullcalendar.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/jquery-ui.min.css' %}" rel="stylesheet">
+{% endblock %}
 
-    <h1>{{calendar.name}}</h1>
+{% block js %}
+{{ block.super }}
+  <script src="{% static 'js/moment.min.js' %}"></script>
+  <script src="{% static 'js/fullcalendar.min.js' %}"></script>
+<script>
 
-    <h3>Scheduled events</h3>
-    <ul>
-    {% if calendar %}
-    {% for e in events %}
-        <li><a href='event/{{e.id}}/'>{{e.name}} - {{e.start}}<a></li>
-    {% endfor %}
-    {% else %}
-        There are no records in the system
-    {% endif %}
-    </ul>
-    <a href="add/">Add Event</a><br />
-    </body>
 
-</html>
+    $(document).ready(function() {
+        events = [];
+        {% if calendar %}
+        {% for e in events %}
+        startDate = '{{ e.start|date:"Y-m-d" }}';
+        endDate = '{{ e.end|date:"Y-m-d" }}';
+        events.push({
+            id: '{{e.id}}',
+            title: '{{e.name}}',
+            url: 'event/{{e.id}}/',
+            start: moment(startDate),
+        });
+        {% endfor %}
+        {% endif %}
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay'
+            },
+            defaultDate: '{% now "Y-m-d" %}',
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: events
+        });
+        
+    });
+
+</script>
+{% endblock %}
+
+{% block content %}
+    <div id="calendar"></div>
+    <a href="add/">Add Event</a>
+
+{% endblock %}
