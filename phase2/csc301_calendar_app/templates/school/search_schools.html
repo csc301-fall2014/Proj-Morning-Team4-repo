@@ -1,0 +1,39 @@
+{% extends "page.html" %}
+
+{% load static %}
+
+{% block js %} 
+{{ block.super }}
+ <script src="{% static 'js/list.min.js' %}"></script>
+ <script>
+ $(document).ready(function () {
+
+    var options = {
+        valueNames: [ 'listjs-name' ]
+    };
+
+    var hackerList = new List('school-list', options);
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+        <h1>Search for Schools</h1>
+        {% if user.is_authenticated %}
+                <input name="search" class="listjs-search form-control" type="text" placeholder="Search for your school's name..."autofocus>
+    <br />
+                <div class="container-fluid" id="school-list">
+                
+                    {% if schools %}
+                      <div class="list list-group">
+                      {% for school in schools %}
+                        <a class="listjs-name list-group-item" href="/school/{{ school.id }}">{{ school.name }}</a>
+                      {% endfor %}
+                      </div>
+                    {% endif %}
+                </div>
+                
+        {% endif %}
+</div>
+{% endblock %}
