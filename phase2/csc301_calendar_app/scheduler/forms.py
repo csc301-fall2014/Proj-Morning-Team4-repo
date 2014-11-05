@@ -7,8 +7,8 @@ class EventForm(forms.ModelForm):
 
     name = forms.CharField(required=True)
     description = forms.CharField(required=False)
-    start = forms.DateTimeField(widget=forms.DateTimeInput(), required=True)
-    end = forms.DateTimeField(required=False)
+    start = forms.DateTimeField(widget=forms.SplitDateTimeWidget(), required=True)
+    end = forms.DateTimeField(widget=forms.SplitDateTimeWidget(), required=False)
     location = forms.CharField(required=True)
 
     class Meta:
