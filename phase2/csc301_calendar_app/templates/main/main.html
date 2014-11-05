@@ -4,25 +4,20 @@
 {{ block.super }}
 {% if not user.is_authenticated %}
 <style>
-body {
-  /* fallback */
-  background-color: #DCEDC8;
-
-  /* Safari 4-5, Chrome 1-9 */
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#DCEDC8), to(#ECEFF1));
-
-  /* Safari 5.1, Chrome 10+ */
-  background: -webkit-linear-gradient(top, #ECEFF1, #DCEDC8);
-
-  /* Firefox 3.6+ */
-  background: -moz-linear-gradient(top, #ECEFF1, #DCEDC8);
-
-  /* IE 10 */
-  background: -ms-linear-gradient(top, #ECEFF1, #DCEDC8);
-
-  /* Opera 11.10+ */
-  background: -o-linear-gradient(top, #ECEFF1, #DCEDC8);
-}
+    body {
+      /* fallback */
+      background-color: #DCEDC8;
+      /* Safari 4-5, Chrome 1-9 */
+      background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#DCEDC8), to(#ECEFF1));
+      /* Safari 5.1, Chrome 10+ */
+      background: -webkit-linear-gradient(top, #ECEFF1, #DCEDC8);
+      /* Firefox 3.6+ */
+      background: -moz-linear-gradient(top, #ECEFF1, #DCEDC8);
+      /* IE 10 */
+      background: -ms-linear-gradient(top, #ECEFF1, #DCEDC8);
+      /* Opera 11.10+ */
+      background: -o-linear-gradient(top, #ECEFF1, #DCEDC8);
+    }
 </style>
 {% endif %}
 {% endblock %}
@@ -42,7 +37,14 @@ body {
                 <td><b>Username</b></td><td>{{ user.username }}</td>
             </tr>
             <tr>
-                <td><b>My School</b></td><td>{{ user_profile.school }}</td>
+                <td><b>My School</b></td>
+                <td>
+                    {% if user_profile.school %}
+                        <a href="/school/{{ user_profile.school.id }}">{{ user_profile.school }}</a>
+                    {% else %}
+                        You're not enrolled in a school.
+                    {% endif %}
+                </td>
             </tr>
         </tbody>
         </table>

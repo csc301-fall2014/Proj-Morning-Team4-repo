@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>CourseMate</title>
-    </head>
+{% extends "page.html" %}
 
-    <body>
-        <h1>Select one of the following courses offered by your school</h1>
+{% block content %}
+<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+        <h1>Courses offered by your school</h1>
         <ul>
         {% for c in courses %}
             <li><a href="/school/course/{{c.id}}/">{{c.code}} - {{c.name}}</a></li>
         {% endfor %}
         </ul>
-    </body>
-</html>
+</div>
+{% endblock %}
