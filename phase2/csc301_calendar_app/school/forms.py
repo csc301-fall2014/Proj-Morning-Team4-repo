@@ -10,12 +10,15 @@ class SchoolProfileForm(forms.ModelForm):
         fields = ('school',)
 
 
-class CourseForm(forms.ModelForm):
 
-    code = forms.CharField(required=True)
-    name = forms.CharField(required=True)
-    description = forms.CharField(required=False)
+class CourseForm(forms.ModelForm):
+	# to create a course?
 
     class Meta:
         model = Course
         fields = ('code', 'name', 'description')
+        widgets = {
+        	'code': forms.TextInput(attrs={'class': 'form-control'}),
+        	'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+        }
