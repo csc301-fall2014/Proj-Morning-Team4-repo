@@ -3,12 +3,12 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from main.models import UserProfile
+from main.utils import render_permission_denied
 from scheduler.models import Calendar, Event
 from scheduler.forms import EventForm
 import json
 
-
-def verified_calendar(owner_type, owner_id, user):
+def verified_calendar(context, owner_type, owner_id, user):
     """Return a calendar owned by owner_id only if the current user has
     permission to view the calendar
     If the owner_type is a school or a course, ensure that the user is
@@ -19,14 +19,16 @@ def verified_calendar(owner_type, owner_id, user):
             calendar = UserProfile.objects.get(user=user).cal
             edit_priv = True
         else:
-            return HttpResponse('Sorry, this is not your own profile!')
+            #return HttpResponse('Sorry, this is not your own profile!')
+            return render_permission_denied(context, 'access this user\'s calendar')
     elif (owner_type == 'school'):
         profile = UserProfile.objects.get(user=user)
         if (profile.school.id == int(owner_id)):
             calendar = profile.school.cal
             edit_priv = profile.school.admin.id == user.id
         else:
-            return HttpResponse('Sorry, this is not your school!')
+            #return HttpResponse('Sorry, this is not your school!')
+            return render_permission_denied(context, 'access this school\'s calendar')
     elif (owner_type == 'course'):
         profile = UserProfile.objects.get(user=user)
         course = profile.courses.filter(id=int(owner_id))[:1]
@@ -53,7 +55,7 @@ def calendar_view_basic(request, owner_type, owner_id):
     user = request.user
 
     if request.method == 'GET':
-        verified_obj = verified_calendar(owner_type, owner_id, user)
+        verified_obj = verified_calendar(context, owner_type, owner_id, user)
         if not isinstance(verified_obj, HttpResponse):
             calendar, edit_priv = verified_obj
             events = calendar.event_set.all()
@@ -80,7 +82,7 @@ def add_event(request, owner_type, owner_id):
     user = request.user
      # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'POST':
-        verified_obj = verified_calendar(owner_type, owner_id, user)
+        verified_obj = verified_calendar(context, owner_type, owner_id, user)
         if isinstance(verified_obj, Calendar):
             calendar = verified_obj
         else:
@@ -134,7 +136,7 @@ def view_event(request, owner_type, owner_id, event_id):
 
         #If the event mentioned doesn't belong to the calendar
         if not (event.cal.id == calendar.id):
-            return HttpResponse('You do not have permission to view this event')
+            return render_permission_denied(context, 'view this event')
 
     else:
         return render_to_response('/', {}, context)
@@ -163,7 +165,8 @@ def update_event(request, owner_type, owner_id, event_id):
 
     #If the event mentioned doesn't belong to the calendar
     if not (event.creator.id == user.id or event.cal.id == calendar.id):
-        return HttpResponse('You do not have permission to edit this event')
+        #return HttpResponse('You do not have permission to edit this event')
+        return render_permission_denied(context, 'edit this event')
 
     event_added = False
     # If it's a HTTP POST, we're interested in processing form data.
