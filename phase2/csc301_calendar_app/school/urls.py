@@ -5,7 +5,8 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'csc301_calendar_app.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-
     url(r'^search/$', views.get_schools, name='Search Schools'),
-    
+    url(r'^(?P<school_id>\w+)/$', views.view_school, name='View School'),
+
+
 )
