@@ -47,8 +47,8 @@
 }
 
 
-    #calendar {
-        max-width: 900px;
-        margin: 0 auto;
-    }
+#cm-calendar {
+    max-width: 800px;
+    margin: 0 auto;
+}
 
