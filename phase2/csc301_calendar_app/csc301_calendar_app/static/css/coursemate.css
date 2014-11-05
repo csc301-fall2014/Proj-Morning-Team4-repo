@@ -61,3 +61,10 @@ html, body{
 .fill { 
     min-height: 100%;
 }
+
+
+#hey-stranger {
+	padding: 20px;
+	background: #FAFAFA;
+	box-shadow: 0 0 10px #BDBDBD;
+}
