@@ -1,4 +1,4 @@
-from main.models import UserProfile
+from main.models import Student
 from django.contrib.auth.models import User
 from django import forms
 
@@ -14,7 +14,7 @@ class UserForm(forms.ModelForm):
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
-    	model = UserProfile
+    	model = Student
     	fields = ('nickname', ) # , 'schools' )
         widgets = {
         	'nickname': forms.TextInput(attrs={'class': 'form-control'}),
