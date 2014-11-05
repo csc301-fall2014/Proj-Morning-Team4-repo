@@ -58,7 +58,7 @@
                 {% endif %}
             </a>
             {% if user_profile.school %}
-                <a class="btn btn-primary btn-lg" href="/school/course/search"><span class="glyphicon glyphicon-tower"></span>Enrol in a Course</a>
+                <a class="btn btn-primary btn-lg" href="/school/{{ user_profile.school.id }}"><span class="glyphicon glyphicon-tower"></span>Enrol in a Course</a>
             {% endif %}
 
             {% if perms.user.can_create_course %}
