@@ -12,6 +12,14 @@ class UserForm(forms.ModelForm):
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
 
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('email',)
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+
 class UserProfileForm(forms.ModelForm):
     class Meta:
     	model = Student
