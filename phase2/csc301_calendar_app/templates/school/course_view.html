@@ -1,0 +1,34 @@
+<!-- ... -->
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>CourseMate</title>
+    </head>
+
+    <body>
+        {% if course %}
+            <h1>{{course.name}} ({{course.code}})</h1>
+            {% if not enrolled and eligible%}
+                <form id="event_form" method="post" action="">
+                    {% csrf_token %}
+                    <input id="enrol" type="submit" value="Enrol!">
+                </form>
+            {% elif not eligible %}
+                <p> You are currently not elligible to enrol in this course </p>
+            {% else %}
+                <p> You are currently enrolled in this course </p>
+                <a href='/course/{{course.id}}/calendar/'>View Calendar</a>
+            {% endif %}
+            <br>
+            <h3>Course Information</h3>
+            <ul>
+                <li>Instructor : {{course.creator.name}}</li>
+                <li>Description : {{course.description}}</li>
+            </ul>
+        {% else %}
+            <p>Broken link. No school with course id {{course.id}} <p>
+        {% endif %}
+    </body>
+
+</html>

@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from scheduler.models import Calendar
-from school.models import SchoolProfile
+from school.models import SchoolProfile, Course
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -10,7 +10,8 @@ class UserProfile(models.Model):
 
     nickname = models.CharField(max_length=128)
     cal = models.ForeignKey(Calendar)
-    school = models.ForeignKey(SchoolProfile)
+    school = models.ForeignKey(SchoolProfile, null=True, on_delete=models.SET_NULL)
+    courses = models.ManyToManyField(Course, blank=True)
 
     def __unicode__(self):
         return self.user.username
