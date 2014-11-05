@@ -42,8 +42,10 @@ def view_school(request, school_id):
     user = request.user
     eligible = False
     enrolled = False
-    school = SchoolProfile.objects.get(id=int(school_id))
+
+    school = SchoolProfile.objects.filter(id=int(school_id))[:1]
     if (school):
+        school = school[0]
         courses = school.course_set.all()
         user_school = UserProfile.objects.get(user=user).school
         if (user_school):
@@ -59,14 +61,14 @@ def view_school(request, school_id):
                 profile.save()
                 enrolled = True
             else:
-                return HttpResponse("Don't belong in this school!")
+                return render_permission_denied(context, 'view this school')
 
         return render_to_response('school/school_view.html',
             {'school' : school, 'courses': courses, 'enrolled': enrolled,
                 'eligible':eligible, 'current_school': user_school},
                 context)
     else:
-        return HttpResponse("No Such school exists")
+        return render_permission_denied(context, ' view non existing school')
 
 @login_required
 def create_course(request):
@@ -151,8 +153,9 @@ def view_course(request, course_id):
     user = request.user
     eligible = False
     enrolled = False
-    course = Course.objects.get(id=int(course_id))
+    course = Course.objects.filter(id=int(course_id))[:1]
     if (course):
+        course = course[0]
         user_profile = UserProfile.objects.get(user=user)
         eligible = course.school.id == user_profile.school.id
 
@@ -173,4 +176,4 @@ def view_course(request, course_id):
                 'eligible':eligible},
                 context)
     else:
-        return HttpResponse("No Such course exists")
+        return render_permission_denied(context, ' view non existing course')
