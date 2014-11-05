@@ -9,6 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from school.forms import SchoolProfileForm, CourseForm
 from school.models import SchoolProfile
 from main.models import UserProfile
+from main.utils import render_permission_denied
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -80,13 +81,14 @@ def create_course(request):
         if user.has_perm('create_course'):
             school = UserProfile.objects.get(user=user).school
         else:
-            return HttpResponse("You don't have permission to create courses!")
+            #return HttpResponse("You don't have permission to create courses!")
+            return render_permission_denied(context, 'create courses')
 
         # Attempt to grab information from the raw form information.
         course_form = CourseForm(data=request.POST)
         if course_form.is_valid():
             # Save the event's form data to the database.
-            course = course_form.save(commit=False)
+            course = course_form.saves(commit=False)
             course.school = school
             course.creator = user
 
