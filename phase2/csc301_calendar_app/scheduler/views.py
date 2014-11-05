@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from main.models import Student
+from main.models import UserProfile
 from scheduler.models import Calendar, Event
 from scheduler.forms import EventForm
 import json
@@ -16,19 +16,26 @@ def verified_calendar(owner_type, owner_id, user):
 
     if (owner_type == 'user'):
         if (user.id == int(owner_id)):
-            calendar = Student.objects.get(user=user).cal
+            calendar = UserProfile.objects.get(user=user).cal
+            edit_priv = True
         else:
             return HttpResponse('Sorry, this is not your own profile!')
     elif (owner_type == 'school'):
-        # make sure the user belongs to the school with owner_id
-        # return the school calendar
-        calendar = ""
+        profile = UserProfile.objects.get(user=user)
+        if (profile.school.id == int(owner_id)):
+            calendar = profile.school.cal
+            edit_priv = profile.school.admin.id == user.id
+        else:
+            return HttpResponse('Sorry, this is not your school!')
     elif (owner_type == 'course'):
         # make sure the user is enrolled in the course with owner_id
         # return teh course calendar
         calendar = ""
+        edit_priv = False
 
-    return calendar
+    return (calendar, edit_priv)
+
+
 
 @login_required
 def calendar_view_basic(request, owner_type, owner_id):
@@ -42,14 +49,15 @@ def calendar_view_basic(request, owner_type, owner_id):
 
     if request.method == 'GET':
         verified_obj = verified_calendar(owner_type, owner_id, user)
-        if isinstance(verified_obj, Calendar):
-            calendar = verified_obj
+        if not isinstance(verified_obj, HttpResponse):
+            calendar, edit_priv = verified_obj
             events = calendar.event_set.all()
         else:
             return verified_obj
 
         return render_to_response('scheduler/calendar_basic.html',
-                    {'calendar' : calendar, 'events': events}, context)
+                    {'calendar' : calendar, 'events': events,
+                    'edit_priv': edit_priv}, context)
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
