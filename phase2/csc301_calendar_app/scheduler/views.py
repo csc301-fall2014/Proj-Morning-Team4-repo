@@ -37,8 +37,7 @@ def verified_calendar(context, owner_type, owner_id, user):
             calendar = course[0].cal
             edit_priv = course[0].creator.id == user.id
         else:
-            return HttpResponse('Sorry, you do not have permission to view' +
-                'this page')
+            return render_permission_denied(context, ' access this course\'s calendar')
 
     return (calendar, edit_priv)
 
@@ -83,8 +82,8 @@ def add_event(request, owner_type, owner_id):
      # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'POST':
         verified_obj = verified_calendar(context, owner_type, owner_id, user)
-        if isinstance(verified_obj, Calendar):
-            calendar = verified_obj
+        if not isinstance(verified_obj, HttpResponse):
+            calendar, edit_priv = verified_obj
         else:
             return verified_obj
 
@@ -127,8 +126,8 @@ def view_event(request, owner_type, owner_id, event_id):
     # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'GET':
         verified_obj = verified_calendar(owner_type, owner_id, user)
-        if isinstance(verified_obj, Calendar):
-            calendar = verified_obj
+        if not isinstance(verified_obj, HttpResponse):
+            calendar, edit_priv = verified_obj
         else:
             return verified_obj
 
