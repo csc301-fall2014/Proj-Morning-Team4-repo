@@ -1,21 +1,21 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>CourseMate</title>
-    </head>
+{% extends "page.html" %}
 
-    <body>
-        <h1>Create New Course</h1>
+{% block content %}
+          
+        <h2>Create New Course</h2>
+
         {% if course_added %}
             <strong>You have sucessfully created the course!</strong>
             <a href="/">Return to the homepage.</a><br />
         {% else %}
             <form id="course_form" method="post" action="">
                 {% csrf_token %}
+
                 {{ course_form.as_p }}
 
-                <input type="submit" value="Create Course" />
+                <input class="btn btn-primary" type="submit" value="Create Course" />
+            <a class="btn btn-primary" href="/">Cancel</a>
             </form>
         {% endif %}
-    </body>
-</html>
+
+{% endblock %}
