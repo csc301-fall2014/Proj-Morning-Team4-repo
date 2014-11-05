@@ -4,52 +4,55 @@
 
 {% block css %}
 {{ block.super }}
-  <link href="{% static 'css/jquery-ui.min.css' %}" rel="stylesheet">
-  <link href="{% static 'css/fullcalendar.print.css' %}" rel="stylesheet" madia="print">
-  <link href="{% static 'css/fullcalendar.min.css' %}" rel="stylesheet">
-  <link href="{% static 'css/jquery-ui.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/fullcalendar.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/fullcalendar.print.css' %}" rel="stylesheet" media="print">
 {% endblock %}
 
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+     
 {% block js %}
 {{ block.super }}
-  <script src="{% static 'js/moment.min.js' %}"></script>
-  <script src="{% static 'js/fullcalendar.min.js' %}"></script>
-<script>
-
-
-    $(document).ready(function() {
-        events = [];
-        {% if calendar %}
-        {% for e in events %}
-        startDate = '{{ e.start|date:"Y-m-d" }}';
-        endDate = '{{ e.end|date:"Y-m-d" }}';
-        events.push({
-            id: '{{e.id}}',
-            title: '{{e.name}}',
-            url: 'event/{{e.id}}/',
-            start: moment(startDate),
+    <script src="{% static 'js/moment.min.js' %}"></script>
+    <script src="{% static 'js/fullcalendar.min.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            events = [];
+            {% if calendar %}
+            {% for e in events %}
+            startDate = '{{ e.start|date:"Y-m-d\TH:i:s" }}';
+            endDate = '{{ e.end|date:"Y-m-d\TH:i:s" }}';
+            events.push({
+                id: '{{e.id}}',
+                title: '{{e.name}}',
+                url: 'event/{{e.id}}/',
+                start: moment(startDate),
+            });
+            {% endfor %}
+            {% endif %}
+            $('#cm-calendar').fullCalendar({
+                header: {
+                    left: 'prev,today,next',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay'
+                },
+                defaultDate: '{% now "Y-m-d\TH:i:s" %}',
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: events
+            });
+            
         });
-        {% endfor %}
-        {% endif %}
-        $('#calendar').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,basicWeek,basicDay'
-            },
-            defaultDate: '{% now "Y-m-d" %}',
-            editable: true,
-            eventLimit: true, // allow "more" link when too many events
-            events: events
-        });
-        
-    });
-
-</script>
+    </script>
 {% endblock %}
 
 {% block content %}
-    <div id="calendar"></div>
-    <a href="add/">Add Event</a>
-
+    <div class="col-xs-12">
+        <div id="cm-calendar"></div>
+        <br />
+        <a class="btn btn-primary btn-lg" href="add/">Add Event</a>
+    </div>
 {% endblock %}
