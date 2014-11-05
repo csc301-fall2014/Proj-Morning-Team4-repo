@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from main.forms import UserForm, UserProfileForm, UserUpdateForm
 from main.models import UserProfile, Student
+from main.utils import render_permission_denied
 from school.models import SchoolProfile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -129,7 +130,8 @@ def user_login(request):
         else:
             # Bad login details were provided. So we can't log the user in.
             print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            return render_permission_denied(context,
+            ' proceed with registration since invalid login details were supplied')
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
@@ -164,6 +166,6 @@ def user_update(request):
         user_form = UserUpdateForm(instance=user)
         profile_form = UserProfileForm(instance=user_profile)
         return render_to_response(
-            'main/edit_profile.html', 
-            {'user_form': user_form, 'profile_form': profile_form}, 
+            'main/edit_profile.html',
+            {'user_form': user_form, 'profile_form': profile_form},
             context)
