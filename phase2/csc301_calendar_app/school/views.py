@@ -85,6 +85,9 @@ def create_course(request):
 
         if user.has_perm('create_course'):
             school = UserProfile.objects.get(user=user).school
+            if not school:
+                return render_permission_denied(context,
+                    'create courses. Enrol in a school first.')
         else:
             #return HttpResponse("You don't have permission to create courses!")
             return render_permission_denied(context, 'create courses')
@@ -135,6 +138,9 @@ def get_courses(request):
         # Attempt to grab information from the raw form information.
         # Note that we make use of both UserForm and UserProfileForm.
         user_school = UserProfile.objects.get(user=request.user).school
+        if not user_school:
+            return render_permission_denied(context,
+                'view courses. Enrol in a school first.')
         courses = Course.objects.filter(school__id=user_school.id)
 
 
@@ -159,7 +165,7 @@ def view_course(request, course_id):
         user_profile = UserProfile.objects.get(user=user)
         eligible = course.school.id == user_profile.school.id
 
-        relation = UserProfile.objects.filter(courses__id=course.id)
+        relation = user_profile.courses.filter(id=course.id)[:1]
         if relation:
             enrolled = True
 
