@@ -80,17 +80,16 @@ def create_course(request):
     course_added = False
 
     user = request.user
+    if user.has_perm('create_course'):
+        school = UserProfile.objects.get(user=user).school
+        if not school:
+            return render_permission_denied(context,
+                'create courses. Enrol in a school first.')
+    else:
+        #return HttpResponse("You don't have permission to create courses!")
+        return render_permission_denied(context, 'create courses')
      # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'POST':
-
-        if user.has_perm('create_course'):
-            school = UserProfile.objects.get(user=user).school
-            if not school:
-                return render_permission_denied(context,
-                    'create courses. Enrol in a school first.')
-        else:
-            #return HttpResponse("You don't have permission to create courses!")
-            return render_permission_denied(context, 'create courses')
 
         # Attempt to grab information from the raw form information.
         course_form = CourseForm(data=request.POST)
