@@ -3,8 +3,8 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from main.forms import UserForm, UserProfileForm
-from main.models import Student
+from main.forms import UserForm, UserProfileForm, UserUpdateForm
+from main.models import UserProfile, Student
 from school.models import SchoolProfile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -18,12 +18,19 @@ def index(request):
 
     # I'm guessing this is where all the data base requests go, if any.
     # Should delete later
+    '''
     school = "s"
     for e in Student.objects.all():
         school = e.school
         print(school)
+    '''
 
-    context_dict = {'app_description' : 'super duper','school' : school}
+    context_dict = {
+        #'app_description' : 'super duper','school' : school
+    }
+
+    if request.user.id:
+        context_dict['user_profile'] =  UserProfile.objects.get(user=request.user.id)
 
     #context= { 'school' : Student.objects.all()}
 
@@ -139,3 +146,24 @@ def user_logout(request):
 
     # Take the user back to the homepage.
     return HttpResponseRedirect('/')
+
+@login_required
+def user_update(request):
+    # Like before, get the request's context.
+    context = RequestContext(request)
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user.id)
+    if request.method == 'POST':
+        user_form = UserUpdateForm(data=request.POST, instance=user)
+        profile_form = UserProfileForm(data=request.POST, instance=user)
+        if (user_form.is_valid() and profile_form.is_valid()):
+            user_form.save()
+            profile_form.save()
+        return HttpResponseRedirect('/')
+    else:
+        user_form = UserUpdateForm(instance=user)
+        profile_form = UserProfileForm(instance=user_profile)
+        return render_to_response(
+            'main/edit_profile.html', 
+            {'user_form': user_form, 'profile_form': profile_form}, 
+            context)

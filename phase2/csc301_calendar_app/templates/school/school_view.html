@@ -1,7 +1,5 @@
-<!-- ... -->
-<!DOCTYPE html>
-<html>
-
+{% extends "page.html" %}
+{% block content %}
     <head>
         <title>CourseMate</title>
     </head>
@@ -21,6 +19,7 @@
                 <a href='/school/{{school.id}}/calendar/'>View Calendar</a>
             {% endif %}
             <br>
+
             <h3>Available Courses</h3>
             <ul>
                 {% for c in courses %}
@@ -31,5 +30,4 @@
             <p>Broken link. No course with course id {{course.id}} <p>
         {% endif %}
     </body>
-
-</html>
+{% endblock %}

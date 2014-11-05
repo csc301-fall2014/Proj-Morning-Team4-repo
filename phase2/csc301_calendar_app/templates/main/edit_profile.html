@@ -1,0 +1,23 @@
+{% extends "page.html" %}
+
+{% block content %}
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+        {% if registered %}
+            <h2>Thank you for registering.</h2>
+            <p><a href="/">Return to the homepage.</a></p>
+        {% else %}
+            <form role="form" id="user_form" method="post" action="/edit-profile/"
+                enctype="multipart/form-data">
+            <h2 class="form-signin-heading">Edit profile</h2>
+            {% csrf_token %}
+
+                {{ user_form.as_p }}
+                {{ profile_form.as_p }}
+
+                <!-- Provide a button to click to submit the form. -->
+                <input type="submit" class="btn btn-lg btn-primary btn-block" name="submit" value="Update" />
+            </form>
+        {% endif %}
+          
+        </div>
+{% endblock %}
