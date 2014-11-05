@@ -1,7 +1,7 @@
 {% extends "page.html" %}
 
 {% block content %}
-          
+
 
         <h2>Add events</h2>
 
@@ -21,8 +21,8 @@
 
                 <!-- Provide a button to click to submit the form. -->
                 <input class="btn btn-primary" type="submit" name="submit" value="Add Event" />
-                <a class="btn btn-primary" href="/user/2/calendar/">Cancel</a>
+                <a class="btn btn-primary" href="/user/{{user.id}}/calendar/">Cancel</a>
             </form>
         {% endif %}
-        
+
 {% endblock %}
