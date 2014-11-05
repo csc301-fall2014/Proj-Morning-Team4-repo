@@ -18,7 +18,7 @@ def verified_calendar(owner_type, owner_id, user):
         if (user.id == int(owner_id)):
             calendar = Student.objects.get(user=user).cal
         else:
-            return HttpResponse('PERMISSION DEINED! GTFO')
+            return HttpResponse('Sorry, this is not your own profile!')
     elif (owner_type == 'school'):
         # make sure the user belongs to the school with owner_id
         # return the school calendar
