@@ -125,7 +125,7 @@ def view_event(request, owner_type, owner_id, event_id):
     user = request.user
     # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'GET':
-        verified_obj = verified_calendar(owner_type, owner_id, user)
+        verified_obj = verified_calendar(context, owner_type, owner_id, user)
         if not isinstance(verified_obj, HttpResponse):
             calendar, edit_priv = verified_obj
         else:
