@@ -1,13 +1,13 @@
-<!-- ... -->
-<!DOCTYPE html>
-<html>
+{% extends "page.html" %}
 
-    <head>
-        <title>NO</title>
-    </head>
+{% block content-header %}
+<h1>Permission Denied</h1>
+{% endblock %}
 
-    <body>
-        <h4>GTFO<h4>
-    </body>
+{% block content %}
+	
+	<div class="col-xs-12">
+		Sorry, you don't have access to this calendar.
+	</div>
 
-</html>
+{% endblock %}
