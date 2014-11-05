@@ -28,10 +28,15 @@ def verified_calendar(owner_type, owner_id, user):
         else:
             return HttpResponse('Sorry, this is not your school!')
     elif (owner_type == 'course'):
-        # make sure the user is enrolled in the course with owner_id
-        # return teh course calendar
-        calendar = ""
-        edit_priv = False
+        profile = UserProfile.objects.get(user=user)
+        course = profile.courses.filter(id=int(owner_id))[:1]
+        # If the user is enrolled in a course and the school
+        if course and course[0].school.id == profile.school.id:
+            calendar = course[0].cal
+            edit_priv = course[0].creator.id == user.id
+        else:
+            return HttpResponse('Sorry, you do not have permission to view' +
+                'this page')
 
     return (calendar, edit_priv)
 
@@ -61,7 +66,7 @@ def calendar_view_basic(request, owner_type, owner_id):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render_to_response('main/login.html', {}, context)
+        return render_to_response('/login.html', {}, context)
 
 @login_required
 def add_event(request, owner_type, owner_id):
@@ -132,7 +137,7 @@ def view_event(request, owner_type, owner_id, event_id):
             return HttpResponse('You do not have permission to view this event')
 
     else:
-        return render_to_response('/main/', {}, context)
+        return render_to_response('/', {}, context)
 
     # Render the template depending on the context.
     return render_to_response(

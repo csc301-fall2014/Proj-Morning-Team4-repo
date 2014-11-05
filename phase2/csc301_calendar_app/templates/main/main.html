@@ -14,6 +14,8 @@
             <a class="btn btn-primary btn-lg" href="/user/edit"><span class="glyphicon glyphicon-pencil"></span>Edit Profile</a>
             <a class="btn btn-primary btn-lg" href="/user/{{ user.id }}/calendar"><span class="glyphicon glyphicon-calendar"></span> Calendar</a>
             <a class="btn btn-primary btn-lg" href="/school/search"><span class="glyphicon glyphicon-tower"></span>Find your School</a>
+            <a class="btn btn-primary btn-lg" href="/school/course/search"><span class="glyphicon glyphicon-tower"></span>Enroll in a Course</a>
+
             {% if perms.user.can_create_course %}
                 <a class="btn btn-primary btn-lg" href="/school/course/create"><span class="glyphicon glyphicon-tower"></span>Create course</a>
             {% endif %}
