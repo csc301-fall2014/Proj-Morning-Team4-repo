@@ -135,11 +135,14 @@ def get_courses(request):
         # Attempt to grab information from the raw form information.
         # Note that we make use of both UserForm and UserProfileForm.
         user_school = UserProfile.objects.get(user=request.user).school
-        courses = Course.objects.filter(school__id=user_school.id)
+        r = {}
+        if user_school:
+            courses = Course.objects.filter(school_id=user_school.id)
+            r['courses'] = courses
 
 
     # Render the template depending on the context.
-    return render_to_response('school/search_courses.html', {'courses': courses}, context)
+    return render_to_response('school/search_courses.html', r, context)
 
 @login_required
 def view_course(request, course_id):
