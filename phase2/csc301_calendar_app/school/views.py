@@ -140,8 +140,8 @@ def get_courses(request):
         if not user_school:
             return render_permission_denied(context,
                 'view courses. Enrol in a school first.')
-        courses = Course.objects.filter(school__id=user_school.id)
-
+        else:
+            courses = Course.objects.filter(school_id=user_school.id)
 
     # Render the template depending on the context.
     return render_to_response('school/search_courses.html', {'courses': courses}, context)
