@@ -154,8 +154,8 @@ def update_event(request, owner_type, owner_id, event_id):
 
     user = request.user
 
-    verified_obj = verified_calendar(owner_type, owner_id, user)
-    if isinstance(verified_obj, Calendar):
+    verified_obj = verified_calendar(context, owner_type, owner_id, user)
+    if not isinstance(verified_obj, Calendar):
         calendar = verified_obj
     else:
         return verified_obj

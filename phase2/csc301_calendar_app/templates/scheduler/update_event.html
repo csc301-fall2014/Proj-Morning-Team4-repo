@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>CourseMate</title>
-    </head>
-
-    <body>
-        <h1>Update events</h1>
+{% extends "page.html" %}
+{% block js %}
+{{ block.super }}
+{{ event_form.media }}
+{% endblock %}
+{% block content %}
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+        <h1>Update event</h1>
 
         {% if event_added %}
         <strong>The event has been updated!</strong>
@@ -23,8 +23,8 @@
             {{ event_form.as_p }}
 
             <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Update Event" />
+            <input class="btn btn-primary" type="submit" name="submit" value="Update Event" />
         </form>
         {% endif %}
-    </body>
-</html>
+    </div>
+{% endblock %}

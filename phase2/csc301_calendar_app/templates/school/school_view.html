@@ -19,7 +19,7 @@
             <h3>Available Courses</h3>
             <ul>
                 {% for c in courses %}
-                    <li><a href="course/{{ c.id }}">{{c.name}}</a></li>
+                    <li><a href="/school/course/{{ c.id }}">{{c.name}}</a></li>
                 {% endfor %}
             </ul>
         {% else %}

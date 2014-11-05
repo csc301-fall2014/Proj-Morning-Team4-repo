@@ -1,12 +1,6 @@
-<!-- ... -->
-<!DOCTYPE html>
-<html>
-
-    <head>
-        <title>CourseMate</title>
-    </head>
-
-    <body>
+{% extends "page.html" %}
+{% block content %}
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
 
     <h1>{{event.name}}</h1>
 
@@ -21,6 +15,4 @@
     {% endif %}
     </ul>
     <a href="update/">Update Event</a><br />
-    </body>
-
-</html>
+{% endblock %}
