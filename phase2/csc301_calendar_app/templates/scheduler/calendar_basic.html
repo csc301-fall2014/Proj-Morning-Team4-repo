@@ -19,6 +19,7 @@
     <script src="{% static 'js/moment.min.js' %}"></script>
     <script src="{% static 'js/fullcalendar.min.js' %}"></script>
     <script>
+        var COLOURS = []
         $(document).ready(function() {
             events = [];
             {% if calendar %}
@@ -49,9 +50,14 @@
     </script>
 {% endblock %}
 
+{% block content-header %}
+{% endblock %}
 {% block content %}
     <div class="col-xs-12 col-sm-1">
         <a class="btn btn-primary btn-lg" href="add/">Add Event</a>
+        {% for course in user.courses %}
+        course
+        {% endfor %}
     </div>
     <div class="col-xs-12 col-sm-11 col-sm-offset-1">
         <div id="cm-calendar"></div>
