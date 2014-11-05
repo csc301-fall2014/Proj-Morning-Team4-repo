@@ -123,7 +123,7 @@ def create_course(request):
     # Render the template depending on the context.
     return render_to_response(
             'school/create_course.html', {'course_form': course_form, 'user' : user,
-            'course_added': course_added},
+            'course_added': course_added, 'school': school},
             context)
 
 @login_required

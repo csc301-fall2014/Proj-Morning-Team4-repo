@@ -1,18 +1,13 @@
-<!-- ... -->
-<!DOCTYPE html>
-<html>
+{% extends "page.html" %}
 
-    <head>
-        <title>CourseMate</title>
-    </head>
-
-    <body>
+{%block content %}
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
         {% if course %}
             <h1>{{course.name}} ({{course.code}})</h1>
             {% if not enrolled and eligible%}
                 <form id="event_form" method="post" action="">
                     {% csrf_token %}
-                    <input id="enrol" type="submit" value="Enrol!">
+                    <input id="enrol" type="submit" class="btn btn-primary btn-lg" value="Enrol!">
                 </form>
             {% elif not eligible %}
                 <p> You are currently not elligible to enrol in this course </p>
@@ -27,8 +22,7 @@
                 <li>Description : {{course.description}}</li>
             </ul>
         {% else %}
-            <p>Broken link. No school with course id {{course.id}} <p>
+            <p>Broken link. No school with course id {{course.id}} </p>
         {% endif %}
-    </body>
-
-</html>
+    </div>
+{%endblock%}
