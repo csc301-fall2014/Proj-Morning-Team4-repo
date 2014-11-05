@@ -4,7 +4,6 @@ from scheduler.models import Calendar
 
 # Create your models here.
 class SchoolProfile(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
 
     name = models.CharField(max_length=128, unique=True)
     email_domain = models.CharField(max_length=128, unique=True)
@@ -18,9 +17,12 @@ class SchoolProfile(models.Model):
         return user_email.endswith(self.email_domain)
 
 class Course(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
 
-    name = models.CharField(max_length=128, unique=True)
-    school_id = models.ForeignKey('SchoolProfile')
+    code = models.CharField(max_length=10, null=False, blank=False)
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=500)
+    school = models.ForeignKey(SchoolProfile)
+    creator = models.ForeignKey(User)
+
     def __unicode__(self):
-        return self.SchoolProfile.name
+        return self.name
