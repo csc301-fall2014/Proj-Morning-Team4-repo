@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from main.models import UserProfile
+from main.models import Student
 from scheduler.models import Calendar, Event
 from scheduler.forms import EventForm
 import json
@@ -16,7 +16,7 @@ def verified_calendar(owner_type, owner_id, user):
 
     if (owner_type == 'user'):
         if (user.id == int(owner_id)):
-            calendar = UserProfile.objects.get(user=user).cal
+            calendar = Student.objects.get(user=user).cal
         else:
             return HttpResponse('PERMISSION DEINED! GTFO')
     elif (owner_type == 'school'):
