@@ -7,8 +7,9 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from school.forms import SchoolProfileForm, CourseForm
-from school.models import SchoolProfile
+from school.models import SchoolProfile, Course
 from main.models import UserProfile
+from scheduler.models import Calendar
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -44,7 +45,9 @@ def view_school(request, school_id):
     if (school):
         courses = school.course_set.all()
         user_school = UserProfile.objects.get(user=user).school
-        eligible = school.validate_user_email(user.email)
+        if (user_school):
+            eligible = school.validate_user_email(user.email)
+            enrolled = school.id == user_school.id
 
         if request.method == 'POST':
             #If the user wants to post, then he/she must have clicked enrol
@@ -90,6 +93,11 @@ def create_course(request):
             course.school = school
             course.creator = user
 
+            # Add the personal calendar for the user
+            calendar = Calendar( name = course.code + " Calendar")
+            calendar.save()
+            course.cal = calendar
+
             course.save()
 
             course_added = True
@@ -109,3 +117,58 @@ def create_course(request):
             'school/create_course.html', {'course_form': course_form, 'user' : user,
             'course_added': course_added},
             context)
+
+@login_required
+def get_courses(request):
+    """ Give a list of courses which is offered by the school in which the
+    user is enrolled in"""
+
+    # Like before, get the request's context.
+    context = RequestContext(request)
+
+    # If it's a HTTP POST, we're interested in processing form data.
+    if request.method == 'GET':
+        # Attempt to grab information from the raw form information.
+        # Note that we make use of both UserForm and UserProfileForm.
+        user_school = UserProfile.objects.get(user=request.user).school
+        courses = Course.objects.filter(school__id=user_school.id)
+
+
+    # Render the template depending on the context.
+    return render_to_response('school/search_courses.html', {'courses': courses}, context)
+
+@login_required
+def view_course(request, course_id):
+
+    """Return a course given a course id. If the user choses to enrol in the
+    course, then add a course relation between the course and the user"""
+
+    # Like before, obtain the context for the user's request.
+    context = RequestContext(request)
+
+    user = request.user
+    eligible = False
+    enrolled = False
+    course = Course.objects.get(id=int(course_id))
+    if (course):
+        user_profile = UserProfile.objects.get(user=user)
+        eligible = course.school.id == user_profile.school.id
+
+        relation = UserProfile.objects.filter(courses__id=course.id)
+        if relation:
+            enrolled = True
+
+        if request.method == 'POST':
+            #If the user wants to post, then he/she must have clicked enrol
+            # button in the school
+            if (eligible and not enrolled):
+                user_profile.courses.add(course)
+                user_profile.save()
+                enrolled = True
+
+        return render_to_response('school/course_view.html',
+                {'course': course, 'enrolled': enrolled,
+                'eligible':eligible},
+                context)
+    else:
+        return HttpResponse("No Such course exists")

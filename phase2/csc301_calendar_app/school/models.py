@@ -21,6 +21,7 @@ class Course(models.Model):
     code = models.CharField(max_length=10, null=False, blank=False)
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=500)
+    cal = models.ForeignKey(Calendar)
     school = models.ForeignKey(SchoolProfile)
     creator = models.ForeignKey(User)
 
