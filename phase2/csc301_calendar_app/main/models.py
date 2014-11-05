@@ -8,7 +8,7 @@ class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
 
-    nickname = models.CharField(max_length=128, unique=True)
+    nickname = models.CharField(max_length=128)
     cal = models.ForeignKey(Calendar)
     school = models.ForeignKey(SchoolProfile)
 
