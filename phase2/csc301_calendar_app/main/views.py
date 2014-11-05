@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from main.forms import UserForm, UserProfileForm
 from main.models import Student
+from school.models import SchoolProfile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -68,7 +69,7 @@ def registration(request):
             calendar = Calendar( name = user.username + "'s personal calendar")
             calendar.save()
             profile.cal = calendar
-
+            profile.school = SchoolProfile.objects.get(pk=1)
             # Now we save the Student model instance.
             profile.save()
 
