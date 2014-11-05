@@ -25,7 +25,7 @@ The point is to evaluate the estimations that you've made during the planning me
 	- Michael: Main/Registration - user settings/profiles
 	- Binuri: Calendar
 	- Carl: Courses/Schools
-	- Amrutha/Sangah: templates for user registration
+	- Amrutha/Sangah: templates 
 
 <b>Meeting 3</b> - November 4 in CSSU office
  - Consolidated everyone's work, and tied together the front and back end
