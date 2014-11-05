@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from scheduler.models import Calendar
 
 # Create your models here.
 class SchoolProfile(models.Model):
@@ -6,6 +8,9 @@ class SchoolProfile(models.Model):
 
     name = models.CharField(max_length=128, unique=True)
     email_domain = models.CharField(max_length=128, unique=True)
+    cal = models.ForeignKey(Calendar)
+    admin = models.ForeignKey(User)
+
     def __unicode__(self):
         return self.name
 
