@@ -48,8 +48,9 @@ def view_school(request, school_id):
         school = school[0]
         courses = school.course_set.all()
         user_school = UserProfile.objects.get(user=user).school
-        if (user_school):
-            eligible = school.validate_user_email(user.email)
+
+        eligible = school.validate_user_email(user.email)
+        if (user_school):  
             enrolled = school.id == user_school.id
 
         if request.method == 'POST':
@@ -61,14 +62,15 @@ def view_school(request, school_id):
                 profile.save()
                 enrolled = True
             else:
-                return render_permission_denied(context, 'view this school')
+                return render_permission_denied(context, 'enrol in this school')
 
         return render_to_response('school/school_view.html',
             {'school' : school, 'courses': courses, 'enrolled': enrolled,
-                'eligible':eligible, 'current_school': user_school},
+                'eligible': eligible, 'current_school': user_school},
                 context)
     else:
-        return render_permission_denied(context, ' view non existing school')
+        # TODO: this is not a permission denied! This is a not found!!!!!!
+        return render_permission_denied(context, 'view non existing school')
 
 @login_required
 def create_course(request):
@@ -95,7 +97,7 @@ def create_course(request):
         course_form = CourseForm(data=request.POST)
         if course_form.is_valid():
             # Save the event's form data to the database.
-            course = course_form.saves(commit=False)
+            course = course_form.save(commit=False)
             course.school = school
             course.creator = user
 

@@ -14,7 +14,7 @@ class SchoolProfile(models.Model):
         return self.name
 
     def validate_user_email(self, user_email):
-        return user_email.endswith(self.email_domain)
+        return user_email.strip().lower().endswith(self.email_domain.strip().lower())
 
 class Course(models.Model):
 
