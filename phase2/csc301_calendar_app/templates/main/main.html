@@ -3,7 +3,7 @@
 
 {% block content-header %}
     {% if user.is_authenticated %}
-        <h1>{{ user.username }}</h1>
+        <h1>{{ user_profile.nickname }}</h1>
     {% else %}
         <h1>Hey Stranger! </h1>
     {% endif %}
@@ -11,7 +11,20 @@
 {% block content %}
     {% if user.is_authenticated %}
         <div class="col-xs-12 col-sm-9">
-            <a class="btn btn-primary btn-lg" href="/user/edit"><span class="glyphicon glyphicon-pencil"></span>Edit Profile</a>
+        <table class="table table-striped table-bordered table-responsive" id="user-profile-info">
+        <tbody>
+            <tr>
+                <td><b>E-mail address</b></td><td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td><b>Username</b></td><td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td><b>My School</b></td><td>{{ user_profile.school }}</td>
+            </tr>
+        </tbody>
+        </table>
+            <a class="btn btn-primary btn-lg" href="/edit-profile"><span class="glyphicon glyphicon-pencil"></span>Edit Profile</a>
             <a class="btn btn-primary btn-lg" href="/user/{{ user.id }}/calendar"><span class="glyphicon glyphicon-calendar"></span> Calendar</a>
             <a class="btn btn-primary btn-lg" href="/school/search"><span class="glyphicon glyphicon-tower"></span>Find your School</a>
             {% if perms.user.can_create_course %}
