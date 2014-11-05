@@ -1,31 +1,28 @@
-<!-- ... -->
-<!DOCTYPE html>
-<html>
+{% extends "page.html" %}
 
-    <head>
-        <title>CourseMate</title>
-    </head>
-
-    <body>
+{% block content %}
     {% if enrolled %}
         <h2>You have enrolled in {{school.name}}.</h2>
         <p><a href="/">Return to the homepage.</a></p>
     {% else %}
         {% if school %}
-            <h1>{{school.name}}</h1>
-            <form id="event_form" method="post" action="">
-                {% csrf_token %}
-                <input id="enrol" type="submit" value="Enrol!">
-            </form>
+            <h2>{{school.name}}
+                <form id="event_form" method="post" action="">
+                    {% csrf_token %}
+                    <input class="btn btn-primary" id="enrol" type="submit" value="Enrol!">
+                </form>
+            </h2>
 
-            <p> BTW </p>
-            <p> Currently Enrolled in : {{current_school.name}} </p>
+            <br>
+            <p> BTW:</p>
             {% if same_enrolled %}
+                <p> Currently Enrolled in : {{current_school.name}} </p>
                 <p> YOU ARE ALREADY ENROLLED IN THIS SCHOOL! </p>
             {% else %}
+                <p> Currently NOT Enrolled in any school</p>
                 <p> Eligible to enrol : {{eligible}} </p>
             {% endif %}
-
+        </br>
             <h3>Available Courses</h3>
             <ul>
                 {% for c in courses %}
@@ -36,6 +33,5 @@
             <p>Broken link. No school with school id {{school.id}} <p>
         {% endif %}
     {% endif %}
-    </body>
 
-</html>
+{% endblock %}
