@@ -1,19 +1,61 @@
 {% extends "page.html" %}
 
+{% block css %}
+{{ block.super }}
+{% if not user.is_authenticated %}
+<style>
+body {
+  /* fallback */
+  background-color: #DCEDC8;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#DCEDC8), to(#ECEFF1));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(top, #ECEFF1, #DCEDC8);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, #ECEFF1, #DCEDC8);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(top, #ECEFF1, #DCEDC8);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, #ECEFF1, #DCEDC8);
+}
+</style>
+{% endif %}
+{% endblock %}
 
 {% block content-header %}
-    {% if user.is_authenticated %}
-        <h1>{{ user.username }}</h1>
-    {% else %}
-        <h1>Hey Stranger! </h1>
-    {% endif %}
 {% endblock %}
 {% block content %}
     {% if user.is_authenticated %}
-        <div class="col-xs-12 col-sm-9">
-            <a class="btn btn-primary btn-lg" href="/user/edit"><span class="glyphicon glyphicon-pencil"></span>Edit Profile</a>
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+        <h1>{{ user_profile.nickname }}</h1>
+        <table class="table table-striped table-bordered table-responsive" id="user-profile-info">
+        <tbody>
+            <tr>
+                <td><b>E-mail address</b></td><td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td><b>Username</b></td><td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td><b>My School</b></td><td>{{ user_profile.school }}</td>
+            </tr>
+        </tbody>
+        </table>
+            <a class="btn btn-primary btn-lg" href="/edit-profile"><span class="glyphicon glyphicon-pencil"></span>Edit Profile</a>
             <a class="btn btn-primary btn-lg" href="/user/{{ user.id }}/calendar"><span class="glyphicon glyphicon-calendar"></span> Calendar</a>
-            <a class="btn btn-primary btn-lg" href="/school/search"><span class="glyphicon glyphicon-tower"></span>Find your School</a>
+                        <a class="btn btn-primary btn-lg" href="/school/search"><span class="glyphicon glyphicon-tower"></span>
+                {% if user_profile.school %}
+                    Switch schools
+                {% else %}
+                    Find your school
+                {% endif %}
+            </a>
+
             <a class="btn btn-primary btn-lg" href="/school/course/search"><span class="glyphicon glyphicon-tower"></span>Enroll in a Course</a>
 
             {% if perms.user.can_create_course %}
@@ -22,10 +64,22 @@
           </table>
         </div>
     {% else %}
-        <div class="col-xs-12">
+        <div class="col-xs-12 col-sm-4 col-sm-offset-4" id="hey-stranger">
+            <h1>Hey Stranger! </h1>
+            <p>We noticed you're not logged in. You have two options here:</p>
+            <div class="text-center">
             <a class="btn btn-primary btn-lg" href="/register">
-            <span class="glyphicon glyphicon-thumbs-up"> Register</span></a>
-            <a class="btn btn-primary btn-lg" href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                <span class="glyphicon glyphicon-thumbs-up"></span> Register
+            </a>
+            </div>
+
+            <hr>
+
+            <p class="text-center">
+            <a class="btn btn-primary btn-lg" href="/login">
+                <span class="glyphicon glyphicon-log-in"></span> Login
+            </a>
+            </p>
         </div>
     {% endif %}
 {% endblock %}

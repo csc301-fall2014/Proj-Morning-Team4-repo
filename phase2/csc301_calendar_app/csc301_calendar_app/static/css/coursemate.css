@@ -7,6 +7,10 @@
 	font-family: RobotoCondensed, sans-serif;
 }
 
+html, body{
+	height: 100%;
+}
+
 #top-bar {
 	background-color: #8bc34a;	
 	border: 0;
@@ -49,6 +53,18 @@
 
 #cm-calendar {
     max-width: 800px;
+    max-height: 100%;
     margin: 0 auto;
 }
 
+
+.fill { 
+    min-height: 100%;
+}
+
+
+#hey-stranger {
+	padding: 20px;
+	background: #FAFAFA;
+	box-shadow: 0 0 10px #BDBDBD;
+}
