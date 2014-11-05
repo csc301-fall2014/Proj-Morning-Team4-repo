@@ -10,7 +10,7 @@ class UserProfile(models.Model):
 
     nickname = models.CharField(max_length=128)
     cal = models.ForeignKey(Calendar)
-    school = models.ForeignKey(SchoolProfile)
+    school = models.ForeignKey(SchoolProfile,null=True,on_delete=models.SET_NULL)
 
     def __unicode__(self):
         return self.user.username

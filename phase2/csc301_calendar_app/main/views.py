@@ -66,11 +66,9 @@ def registration(request):
             calendar = Calendar( name = user.username + "'s personal calendar")
             calendar.save()
             profile.cal = calendar
-            profile.school = SchoolProfile.objects.get(pk=1)
+            profile.school = None
             # Now we save the Student model instance.
             profile.save()
-
-
 
             # Update our variable to tell the template registration was successful.
             registered = True
