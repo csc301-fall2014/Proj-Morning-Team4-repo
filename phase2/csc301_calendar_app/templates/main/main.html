@@ -55,8 +55,9 @@ body {
                     Find your school
                 {% endif %}
             </a>
-
-            <a class="btn btn-primary btn-lg" href="/school/course/search"><span class="glyphicon glyphicon-tower"></span>Enroll in a Course</a>
+            {% if user_profile.school %}
+                <a class="btn btn-primary btn-lg" href="/school/course/search"><span class="glyphicon glyphicon-tower"></span>Enrol in a Course</a>
+            {% endif %}
 
             {% if perms.user.can_create_course %}
                 <a class="btn btn-primary btn-lg" href="/school/course/create"><span class="glyphicon glyphicon-tower"></span>Create course</a>
