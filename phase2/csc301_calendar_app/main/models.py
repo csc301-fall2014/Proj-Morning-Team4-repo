@@ -22,6 +22,20 @@ class UserProfile(models.Model):
             ('create_event', 'Create an event'),
             ('join_event', 'Join an event'),
             ('leave_event', 'Leave and event'),
+        )
+    
+
+class Student(UserProfile):
+    class Meta:
+        permissions = (
             ('enroll_course', 'Enroll in a course'),
             ('drop_course', 'Drop a course'),
+        )
+
+
+class Instructor(UserProfile):
+    class Meta:
+        permissions = (
+            ('create_course', 'Create a course'),
+            ('delete_course', 'Delete a course'),
         )
