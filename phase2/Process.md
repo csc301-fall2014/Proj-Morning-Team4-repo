@@ -15,6 +15,7 @@ The point is to evaluate the estimations that you've made during the planning me
  - We decided to write our project using Python and Django, as opposed to PHP with Codeigniter, becuase our former teammate Matt had previous experience with Django, and we felt Django was more powerful and interesting to learn than PHP.
  - Notifications and Reminders were deemed bonus features and unnecessary for the first release, and removed from the MVP
  - The team was split into two groups, with Sangah and Amrutha on the front-end, and Carl, Tommy, Binuri, Michael and Matt on the back-end
+ - Tasks given: Everyone to install and learn Django
 
 <b>Meeting 2</b> - October 28 in BA
  - MVP was split into 3 apps; Calendar, Courses/Schools, and Main/Registration
