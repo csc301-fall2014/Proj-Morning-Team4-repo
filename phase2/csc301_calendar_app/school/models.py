@@ -7,7 +7,7 @@ class SchoolProfile(models.Model):
     name = models.CharField(max_length=128, unique=True)
     email_domain = models.CharField(max_length=128, unique=True)
     def __unicode__(self):
-        return self.school_name
+        return self.name
     
 class Course(models.Model):
     # This line is required. Links UserProfile to a User model instance.
@@ -15,4 +15,4 @@ class Course(models.Model):
     name = models.CharField(max_length=128, unique=True)
     school_id = models.ForeignKey('SchoolProfile')
     def __unicode__(self):
-        return self.SchoolProfile.school_name
+        return self.SchoolProfile.name
