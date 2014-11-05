@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from main.forms import UserForm, UserProfileForm
-from main.models import UserProfile
+from main.models import Student
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -18,16 +18,16 @@ def index(request):
     # I'm guessing this is where all the data base requests go, if any.
     # Should delete later
     school = "s"
-    for e in UserProfile.objects.all():
+    for e in Student.objects.all():
         school = e.school
         print(school)
 
     if request.user.is_authenticated():
-        school = UserProfile.objects.get(user=request.user).getSchool()
+        school = Student.objects.get(user=request.user).getSchool()
 
     context_dict = {'app_description' : 'super duper','school' : school}
 
-    #context= { 'school' : UserProfile.objects.all()}
+    #context= { 'school' : Student.objects.all()}
 
     return render_to_response('main/main.html', context_dict, context)
 
@@ -58,7 +58,7 @@ def registration(request):
             user.set_password(user.password)
             user.save()
 
-            # Now sort out the UserProfile instance.
+            # Now sort out the Student instance.
             # Since we need to set the user attribute ourselves, we set commit=False.
             # This delays saving the model until we're ready to avoid integrity problems.
             profile = profile_form.save(commit=False)
@@ -69,7 +69,7 @@ def registration(request):
             calendar.save()
             profile.cal = calendar
 
-            # Now we save the UserProfile model instance.
+            # Now we save the Student model instance.
             profile.save()
 
 
