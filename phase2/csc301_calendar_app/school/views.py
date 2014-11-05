@@ -6,12 +6,13 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from school.forms import SchoolProfileForm
+from school.forms import SchoolProfileForm, CourseForm
 from school.models import SchoolProfile
 from main.models import UserProfile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+@login_required
 def get_schools(request):
      # Like before, get the request's context.
     context = RequestContext(request)
@@ -62,3 +63,49 @@ def view_school(request, school_id):
                 context)
     else:
         return HttpResponse("No Such school exists")
+
+@login_required
+def create_course(request):
+    """ Add a course to the calendar belonging to the school
+    in which the current user is enrolled in"""
+
+     # Like before, get the request's context.
+    context = RequestContext(request)
+    course_added = False
+
+    user = request.user
+     # If it's a HTTP POST, we're interested in processing form data.
+    if request.method == 'POST':
+
+        if user.has_perm('create_course'):
+            school = UserProfile.objects.get(user=user).school
+        else:
+            return HttpResponse("You don't have permission to create courses!")
+
+        # Attempt to grab information from the raw form information.
+        course_form = CourseForm(data=request.POST)
+        if course_form.is_valid():
+            # Save the event's form data to the database.
+            course = course_form.save(commit=False)
+            course.school = school
+            course.creator = user
+
+            course.save()
+
+            course_added = True
+        # Invalid form or forms - mistakes or something else?
+        # Print problems to the terminal.
+        # They'll also be shown to the user.
+        else:
+            print course_form.errors
+
+    # Not a HTTP POST, so we render our form using the EventForm.
+    # These forms will be blank, ready for user input.
+    else:
+        course_form = CourseForm()
+
+    # Render the template depending on the context.
+    return render_to_response(
+            'school/create_course.html', {'course_form': course_form, 'user' : user,
+            'course_added': course_added},
+            context)

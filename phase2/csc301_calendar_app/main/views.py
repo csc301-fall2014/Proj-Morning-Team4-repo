@@ -23,9 +23,6 @@ def index(request):
         school = e.school
         print(school)
 
-    if request.user.is_authenticated():
-        school = Student.objects.get(user=request.user).getSchool()
-
     context_dict = {'app_description' : 'super duper','school' : school}
 
     #context= { 'school' : Student.objects.all()}
