@@ -56,6 +56,22 @@
                     {% endif %}
                 </td>
             </tr>
+            <tr>
+                <td><b>My Courses</b></td>
+                <td>
+                    {% if courses %}
+                    <ul>
+                        {% for course in courses %}
+                        <li>
+                            <a href="/school/course/{{course.id}}">{{ course }}</a>
+                        </li>
+                        {% endfor %}
+                    {% else %}
+                        You're not enrolled in any courses.
+                    {% endif %}
+                    </ul>
+                </td>
+            </tr>
         </tbody>
         </table>
             <a class="btn btn-primary btn-lg" href="/edit-profile"><span class="glyphicon glyphicon-pencil"></span>Edit Profile</a>
@@ -67,7 +83,8 @@
                     Find your school
                 {% endif %}
             </a>
-            {% if user_profile.school and perms.main.enrol_course %}
+            <!-- below: the perms check is a hack for now, so we dont give "course enrol button" to instructors -->
+            {% if user_profile.school and not perms.main.create_course %}
                 <a class="btn btn-primary btn-lg" href="/school/{{ user_profile.school.id }}"><span class="glyphicon glyphicon-tower"></span>Enrol in a Course</a>
             {% endif %}
 

@@ -23,6 +23,7 @@ def index(request):
     if request.user.id:
         user_profile = UserProfile.objects.get(user=request.user.id)
         context_dict['user_profile'] =  user_profile
+        context_dict['courses'] =  user_profile.courses.all()
 
     return render_to_response('main/main.html', context_dict, context)
 
@@ -42,10 +43,10 @@ def registration(request):
         # Note that we make use of both UserForm and UserProfileForm.
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
-        #user_type_form = UserTypeForm(data=request.POST)
+        user_type_form = UserTypeForm(data=request.POST)
 
         # If the two forms are valid...
-        if user_form.is_valid() and profile_form.is_valid(): #and user_type_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid() and user_type_form.is_valid():
             # Save the user's form data to the database.
             user = user_form.save()
 
@@ -59,9 +60,9 @@ def registration(request):
             # Since we need to set the user attribute ourselves, we set commit=False.
             # This delays saving the model until we're ready to avoid integrity problems.
 
-            #user_type = user_type_form.cleaned_data['user_type']
-            #user_type = int(user_type)
-            user_type = 1
+            user_type = user_type_form.cleaned_data['user_type']
+            user_type = int(user_type)
+            #user_type = 1
             if user_type:
                 profile = Student(nickname=nickname)
             else:
@@ -83,19 +84,20 @@ def registration(request):
         # Print problems to the terminal.
         # They'll also be shown to the user.
         else:
-            print user_form.errors, profile_form.errors
+            print user_form.errors, profile_form.errors, user_type_form.errors
 
     # Not a HTTP POST, so we render our form using two ModelForm instances.
     # These forms will be blank, ready for user input.
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
-        #user_type_form = UserTypeForm()
+        user_type_form = UserTypeForm()
 
     # Render the template depending on the context.
     return render_to_response(
             'main/register.html',
             {'user_form': user_form, 'profile_form': profile_form,
+            'user_type_form': user_type_form,
             'registered': registered},
             context)
 

@@ -132,6 +132,7 @@ def view_event(request, owner_type, owner_id, event_id):
     context = RequestContext(request)
 
     user = request.user
+    edit_priv = False
     # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'GET':
         verified_obj = verified_calendar(context, owner_type, owner_id, user)
@@ -151,7 +152,7 @@ def view_event(request, owner_type, owner_id, event_id):
 
     # Render the template depending on the context.
     return render_to_response(
-           'scheduler/view_event.html', {'event': event},
+           'scheduler/view_event.html', {'event': event, 'edit_priv': edit_priv},
            context)
 
 @login_required

@@ -3,16 +3,24 @@
     <div class="col-xs-12 col-sm-6 col-sm-offset-3">
 
     <h1>{{event.name}}</h1>
-
-    <h3>Details</h3>
-    <ul>
     {% if event %}
-        <li> start time: {{event.start}}</li>
-        <li> end time: {{event.end}}</li>
-        <li> location: {{event.location}}</li>
+        <table class="table table-striped table-bordered table-responsive" id="user-profile-info">
+        <tbody>
+            <tr>
+                <td><b>Starts</b></td><td>{{event.start}}</td>
+            </tr>
+            <tr>
+                <td><b>Ends</b></td><td>{{event.end}}</td>
+            </tr>
+            <tr>
+                <td><b>Location</b></td><td>{{event.location}}</td>
+            </tr>
+        </tbody>
+        </table>
     {% else %}
         This event does not exist
     {% endif %}
-    </ul>
-    <a href="update/">Update Event</a><br />
+    {% if edit_priv %}
+        <a class="btn btn-primary btn-lg" href="update/" ><span class="glyphicon glyphicon-pencil"></span>Update Event</a>
+    {% endif %}
 {% endblock %}
