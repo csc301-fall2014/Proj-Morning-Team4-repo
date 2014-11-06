@@ -74,7 +74,7 @@ Our group also elected to conduct informal "social media chats" daily to discuss
 
 ### Reflections on methodologies:
 
-In hindsight we believe using a rotating scrum master was a good decision. This afforded each member the chance to set the agenda for the meeting, reinforcing the team vision that every opinion counts! Giving each group member a chance to be scrum leader also provided valuable experience to our member and allowed each of us the opportunity develop our leadership skills. We recognize the personal growth related to developing these goals will be useful in our future careers. Reflecting back, the team also agreed the informal Facebook messages were an excellent idea as they allowed us to bounce ideas of each other in an unstructured, casual format.
+In hindsight we believe using a rotating scrum master was a good decision. This afforded each member the chance to set the agenda for the meeting, reinforcing the team vision that every opinion counts! Giving each group member a chance to be scrum leader also provided valuable experience to the team members and allowed each of us the opportunity develop our leadership skills. We recognize that personal growth in this area will be useful to our future careers. Reflecting back, the team also agreed the informal Facebook messages were an excellent idea as they allowed us to bounce ideas of each other in an unstructured, casual format.
 
 
 
