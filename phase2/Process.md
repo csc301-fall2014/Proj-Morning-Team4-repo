@@ -51,7 +51,7 @@
  - Discussed code efficiencies
  - Preformed user testing to ensure website is intuitive and user friendly
  - Discussed potential enhancements for later project phases
- - We were able to complete the sections of the project we had originally set out to in phase 1.
+ - We were able to complete all of the sections of the project we had originally set out to in phase 1.
 
 
 ## Description of GitHub issue management system (e.g. naming conventions, labels, team's conventions, etc.)
