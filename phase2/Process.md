@@ -3,6 +3,7 @@
 # <b>Process</b>
 
 ## <b>Planning & Review Meetings</b>
+# Sprint 1
 ### <b>Sprint 1: Meeting 1</b> - October 23 in BA1200
  - The team decided to write our project using Python and Django, as opposed to PHP with Codeigniter, because our former teammate, Matt, had previous experience with Django, and we felt Django was more powerful and interesting to learn than PHP.
  - Notifications and Reminders were deemed bonus features and unnecessary for the first release, and removed from the MVP
@@ -27,7 +28,9 @@
 ### <b>Sprint 1: Meeting 3 (Reflecting on Sprint 1 progress)</b> - October 28 in BA2270
  - The team discussed future development roadblocks that had come up and brainstormed solutions (ie;how to handle registration appropriately)
  - The team was able to reach 100% of the development goals set out in the second meeting
-  
+
+# Sprint 2
+
 ### <b>Sprint 2: Meeting 1</b> - October 30 Video Conference
  - The team set deadlines goals for when they expected completion of different tasks relating to their apps of focus
   - For instance, the team decided to finalize the front and back end by the Nov 4 meeting.
@@ -71,7 +74,7 @@ Our group also elected to conduct informal "social media chats" daily to discuss
 
 ### Reflections on methodologies:
 
-In hindsight we believe using a rotating scrum master was a good descion. This afforded each member the chance to set the agenda for the meeting, re-enforcing the team vision that every opinion counts! Giving each group member a chance to be scrum leader also provided valuable experience to our member and allowed each of us the opportunity develop our leadership skills. We recognize the personal growth related to developing these goals will be useful in our future careers. Reflecting back, the team also agreed the informal Facebook messages were an excellent idea as they allowed us to bounce ideas of each other in an unstructured, casual format.
+In hindsight we believe using a rotating scrum master was a good decision. This afforded each member the chance to set the agenda for the meeting, reinforcing the team vision that every opinion counts! Giving each group member a chance to be scrum leader also provided valuable experience to our member and allowed each of us the opportunity develop our leadership skills. We recognize the personal growth related to developing these goals will be useful in our future careers. Reflecting back, the team also agreed the informal Facebook messages were an excellent idea as they allowed us to bounce ideas of each other in an unstructured, casual format.
 
 
 
