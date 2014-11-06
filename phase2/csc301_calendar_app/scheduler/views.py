@@ -61,9 +61,14 @@ def calendar_view_basic(request, owner_type, owner_id):
         else:
             return verified_obj
 
+
+        response_object = {'calendar' : calendar, 'events': events,
+                    'edit_priv': edit_priv, 'owner_type': owner_type,
+                   }
+        if owner_type == "user":
+            response_object['courses'] =  UserProfile.objects.get(user=user).courses.all()
         return render_to_response('scheduler/calendar_basic.html',
-                    {'calendar' : calendar, 'events': events,
-                    'edit_priv': edit_priv}, context)
+                    response_object, context)
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...

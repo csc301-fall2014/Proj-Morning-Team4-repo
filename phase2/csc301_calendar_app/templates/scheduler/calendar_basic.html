@@ -55,10 +55,20 @@
 {% endblock %}
 {% block content %}
     {% if edit_priv %}
-    <div class="col-xs-12 col-sm-1">
+    <div class="col-xs-12 col-sm-2">
         <a class="btn btn-primary btn-lg" href="add/">Add Event</a>
+        <hr />
+        {% if owner_type == "user" %}
+        <div class="list list-group">
+            {% for course in courses%}
+            
+                 <a class="list-group-item" href="/course/{{ course.id }}/calendar">{{ course.code }}</a>
+         
+            {% endfor %}
+               </div>
+        {% endif %}
     </div>
-    <div class="col-xs-12 col-sm-11 col-sm-offset-1">
+    <div class="col-xs-12 col-sm-10">
     {% else %}
     <div class="col-xs-12">
     {% endif %}

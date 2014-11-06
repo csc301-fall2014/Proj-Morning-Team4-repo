@@ -17,23 +17,12 @@ def index(request):
     # The context contains information such as the client's machine details, for example.
     context = RequestContext(request)
 
-    # I'm guessing this is where all the data base requests go, if any.
-    # Should delete later
-    '''
-    school = "s"
-    for e in Student.objects.all():
-        school = e.school
-        print(school)
-    '''
-
     context_dict = {
-        #'app_description' : 'super duper','school' : school
     }
 
     if request.user.id:
-        context_dict['user_profile'] =  UserProfile.objects.get(user=request.user.id)
-
-    #context= { 'school' : Student.objects.all()}
+        user_profile = UserProfile.objects.get(user=request.user.id)
+        context_dict['user_profile'] =  user_profile
 
     return render_to_response('main/main.html', context_dict, context)
 
@@ -53,10 +42,10 @@ def registration(request):
         # Note that we make use of both UserForm and UserProfileForm.
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
-        user_type_form = UserTypeForm(data=request.POST)
+        #user_type_form = UserTypeForm(data=request.POST)
 
         # If the two forms are valid...
-        if user_form.is_valid() and profile_form.is_valid() and user_type_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid(): #and user_type_form.is_valid():
             # Save the user's form data to the database.
             user = user_form.save()
 
@@ -65,16 +54,18 @@ def registration(request):
             user.set_password(user.password)
             user.save()
             nickname = profile_form.cleaned_data['nickname']
+
             # Now sort out the Student instance.
             # Since we need to set the user attribute ourselves, we set commit=False.
             # This delays saving the model until we're ready to avoid integrity problems.
 
-            user_type = user_type_form.cleaned_data['user_type']
-            user_type = int(user_type)
-            if type == 1:
-                profile = Instructor(nickname=nickname)
-            else:
+            #user_type = user_type_form.cleaned_data['user_type']
+            #user_type = int(user_type)
+            user_type = 1
+            if user_type:
                 profile = Student(nickname=nickname)
+            else:
+                profile = Instructor(nickname=nickname)
             profile.user = user
 
             # Add the personal calendar for the user
@@ -99,13 +90,13 @@ def registration(request):
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
-        user_type_form = UserTypeForm()
+        #user_type_form = UserTypeForm()
 
     # Render the template depending on the context.
     return render_to_response(
             'main/register.html',
             {'user_form': user_form, 'profile_form': profile_form,
-            'user_type_form': user_type_form, 'registered': registered},
+            'registered': registered},
             context)
 
 def user_login(request):
