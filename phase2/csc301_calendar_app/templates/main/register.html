@@ -14,7 +14,7 @@
 
                 {{ user_form.as_p }}
                 {{ profile_form.as_p }}
-                {% if false %}
+
                 {% if user_type_form %}
                 <label for="id_user_type">User Type:</label>
                 {% for radio in user_type_form.user_type %}
@@ -26,7 +26,7 @@
                 </div>
                 {% endfor %}
                 {% endif %}
-                {% endif %}
+
 
                 <!-- Provide a button to click to submit the form. -->
                 <input type="submit" class="btn btn-lg btn-primary btn-block" name="submit" value="Register" />
