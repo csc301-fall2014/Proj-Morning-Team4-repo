@@ -14,8 +14,14 @@ class UserForm(forms.ModelForm):
         }
 
 class UserTypeForm(forms.Form):
-    CHOICES=(('1', 'Instructor',), ('2', 'Student',))
-    user_type = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES, required=True)
+    CHOICES=(('0', 'Instructor',), ('1', 'Student',))
+    user_type = forms.ChoiceField(
+            widget=forms.RadioSelect(
+                attrs={},
+            ), 
+            choices=CHOICES, 
+            required=True
+        )
 
 
 class UserUpdateForm(forms.ModelForm):

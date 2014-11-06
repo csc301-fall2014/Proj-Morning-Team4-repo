@@ -82,7 +82,7 @@ def create_course(request):
     course_added = False
 
     user = request.user
-    if user.has_perm('create_course'):
+    if user.has_perm('main.create_course'):
         school = UserProfile.objects.get(user=user).school
         if not school:
             return render_permission_denied(context,
@@ -159,11 +159,13 @@ def view_course(request, course_id):
     user = request.user
     eligible = False
     enrolled = False
+    is_instructor = False
     course = Course.objects.filter(id=int(course_id))[:1]
     if (course):
         course = course[0]
         user_profile = UserProfile.objects.get(user=user)
-        eligible = course.school.id == user_profile.school.id
+        if user_profile.school:
+            eligible = course.school.id == user_profile.school.id
 
         relation = user_profile.courses.filter(id=course.id)[:1]
         if relation:
