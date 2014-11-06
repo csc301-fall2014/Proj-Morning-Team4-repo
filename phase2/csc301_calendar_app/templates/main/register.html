@@ -1,45 +1,37 @@
 {% extends "page.html" %}
 
 {% block content %}
-        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
         {% if registered %}
             <h2>Thank you for registering.</h2>
             <p><a href="/">Return to the homepage.</a></p>
         {% else %}
             <form role="form" id="user_form" method="post" action="/register/"
                 enctype="multipart/form-data">
-            <h2 class="form-signin-heading">Le registration</h2>
-            {% csrf_token %}
+                <h2 class="form-signin-heading">Le registration</h2>
 
-            {% if false %}
-            {% for field in user_form %}
-            {{ field.type }}
-              <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
-                <input type="text" id="id_{{ field.name }}" class="form-control" required autofocus>
-                <p class="help-text">{{ field.help_text }} </p>
-            {% endfor %}
-            {% for field in profile_form %}
-            {{ field.type }}
-              <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
-                <input type="text" id="id_{{ field.name }}" class="form-control" required autofocus>
-                <p class="help-text">{{ field.help_text }} </p>
-            {% endfor %}
-            {% endif %}
+                {% csrf_token %}
 
-            <!-- <span>Desired Username: </span><input type="text" class="form-control" placeholder="Username" required autofocus>
-             {{ user_form.username}}
-            <span>E-mail address: </span><input type="email" class="form-control" placeholder="E-mail address" required>
-            <span>Password: </span><input type="password" class="form-control" placeholder="Password" required>
-            <span>Desired Nickname: </span><input type="text" class="form-control" placeholder="Nickname" required>
-            <span>School name: </span><input type="text" class="form-control" placeholder="School" required> -->
                 {{ user_form.as_p }}
                 {{ profile_form.as_p }}
-                {{ user_type_form.as_p }}
+                {% if false %}
+                {% if user_type_form %}
+                <label for="id_user_type">User Type:</label>
+                {% for radio in user_type_form.user_type %}
+                <div class="radio">
+                    <label for="{{ radio.id_for_label }}" class="radio">
+                        {{ radio.tag }}
+                        {{ radio.choice_label }}
+                    </label>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endif %}
 
                 <!-- Provide a button to click to submit the form. -->
                 <input type="submit" class="btn btn-lg btn-primary btn-block" name="submit" value="Register" />
             </form>
         {% endif %}
 
-        </div>
+    </div>
 {% endblock %}

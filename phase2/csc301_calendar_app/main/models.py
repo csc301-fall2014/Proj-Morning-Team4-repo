@@ -24,14 +24,14 @@ class UserProfile(models.Model):
         permissions = (
             ('create_event', 'Create an event'),
             ('join_event', 'Join an event'),
-            ('leave_event', 'Leave and event'),
+            ('leave_event', 'Leave an event'),
         )
 
 
 class Student(UserProfile):
     class Meta:
         permissions = (
-            ('enroll_course', 'Enroll in a course'),
+            ('enrol_course', 'Enrol in a course'),
             ('drop_course', 'Drop a course'),
         )
 
