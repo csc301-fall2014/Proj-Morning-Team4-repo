@@ -51,12 +51,12 @@
 
 
 ## Description of GitHub issue management system (e.g. naming conventions, labels, team's conventions, etc.)
-	- the issue names are prepended with its corresponding model
-	- each issue is either tagged back-end or front-end & with the app that it refers to (Scheduler, School & User System) 
-	- each issue was assigned based on its corresponding Django app
-	- 5 people on back-end team to construct models, tests, views & forms
-	- 2 people on front-end team to construct templates & maintain views/ forms
-	- in the end, when the basic functionality is done, we need to hook up the front end + back end
+  - The issue names are prepended with its corresponding model
+	- Each issue is either tagged back-end or front-end & with the app that it refers to (Scheduler, School & User System) 
+	- Each issue was assigned based on its corresponding Django app
+	- 5 group members were assigned to the back-end team to construct models, tests, views & forms
+	- 2 group members were assigned to the front-end team to construct templates & maintain views/ forms
+	- Once basic functionality is done, we hooked up the front end and back end
 
 ## Description of any other major decisions/conventions
 
