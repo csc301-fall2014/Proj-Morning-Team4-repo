@@ -9,7 +9,7 @@
  - Tasks given: Everyone to install and learn Django
  
 #### Sprint 1: Daily Meeting 1  - October 24 via Facebook
- - Team members helped each other with the installation process of Django, Mysql and configuring the enviorment
+ - Team members helped each other with the installation process of Django, Mysql and configuring the environment
 
 ### <b>Sprint 1: Meeting 2</b> - October 25 in BA2270
  - MVP was split into 3 apps; Calendar, Courses/Schools, and Main/Registration
@@ -24,19 +24,19 @@
  - Team members shared tips on using the Django framework and best coding practises were discussed
 
 ### <b>Sprint 1: Meeting 3 (Reflecting on Sprint 1 progress)</b> - October 28 in BA2270
- - The team discussed future development roadblocks that had come up and brainstormed solutions (ie;how to handle regestration appropriately)
+ - The team discussed future development roadblocks that had come up and brainstormed solutions (ie;how to handle registration appropriately)
  - The team was able to reach 100% of the development goals set out in the second meeting
   
 ### <b>Sprint 2: Meeting 1</b> - October 30 Video Conference
- - The team set deadlines goals for when they expected completion of diffrent tasks relating to their apps of focus
-  - For instance, the team decided to finnalize the front and back end by the Nov 4 meeting.
+ - The team set deadlines goals for when they expected completion of different tasks relating to their apps of focus
+  - For instance, the team decided to finalize the front and back end by the Nov 4 meeting.
 
 #### Sprint 2: Daily Meeting 1  - October 31 via Facebook
-  - Front end teammates co-ordinated template designs and sylistic choices
+  - Front end teammates co-ordinated template designs and stylistic choices
   - Back end teammates consulted the group to approve schema changes to the User class
   
-#### Sprint 2: Daily Meeting 1  - November 2 via Facebook
-  - Teammates debated best security and encapulation practises to ensure a safe system.
+#### Sprint 2: Daily Meeting 2  - November 2 via Facebook
+  - Teammates debated best security and encapsulation practises to ensure a safe system.
 
 ### <b>Sprint 2: Meeting 2</b> - November 4 in CSSU office
  - Everyone's work was consolidated, as we planned how to combine front end development with backend
@@ -44,10 +44,10 @@
 
 ### <b>Sprint 2: Meeting 3 (Reflecting on Sprint 2 Progress)</b> - November 5 in BA2270
  - Worked together to brainstorm ideas for Product.md
- - Discussed code efficencies
+ - Discussed code efficiencies
  - Preformed user testing to ensure website is intuitive and user friendly
  - Discussed potential enhancements for later project phases
- - We were able to complete the sectons of te project we had origonally set out to in phase 1.
+ - We were able to complete the sections of the project we had originally set out to in phase 1.
 
 
 ## Description of GitHub issue management system (e.g. naming conventions, labels, team's conventions, etc.)
@@ -60,16 +60,16 @@
 
 ## Description of any other major decisions/conventions
 
-We elected to have a diffrent scrum master at each of our 6 meetings, each team member had the chance to be the scum leader. The scrum leader's role was to chair the meeting, direct conversation flow as well as ensure a timley and effective meeting. Furthermore, each meeting began with a quick update from each group member where they indicated: 
+We elected to have a different scrum master at each of our 6 meetings, each team member had the chance to be the scum leader. The scrum leader's role was to chair the meeting, direct conversation flow as well as ensure a timely and effective meeting. Furthermore, each meeting began with a quick update from each group member where they indicated: 
   1. Progress since last meeting 
   2. Any problems they were stuck on
   3. If they felt they were on track to meet their deadline
-Additional tasks were then assigned from the spint backlog to members who had finished their respective tasks.
+Additional tasks were then assigned from the sprint backlog to members who had finished their respective tasks.
 Our group also elected to conduct informal "social media chats" daily to discuss any problems, seek help, and plan meetings.
 
 ### Reflections on methodologies:
 
-In hindsight we believe using a rotating scrum master was a good descion. This afforded each member the chance to set the agenda for the meeting, re-enforcing the team vision that every opinion counts! Giving each group member a chance to be scrum leader also provided valuable experience to our member and allowed each of us the oppurtunity develop our leadership skills. We recognize the personal growth related to developing these goals will be usefull in our future careers. Reflecting back, the team also agreeded the informal facebook messages were an excellant idea as they allowed us to bounce ideas of each other in an unstructured, casual format.
+In hindsight we believe using a rotating scrum master was a good descion. This afforded each member the chance to set the agenda for the meeting, re-enforcing the team vision that every opinion counts! Giving each group member a chance to be scrum leader also provided valuable experience to our member and allowed each of us the opportunity develop our leadership skills. We recognize the personal growth related to developing these goals will be useful in our future careers. Reflecting back, the team also agreed the informal Facebook messages were an excellent idea as they allowed us to bounce ideas of each other in an unstructured, casual format.
 
 
 
