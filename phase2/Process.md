@@ -2,6 +2,7 @@
 
 # <b>Process: Planning & Review Meetings</b>
 
+## <b>Planning & Review Meetings</b>
 ### <b>Sprint 1: Meeting 1</b> - October 23 in BA1200
  - The team decided to write our project using Python and Django, as opposed to PHP with Codeigniter, because our former teammate, Matt, had previous experience with Django, and we felt Django was more powerful and interesting to learn than PHP.
  - Notifications and Reminders were deemed bonus features and unnecessary for the first release, and removed from the MVP
