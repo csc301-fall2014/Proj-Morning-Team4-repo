@@ -25,7 +25,7 @@
                 <p class="help-text">{{ field.help_text }} </p>
             {% endfor %}
             {% endif %}
-           
+
             <!-- <span>Desired Username: </span><input type="text" class="form-control" placeholder="Username" required autofocus>
              {{ user_form.username}}
             <span>E-mail address: </span><input type="email" class="form-control" placeholder="E-mail address" required>
@@ -34,11 +34,12 @@
             <span>School name: </span><input type="text" class="form-control" placeholder="School" required> -->
                 {{ user_form.as_p }}
                 {{ profile_form.as_p }}
+                {{ user_type_form.as_p }}
 
                 <!-- Provide a button to click to submit the form. -->
                 <input type="submit" class="btn btn-lg btn-primary btn-block" name="submit" value="Register" />
             </form>
         {% endif %}
-          
+
         </div>
 {% endblock %}

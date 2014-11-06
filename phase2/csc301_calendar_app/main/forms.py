@@ -1,4 +1,4 @@
-from main.models import Student
+from main.models import UserProfile
 from django.contrib.auth.models import User
 from django import forms
 
@@ -6,11 +6,17 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
+
         widgets = {
         	'username': forms.TextInput(attrs={'class': 'form-control'}),
         	'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
+
+class UserTypeForm(forms.Form):
+    CHOICES=(('1', 'Instructor',), ('2', 'Student',))
+    user_type = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES, required=True)
+
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
@@ -22,9 +28,8 @@ class UserUpdateForm(forms.ModelForm):
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
-    	model = Student
+    	model = UserProfile
     	fields = ('nickname', ) # , 'schools' )
         widgets = {
         	'nickname': forms.TextInput(attrs={'class': 'form-control'}),
         }
-        
