@@ -3,8 +3,8 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from main.forms import UserForm, UserProfileForm, UserUpdateForm
-from main.models import UserProfile, Student
+from main.forms import UserForm, UserProfileForm, UserUpdateForm, UserTypeForm
+from main.models import UserProfile, Student, Instructor
 from main.utils import render_permission_denied
 from school.models import SchoolProfile
 from django.contrib.auth import authenticate, login, logout
@@ -53,9 +53,10 @@ def registration(request):
         # Note that we make use of both UserForm and UserProfileForm.
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
+        user_type_form = UserTypeForm(data=request.POST)
 
         # If the two forms are valid...
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid() and user_type_form.is_valid():
             # Save the user's form data to the database.
             user = user_form.save()
 
@@ -63,11 +64,17 @@ def registration(request):
             # Once hashed, we can update the user object.
             user.set_password(user.password)
             user.save()
-
+            nickname = profile_form.cleaned_data['nickname']
             # Now sort out the Student instance.
             # Since we need to set the user attribute ourselves, we set commit=False.
             # This delays saving the model until we're ready to avoid integrity problems.
-            profile = profile_form.save(commit=False)
+
+            user_type = user_type_form.cleaned_data['user_type']
+            user_type = int(user_type)
+            if type == 1:
+                profile = Instructor(nickname=nickname)
+            else:
+                profile = Student(nickname=nickname)
             profile.user = user
 
             # Add the personal calendar for the user
@@ -92,11 +99,13 @@ def registration(request):
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
+        user_type_form = UserTypeForm()
 
     # Render the template depending on the context.
     return render_to_response(
             'main/register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
+            {'user_form': user_form, 'profile_form': profile_form,
+            'user_type_form': user_type_form, 'registered': registered},
             context)
 
 def user_login(request):
