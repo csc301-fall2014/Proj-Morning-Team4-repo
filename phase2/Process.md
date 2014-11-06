@@ -1,6 +1,6 @@
 
 
-# <b>Process: Planning & Review Meetings</b>
+# <b>Process</b>
 
 ## <b>Planning & Review Meetings</b>
 ### <b>Sprint 1: Meeting 1</b> - October 23 in BA1200
