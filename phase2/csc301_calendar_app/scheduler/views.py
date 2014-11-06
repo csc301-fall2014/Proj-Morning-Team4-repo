@@ -61,12 +61,16 @@ def calendar_view_basic(request, owner_type, owner_id):
         else:
             return verified_obj
 
-
         response_object = {'calendar' : calendar, 'events': events,
                     'edit_priv': edit_priv, 'owner_type': owner_type,
                    }
+
         if owner_type == "user":
-            response_object['courses'] =  UserProfile.objects.get(user=user).courses.all()
+            profile_courses = UserProfile.objects.get(user=user).courses.all()
+            course_calendars = []
+            for course in profile_courses:
+                course_calendars.append({'course': course, 'events': course.cal.event_set.all()})
+            response_object['course_calendars'] = course_calendars;
         return render_to_response('scheduler/calendar_basic.html',
                     response_object, context)
     else:
