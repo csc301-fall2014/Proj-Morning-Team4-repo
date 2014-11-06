@@ -40,7 +40,10 @@
                 end: moment(endDate),
                 color: COLOURS[0]
             });
+            {% endfor %}
+            {%endif%}
             {% for cc in course_calendars%}
+                console.log('{{cc}}');
                 i++;
                 course_events['{{cc.course.id}}'] = [];
                 courses.push({
@@ -72,9 +75,8 @@
             {% for course in courses%}
                  <a class="list-group-item" href="/course/{{ course.id }}/calendar">{{ course.code }}</a>
             {% endfor %}
-        {% endif %}
-            {% endfor %}
-            {% endif %}
+             {% endif %}
+               
             $('#cm-calendar').fullCalendar({
                 header: {
                     left: 'prev,today,next',
