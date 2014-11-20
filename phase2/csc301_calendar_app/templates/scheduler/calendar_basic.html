@@ -4,122 +4,140 @@
 
 {% block css %}
 {{ block.super }}
-    <link href="{% static 'css/fullcalendar.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/fullcalendar.print.css' %}" rel="stylesheet" media="print">
+<link href="{% static 'css/fullcalendar.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/fullcalendar.print.css' %}" rel="stylesheet" media="print">
 {% endblock %}
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
-     
+
 {% block js %}
 {{ block.super }}
-    <script src="{% static 'js/moment.min.js' %}"></script>
-    <script src="{% static 'js/fullcalendar.min.js' %}"></script>
-    <script>""
-        var COLOURS = ["#3F51B5", "#F44336", "#4CAF50", "#2196F3", "#673AB7","#03A9F4", "#E91E63", "#9C27B0",  "#00BCD4"]
-        var i = 0;
-        var N = COLOURS.length;
-        var my_events = [];
-        var courses = [];
-        var course_events = {};
-        var all_events = [];
-        $(document).ready(function() {
-            
-            {% if calendar %}
-            {% for e in events %}
-            var startDate = '{{ e.start|date:"Y-m-d\TH:i:s" }}';
-            var endDate = '{{ e.end|date:"Y-m-d\TH:i:s" }}';
-            my_events.push({
-                id: '{{e.id}}',
-                title: '{{e.name}}',
-                url: 'event/{{e.id}}/',
-                start: moment(startDate),
-                end: moment(endDate),
-                color: COLOURS[0]
-            });
-            {% endfor %}
-            {%endif%}
-            {% for cc in course_calendars%}
-                console.log('{{cc}}');
-                i++;
-                course_events['{{cc.course.id}}'] = [];
-                courses.push({
-                        'id': '{{cc.course.id}}',
-                        'code': '{{cc.course.code}}',
-                        'color': COLOURS[i % N],
-                    });
-                {% for e in cc.events %}
-                    var startDate = '{{ e.start|date:"Y-m-d\TH:i:s" }}';
-                    var endDate = '{{ e.end|date:"Y-m-d\TH:i:s" }}';
-                    course_events['{{cc.course.id}}'].push({
-                        id: '{{e.id}}',
-                        title: '{{e.name}}',
-                        course_code: '{{cc.course.code}}',
-                        url: '/course/{{cc.course.id}}/calendar/event/{{e.id}}/',
-                        start: moment(startDate),
-                        end: moment(endDate),
-                        color: COLOURS[i % N]
-                    })
-                {% endfor %}
-            {% endfor %}
+<script src="{% static 'js/moment.min.js' %}"></script>
+<script src="{% static 'js/fullcalendar.min.js' %}"></script>
+<script>""
+var COLOURS = ["#3F51B5", "#F44336", "#4CAF50", "#2196F3", "#673AB7","#03A9F4", "#E91E63", "#9C27B0",  "#00BCD4"]
+var i = 0;
+var N = COLOURS.length;
+var my_events = [];
+var courses = [];
+var course_events = {};
+var all_events = [];
+function destroyAndRemakeCalendar(calendar_div_id, config, events){
+	$("#" + calendar_div_id).fullCalendar('destroy');
+	config.events = events;
+	$("#" + calendar_div_id).fullCalendar(config);
+}
+var calendarConfig = { 
+header: {
+	left: 'prev,today,next',
+	center: 'title',
+	right: 'month,basicWeek,basicDay'
+},
+defaultDate: '{% now "Y-m-d\TH:i:s" %}',
+	     editable: true,
+	     eventLimit: true, // allow "more" link when too many events
+};
+$(document).ready(function() {
 
-            all_events = my_events;
-            for (var id in course_events) {
-                all_events = all_events.concat(course_events[id]);
-            }
+		{% if calendar %}
+		{% for e in events %}
+		var startDate = '{{ e.start|date:"Y-m-d\TH:i:s" }}';
+		var endDate = '{{ e.end|date:"Y-m-d\TH:i:s" }}';
+		my_events.push({
+id: '{{e.id}}',
+title: '{{e.name}}',
+url: 'event/{{e.id}}/',
+start: moment(startDate),
+end: moment(endDate),
+color: COLOURS[0]
+});
+		{% endfor %}
+		{%endif%}
+		{% for cc in course_calendars%}
+		i++;
+		course_events['{{cc.course.id}}'] = [];
+		courses.push({
+			'id': '{{cc.course.id}}',
+			'code': '{{cc.course.code}}',
+			'color': COLOURS[i % N],
+			});
+{% for e in cc.events %}
+var startDate = '{{ e.start|date:"Y-m-d\TH:i:s" }}';
+var endDate = '{{ e.end|date:"Y-m-d\TH:i:s" }}';
+course_events['{{cc.course.id}}'].push({
+id: '{{e.id}}',
+title: '{{e.name}}',
+course_code: '{{cc.course.code}}',
+url: '/course/{{cc.course.id}}/calendar/event/{{e.id}}/',
+start: moment(startDate),
+end: moment(endDate),
+color: COLOURS[i % N]
+});
+{% endfor %}
+{% endfor %}
+all_events = my_events;
+for (var id in course_events) {
+	all_events = all_events.concat(course_events[id]);
+}
+if (courses.length) {
+	$('#calendar-list').append('<a href="#" id="all-link" class="list-group-item calendar-link">All Calendars</a>');
+	$('#calendar-list').append('<a href="#" id="my-link" style="color: ' + COLOURS[0] + ';" class="list-group-item calendar-link">My Calendar</a>');
+	for (var j = 0; j < courses.length; j++) {
+		var new_link = $('#calendar-list').append('<a class="list-group-item calendar-link" href="#" id="' + courses[j]['id'] + '-link" style="color: ' + courses[j]['color'] + ';">' + courses[j]['code'] + ' Calendar</a>');
+	}
+	$('#calendar-list a.calendar-link').each(function(){
+			var css_selector = '#' + this.id;
+			var type_found = this.id.trim().match(/(.+)-link$/);
+			var type;
+			if (type_found) type = type_found[1]; 
+			if (type == "all") {
+				$(css_selector).click(function () { 
+					destroyAndRemakeCalendar("cm-calendar", calendarConfig, all_events);
+				});
+			}
 
-            {% if owner_type == "user" %}
-            {% for course in courses%}
-                 <a class="list-group-item" href="/course/{{ course.id }}/calendar">{{ course.code }}</a>
-            {% endfor %}
-             {% endif %}
-               
-            $('#cm-calendar').fullCalendar({
-                header: {
-                    left: 'prev,today,next',
-                    center: 'title',
-                    right: 'month,basicWeek,basicDay'
-                },
-                defaultDate: '{% now "Y-m-d\TH:i:s" %}',
-                editable: true,
-                eventLimit: true, // allow "more" link when too many events
-                events: all_events
-            });
-            if (courses.length) {
-            $('#calendar-list').append('<a href="#" id="all-link" class="list-group-item">All Calendars</a>');
-            $('#calendar-list').append('<a href="#" id="my-link" style="color: ' + COLOURS[0] + ';" class="list-group-item">My Calendar</a>');
-            for (var j = 0; j < courses.length; j++) {
-                $('#calendar-list').append('<a class="list-group-item" href="#" id="' + courses[j]['id'] + '-link" style="color: ' + courses[j]['color'] + ';">' + courses[j]['code'] + ' Calendar</a>');
-            }
-         }
-        });
+			else if (type == "my") {
+				$(css_selector).click( function() {
+					destroyAndRemakeCalendar("cm-calendar", calendarConfig, my_events);
+				});
+			}
+			else if (type.match(/\d+/)) {
+			$(css_selector).click(function() {
+					destroyAndRemakeCalendar("cm-calendar", calendarConfig, course_events[parseInt(this.id)]);
+				});
+			}
+	});
+}
+destroyAndRemakeCalendar('cm-calendar', calendarConfig, all_events);
+});
 
-         
-    </script>
+
+</script>
 {% endblock %}
 
 {% block content-header %}
 {% endblock %}
 {% block content %}
-    {% if edit_priv %}
-    <div class="col-xs-12 col-sm-2">
-        <a class="btn btn-primary btn-lg" href="add/">Add Event</a>
-        <hr />
-        {% if owner_type == "user" %}
-        <div class="list list-group" id="calendar-list">
-        </div>
-            
-        {% endif %}
-    </div>
-    <div class="col-xs-12 col-sm-10">
-    {% else %}
-    <div class="col-xs-12">
-    {% endif %}
-        <div id="cm-calendar"></div>
-    <!--}
+{% if edit_priv %}
+<div class="col-xs-12 col-sm-2">
+	<a class="btn btn-primary btn-lg" href="add/">Add Event</a>
+	<hr />
+	{% if owner_type == "user" %}
+	<div class="list list-group" id="calendar-list">
+	</div>
+
+	{% endif %}
+</div>
+<div class="col-xs-12 col-sm-10">
+	{% else %}
+	<div class="col-xs-12">
+		{% endif %}
+		<div id="cm-calendar"></div>
+		<!--}
     }-->
-    </div>
-{% endblock %}
+	</div>
+	{% endblock %}
