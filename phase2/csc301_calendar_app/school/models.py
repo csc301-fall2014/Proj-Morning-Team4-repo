@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from scheduler.models import Calendar
 
+
 # Create your models here.
 class SchoolProfile(models.Model):
 
@@ -24,6 +25,8 @@ class Course(models.Model):
     cal = models.ForeignKey(Calendar)
     school = models.ForeignKey(SchoolProfile)
     creator = models.ForeignKey(User)
+    #note student admin is optional
+    student_admin = models.ManyToManyField('main.Student', blank=True)
 
     def __unicode__(self):
         return self.name

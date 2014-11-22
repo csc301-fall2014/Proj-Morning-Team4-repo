@@ -100,6 +100,7 @@ def create_course(request):
             course = course_form.save(commit=False)
             course.school = school
             course.creator = user
+            course.student_admin = student_admin
 
             # Add the personal calendar for the user
             calendar = Calendar( name = course.code + " Calendar")
