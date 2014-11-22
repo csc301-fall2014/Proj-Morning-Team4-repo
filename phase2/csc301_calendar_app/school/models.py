@@ -26,7 +26,7 @@ class Course(models.Model):
     school = models.ForeignKey(SchoolProfile)
     creator = models.ForeignKey(User)
     #note student admin is optional
-    student_admins = models.ManyToManyField('main.Student', blank=True)
+    student_admins = models.ManyToManyField('main.Student', null=False, blank=True)
 
     def __unicode__(self):
         return self.name

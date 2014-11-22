@@ -15,9 +15,9 @@
                 </tr>
             </tbody>
             </table>
-
+	
             {% if enrolled or is_instructor %}
-                <p> You are currently enrolled in this course. </p>
+	    <p> You are currently {% if enrolled %}enrolled in{% else %}teaching{% endif %} this course. </p>
                 <a class="btn btn-primary btn-lg" href='/course/{{course.id}}/calendar/'><span class="glyphicon glyphicon-calendar"></span> View Calendar</a>
             {% elif eligible %}
                 <form id="event_form" method="post" action="">
