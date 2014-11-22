@@ -39,7 +39,7 @@ def verified_calendar(context, owner_type, owner_id, user):
             #If student
             if (Student.objects.filter(user=user)):
                 edit_priv = False
-                if (course[0].student_admin.filter(id=int(profile.id))):
+                if (course[0].student_admins.filter(id=int(profile.id))):
                     edit_priv = True
                 
             #If teacher
