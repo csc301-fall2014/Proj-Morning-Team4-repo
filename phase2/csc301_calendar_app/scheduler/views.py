@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from main.models import UserProfile
+from main.models import UserProfile, Student
 from main.utils import render_permission_denied
 from scheduler.models import Calendar, Event
 from scheduler.forms import EventForm
@@ -34,8 +34,20 @@ def verified_calendar(context, owner_type, owner_id, user):
         course = profile.courses.filter(id=int(owner_id))[:1]
         # If the user is enrolled in a course and the school
         if course and course[0].school.id == profile.school.id:
-            calendar = course[0].cal
-            edit_priv = course[0].creator.id == user.id
+            calendar = course[0].cal      
+            
+            #If student
+            if (Student.objects.filter(user=user)):
+                edit_priv = False
+                if (course[0].student_admin.filter(id=int(profile.id))):
+                    edit_priv = True
+                
+            #If teacher
+            elif (course[0].creator.id == profile.id) :
+                edit_priv = True
+                
+            else:
+                edit_priv = False
         else:
             return render_permission_denied(context, ' access this course\'s calendar')
 
