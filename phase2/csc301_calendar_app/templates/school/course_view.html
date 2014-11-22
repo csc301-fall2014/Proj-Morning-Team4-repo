@@ -16,16 +16,16 @@
             </tbody>
             </table>
 
-            {% if not enrolled and eligible%}
+            {% if enrolled or is_instructor %}
+                <p> You are currently enrolled in this course. </p>
+                <a class="btn btn-primary btn-lg" href='/course/{{course.id}}/calendar/'><span class="glyphicon glyphicon-calendar"></span> View Calendar</a>
+            {% elif eligible %}
                 <form id="event_form" method="post" action="">
                     {% csrf_token %}
                     <input id="enrol" type="submit" class="btn btn-primary btn-lg" value="Enrol!">
                 </form>
-            {% elif not eligible %}
-                <p> You are currently not eligible to enrol in this course.</p>
             {% else %}
-                <p> You are currently enrolled in this course. </p>
-                <a class="btn btn-primary btn-lg" href='/course/{{course.id}}/calendar/'><span class="glyphicon glyphicon-calendar"></span> View Calendar</a>
+                <p> You are currently not eligible to enrol in this course.</p>
             {% endif %}
         {% else %}
             <p>Broken link. No school with course id {{course.id}} </p>
