@@ -107,7 +107,7 @@ $(document).ready(function() {
 	for (var id in course_events) {
 		all_events = all_events.concat(course_events[id]);
 	}
-	if (courses.length) {
+	if (courses.length || school_events.length) {
 		// add links to switch calendars
 		
 		// start with all calendars and personal calendar

@@ -171,6 +171,8 @@ def view_course(request, course_id):
         relation = user_profile.courses.filter(id=course.id)[:1]
         if relation:
             enrolled = True
+        
+        is_instructor = course.creator.id == user_profile.id 
 
         if request.method == 'POST':
             #If the user wants to post, then he/she must have clicked enrol
@@ -182,7 +184,7 @@ def view_course(request, course_id):
 
         return render_to_response('school/course_view.html',
                 {'course': course, 'enrolled': enrolled,
-                'eligible':eligible},
+                    'eligible':eligible, 'is_instructor': is_instructor},
                 context)
     else:
         return render_permission_denied(context, ' view non existing course')
