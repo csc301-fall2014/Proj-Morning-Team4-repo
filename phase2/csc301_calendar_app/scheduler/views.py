@@ -52,6 +52,7 @@ def calendar_view_basic(request, owner_type, owner_id):
     context = RequestContext(request)
 
     user = request.user
+    user_profile = UserProfile.objects.get(user=user)
 
     if request.method == 'GET':
         verified_obj = verified_calendar(context, owner_type, owner_id, user)
@@ -66,7 +67,15 @@ def calendar_view_basic(request, owner_type, owner_id):
                    }
 
         if owner_type == "user":
-            profile_courses = UserProfile.objects.get(user=user).courses.all()
+            
+            # send school calendar
+            profile_school = user_profile.getSchool()
+            response_object['school'] = profile_school
+            if profile_school != None:
+                response_object['school_events'] = profile_school.cal.event_set.all()
+           
+            # send course calendars
+            profile_courses = user_profile.courses.all()
             course_calendars = []
             for course in profile_courses:
                 course_calendars.append({'course': course, 'events': course.cal.event_set.all()})
