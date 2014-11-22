@@ -52,7 +52,7 @@ INSTALLED_APPS = (
     'main',
     'scheduler',
     'school',
-    'bootstrap3_datetime'
+    'bootstrap3_datetime',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -84,9 +84,10 @@ AUTH_PROFILE_MODULE = 'main.models.UserProfile'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':  'db_name',
-        'USER' : 'db_user',
-        'PASSWORD' :'db_PW',
+        'NAME':  'csc301users',
+        'USER' : 'root',
+        'PASSWORD' :'Jeff1093',
+        'HOST' : '127.0.0.1'
     }
 }
 
