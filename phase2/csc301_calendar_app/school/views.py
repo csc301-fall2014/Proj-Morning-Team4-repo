@@ -171,8 +171,8 @@ def view_course(request, course_id):
         if relation:
             enrolled = True
         
-        is_instructor = course.creator.id == user_profile.id 
-
+        is_instructor = course.creator.id == user_profile.user.id
+    
         if request.method == 'POST':
             #If the user wants to post, then he/she must have clicked enrol
             # button in the school
