@@ -29,7 +29,7 @@ $(function(){
 	setInterval('console.log(\'some ajax call for new notifications will go here\');', 2000);
 		$('.cm-notification .close').click(function(){
 		// make call to back-end to remove this from notifications
-		$(this).parent().remove();
+		$(this).parent().parent().remove();
 	});
 });
 </script>
