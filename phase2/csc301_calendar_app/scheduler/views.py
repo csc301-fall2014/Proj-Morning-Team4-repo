@@ -43,14 +43,13 @@ def verified_calendar(context, owner_type, owner_id, user):
                     edit_priv = True
                 
             #If teacher
-            elif (course[0].creator.id == profile.id) :
+            elif (course[0].creator.id == profile.user.id) :
                 edit_priv = True
                 
             else:
                 edit_priv = False
         else:
             return render_permission_denied(context, ' access this course\'s calendar')
-
     return (calendar, edit_priv)
 
 
