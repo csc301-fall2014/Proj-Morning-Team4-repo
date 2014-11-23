@@ -33,7 +33,7 @@
             <tr>   
                 <td><b>Account type</b></td>
                 <td>
-                    {% if perms.main.create_course %}
+                    {% if is_instructor %}
                         Instructor
                     {% else %}
                         Student
@@ -67,7 +67,11 @@
                         </li>
                         {% endfor %}
                     {% else %}
+			{% if is_instructor %}
+			You're not teaching any courses.
+			{% else %}
                         You're not enrolled in any courses.
+			{% endif %}
                     {% endif %}
                     </ul>
                 </td>
@@ -78,19 +82,17 @@
             <a class="btn btn-primary btn-lg" href="/user/{{ user.id }}/calendar"><span class="glyphicon glyphicon-calendar"></span> Calendar</a>
                         <a class="btn btn-primary btn-lg" href="/school/search"><span class="glyphicon glyphicon-tower"></span>
                 {% if user_profile.school %}
-                    Switch schools
+                    Switch schools 
+            	    </a>
+            		{% if is_instructor %}
+        	    <a class="btn btn-primary btn-lg" href="/school/course/create"><span class="glyphicon glyphicon-tower"></span>Create a Course</a>
+            		{% else %}
+                    <a class="btn btn-primary btn-lg" href="/school/{{ user_profile.school.id }}"><span class="glyphicon glyphicon-tower"></span>Enrol in a Course</a>
+            {% endif %}
                 {% else %}
                     Find your school
-                {% endif %}
             </a>
-            <!-- below: the perms check is a hack for now, so we dont give "course enrol button" to instructors -->
-            {% if user_profile.school and not perms.main.create_course %}
-                <a class="btn btn-primary btn-lg" href="/school/{{ user_profile.school.id }}"><span class="glyphicon glyphicon-tower"></span>Enrol in a Course</a>
-            {% endif %}
-
-            {% if perms.main.create_course %}
-                <a class="btn btn-primary btn-lg" href="/school/course/create"><span class="glyphicon glyphicon-tower"></span>Create a Course</a>
-            {% endif %}
+                {% endif %}
           </table>
         </div>
     {% else %}
