@@ -19,6 +19,9 @@
             {% if enrolled or is_instructor %}
 	    <p> You are currently {% if is_instructor %}teaching{% else %}enrolled in{% endif %} this course. </p>
                 <a class="btn btn-primary btn-lg" href='/course/{{course.id}}/calendar/'><span class="glyphicon glyphicon-calendar"></span> View Calendar</a>
+                {% if is_instructor %}
+                    <a class="btn btn-primary btn-lg" href='/school/course/{{course.id}}/add_student_admin/'><span class="glyphicon glyphicon-user"></span> Student Admin</a>
+                {% endif %}
             {% elif eligible %}
                 <form id="event_form" method="post" action="">
                     {% csrf_token %}
