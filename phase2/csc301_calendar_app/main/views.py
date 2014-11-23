@@ -22,8 +22,14 @@ def index(request):
 
     if request.user.id:
         user_profile = UserProfile.objects.get(user=request.user.id)
+        if isinstance(user_profile, Instructor):
+            context_dict['is_instructor'] = True
+            context_dict['courses'] =  SchoolProfile.objects.get(creator=request.user.id)
+        else: 
+            context_dict['is_instructor'] = False
+            context_dict['courses'] =  user_profile.courses.all()
+            
         context_dict['user_profile'] =  user_profile
-        context_dict['courses'] =  user_profile.courses.all()
 
     return render_to_response('main/main.html', context_dict, context)
 
