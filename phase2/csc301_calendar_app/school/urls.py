@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^course/create/$', views.create_course, name='Create course'),
     url(r'^course/search/$', views.get_courses, name='Search courses'),
     url(r'^course/(?P<course_id>\w+)/$', views.view_course, name='Search courses'),
+    url(r'^course/(?P<course_id>\w+)/add_student_admin/$', views.add_student_admin, name='Add Student Admin'),
 
 
 )
