@@ -22,6 +22,19 @@
 {% endif %}
 {% endblock %}
 
+{% block js %}
+{{ block.super }}
+<script>
+$(function(){
+	setInterval('console.log(\'some ajax call for new notifications will go here\');', 2000);
+		$('.cm-notification .close').click(function(){
+		// make call to back-end to remove this from notifications
+		$(this).parent().remove();
+	});
+});
+</script>
+{% endblock %}
+
 {% block content-header %}
 {% endblock %}
 {% block content %}
@@ -63,7 +76,7 @@
                     <ul>
                         {% for course in courses %}
                         <li>
-                            <a href="/school/course/{{course.id}}">{{ course }}</a>
+                            <a href="/school/course/{{course.id}}">{{ course }} ({{ course.code }})</a>
                         </li>
                         {% endfor %}
                     {% else %}
@@ -94,6 +107,21 @@
             </a>
                 {% endif %}
           </table>
+	  <h2>Notifications <span class="badge">2</span></h2>
+	<a class="pull-right" href="#">Delete All</a>
+	<table class="table table-hover table-bordered table-striped">
+		<tbody>
+		<tr class="cm-notification"><td>
+		    Updated! <strong>CSC301</strong> Phase 1 deadline, Sept. 31, 2014. <a href="#">More details...</a>
+		    <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button>
+    </td></tr>
+		<tr class="cm-notification"><td>
+		    New! <strong>CSC301</strong> Phase 1 deadline, Sept. 30, 2014. <a href="#">More details...</a>
+		    <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button>
+    </td></tr>
+		</tbody>
+	  </table>
+	  
         </div>
     {% else %}
         <div class="col-xs-12 col-sm-4 col-sm-offset-4" id="hey-stranger">
