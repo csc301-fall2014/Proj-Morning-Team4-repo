@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from main.forms import UserForm, UserProfileForm, UserUpdateForm, UserTypeForm
 from main.models import UserProfile, Student, Instructor
 from main.utils import render_permission_denied
-from school.models import SchoolProfile
+from school.models import SchoolProfile, Course
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -21,10 +21,13 @@ def index(request):
     }
 
     if request.user.id:
-        user_profile = UserProfile.objects.get(user=request.user.id)
+        try: 
+            user_profile = Instructor.objects.get(user=request.user.id)
+        except Instructor.DoesNotExist:
+            user_profile = Student.objects.get(user=request.user.id)
         if isinstance(user_profile, Instructor):
             context_dict['is_instructor'] = True
-            context_dict['courses'] =  SchoolProfile.objects.get(creator=request.user.id)
+            context_dict['courses'] = Course.objects.filter(creator=request.user.id)
         else: 
             context_dict['is_instructor'] = False
             context_dict['courses'] =  user_profile.courses.all()
