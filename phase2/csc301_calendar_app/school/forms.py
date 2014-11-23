@@ -31,4 +31,10 @@ class StudentAdminForm(forms.ModelForm):
     class Meta:
 	model = Course
 	fields = ('student_admins',)	
-	student_admins = student_admins = forms.ModelMultipleChoiceField( queryset=Student.objects.all(), required=False)
+        student_admins = student_admins = forms.ModelMultipleChoiceField( 
+                queryset=Student.objects.all(), 
+                required=False, 
+                )
+    def __init__(self, *args, **kwargs):
+        super(StudentAdminForm, self).__init__(*args, **kwargs)
+        self.fields['student_admins'].widget.attrs['class'] = "form-control"
