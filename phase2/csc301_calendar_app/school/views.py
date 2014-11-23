@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from school.forms import SchoolProfileForm, CourseForm
+from school.forms import SchoolProfileForm, CourseForm, StudentAdminForm
 from school.models import SchoolProfile, Course
 from main.models import UserProfile
 from scheduler.models import Calendar
@@ -187,3 +187,55 @@ def view_course(request, course_id):
                 context)
     else:
         return render_permission_denied(context, ' view non existing course')
+
+@login_required
+def add_student_admin(request, course_id):
+
+    """ Add a student admin to the course belonging to the school
+       in which the instructor is enrolled in"""
+   
+    # Get the request's context.
+    context = RequestContext(request)
+    student_admin_added = False
+
+    user = request.user
+    #If has abillity to create a course then they are an instructor
+    if user.has_perm('main.create_course'):
+        school = UserProfile.objects.get(user=user).school
+        if not school:
+            return render_permission_denied(context,
+                'add admin. Enrol in a school first.')
+    else:
+        #return HttpResponse("You don't have permission to add a student admin!")
+        return render_permission_denied(context, 'add student admin')
+    
+    course = Course.objects.filter(id=int(course_id))[:1]
+    if (course):
+        course = course[0]    
+        
+     # If it's a HTTP POST, we're interested in processing form data.
+    if request.method == 'POST' and course:
+
+        # Attempt to grab information from the raw form information.
+        student_admin_form = StudentAdminForm(data=request.POST)
+        if student_admin_form.is_valid():
+            # Save the event's form data to the database.
+            student_admin = student_admin_form.cleaned_data
+            course.student_admins = student_admin['student_admins']
+            student_admin_added = True
+            
+        # Invalid form or forms - mistakes
+        # Print problems to the terminal.
+        else:
+            print student_admin_form.errors
+
+    # Not a HTTP POST, so we render our form using the EventForm.
+    # These forms will be blank, ready for user input.
+    else:
+        student_admin_form = StudentAdminForm()
+
+    # Render the template depending on the context.
+    return render_to_response(
+            'school/add_student_admin.html', {'student_admin_form': student_admin_form, 'user' : user,
+            'student_admin_added': student_admin_added, 'school': school},
+            context)
