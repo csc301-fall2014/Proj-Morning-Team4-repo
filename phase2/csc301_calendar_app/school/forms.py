@@ -16,9 +16,19 @@ class CourseForm(forms.ModelForm):
 
     class Meta:
         model = Course
-        fields = ('code', 'name', 'description')
+        fields = ('code', 'name', 'description',)
         widgets = {
         	'code': forms.TextInput(attrs={'class': 'form-control'}),
         	'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
-        }
+        }	
+	
+	
+	
+class StudentAdminForm(forms.ModelForm):
+	# to create a student admin
+
+    class Meta:
+	model = Course
+	fields = ('student_admins',)	
+	student_admins = student_admins = forms.ModelMultipleChoiceField( queryset=Student.objects.all(), required=False)
