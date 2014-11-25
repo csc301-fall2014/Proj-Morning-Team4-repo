@@ -21,7 +21,7 @@ def index(request):
     }
 
     if request.user.id:
-        profile= get_profile(request.user)
+        profile = get_profile(request.user)
         user_profile = profile[0]
         user_type = profile[1]
         
