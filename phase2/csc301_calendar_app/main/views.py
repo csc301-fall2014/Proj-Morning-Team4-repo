@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from main.forms import UserForm, UserProfileForm, UserUpdateForm, UserTypeForm
 from main.models import UserProfile, Student, Instructor
-from main.utils import render_permission_denied
+from main.utils import render_permission_denied, get_profile
 from school.models import SchoolProfile, Course
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -21,10 +21,7 @@ def index(request):
     }
 
     if request.user.id:
-        try: 
-            user_profile = Instructor.objects.get(user=request.user.id)
-        except Instructor.DoesNotExist:
-            user_profile = Student.objects.get(user=request.user.id)
+        user_profile = get_profile(request.user)
         if isinstance(user_profile, Instructor):
             context_dict['is_instructor'] = True
             context_dict['courses'] = Course.objects.filter(creator=request.user.id)
