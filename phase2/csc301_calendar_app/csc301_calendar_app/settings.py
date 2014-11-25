@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'scheduler',
     'school',
     'bootstrap3_datetime',
+    'notifications'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -86,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME':  '***REMOVED***',
         'USER' : 'root',
-        'PASSWORD' :'***REMOVED***',
+        'PASSWORD' :'1234',
         'HOST' : '127.0.0.1'
     }
 }
