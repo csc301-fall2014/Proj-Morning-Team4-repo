@@ -35,6 +35,7 @@ class StudentAdminForm(forms.ModelForm):
                 queryset=Student.objects.all(), 
                 required=False, 
                 )
-    def __init__(self, *args, **kwargs):
+    def __init__(self, course, *args, **kwargs):
         super(StudentAdminForm, self).__init__(*args, **kwargs)
         self.fields['student_admins'].widget.attrs['class'] = "form-control"
+        self.fields['student_admins'].queryset= Student.objects.filter(courses__in=[course.id])
