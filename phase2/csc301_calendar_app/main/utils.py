@@ -18,9 +18,12 @@ def render_permission_denied(context, text):
 def get_profile(user):
     try:
         user_profile = Instructor.objects.get(user=user.id)
+        user_type = 'Instructor'
     except Instructor.DoesNotExist:
         try:
             user_profile = Student.objects.get(user=user.id)
+            user_type = 'Student'
         except Student.DoesNotExist:
             user_profile = None
-    return user_profile
+            user_type = None
+    return [user_profile, user_type]
