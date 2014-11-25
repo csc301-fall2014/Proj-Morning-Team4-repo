@@ -13,7 +13,6 @@ class UserProfile(models.Model):
     school = models.ForeignKey(SchoolProfile,null=True, blank=True, on_delete=models.SET_NULL)
     courses = models.ManyToManyField(Course, blank=True)
 
-
     def __unicode__(self):
         return self.user.username
 

@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from main.models import UserProfile, Student
 from main.utils import render_permission_denied
 from school.models import Course
+from main.models import UserProfile, Student, Instructor
+from main.utils import render_permission_denied, get_profile
 from scheduler.models import Calendar, Event
 from scheduler.forms import EventForm
 import json
@@ -64,7 +66,8 @@ def calendar_view_basic(request, owner_type, owner_id):
     context = RequestContext(request)
 
     user = request.user
-    user_profile = UserProfile.objects.get(user=user)
+    profile = get_profile(user)
+    user_profile = profile[0]
 
     if request.method == 'GET':
         verified_obj = verified_calendar(context, owner_type, owner_id, user)
@@ -83,11 +86,14 @@ def calendar_view_basic(request, owner_type, owner_id):
             # send school calendar
             profile_school = user_profile.getSchool()
             response_object['school'] = profile_school
-            if profile_school != None:
+            if profile_school:
                 response_object['school_events'] = profile_school.cal.event_set.all()
-
+            
             # send course calendars
-            profile_courses = user_profile.courses.all()
+            if isinstance(user_profile, Instructor):
+                profile_courses = Course.objects.filter(creator=user.id)
+            else:
+                profile_courses = user_profile.courses.all()
             course_calendars = []
             for course in profile_courses:
                 course_calendars.append({'course': course, 'events': course.cal.event_set.all()})
