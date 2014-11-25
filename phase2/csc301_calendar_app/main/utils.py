@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render
+from models import Instructor, UserProfile, Student
 
 ''' 
 	Return a response with a template that describes a 401 permission error.
@@ -13,4 +14,16 @@ def render_permission_denied(context, text):
 	context['access'] = text
 	return HttpResponse(template.render(context), status=401)
 
-	
+
+def get_profile(user):
+    try:
+        user_profile = Instructor.objects.get(user=user.id)
+        user_type = 'Instructor'
+    except Instructor.DoesNotExist:
+        try:
+            user_profile = Student.objects.get(user=user.id)
+            user_type = 'Student'
+        except Student.DoesNotExist:
+            user_profile = None
+            user_type = None
+    return [user_profile, user_type]
