@@ -235,7 +235,7 @@ def add_student_admin(request, course_id):
     # Not a HTTP POST, so we render our form using the EventForm.
     # These forms will be blank, ready for user input.
     else:
-        student_admin_form = StudentAdminForm()
+        student_admin_form = StudentAdminForm(course)
 
     # Render the template depending on the context.
     return render_to_response(
