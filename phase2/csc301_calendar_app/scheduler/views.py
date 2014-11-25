@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from main.models import UserProfile, Student
 from main.utils import render_permission_denied
+from school.models import Course
 from scheduler.models import Calendar, Event
 from scheduler.forms import EventForm
 import json
@@ -34,22 +35,22 @@ def verified_calendar(context, owner_type, owner_id, user):
         course = profile.courses.filter(id=int(owner_id))[:1]
         # If the user is enrolled in a course and the school
         if course and course[0].school.id == profile.school.id:
-            calendar = course[0].cal      
-            
+            calendar = course[0].cal
+
             #If student
             if (Student.objects.filter(user=user)):
                 edit_priv = False
                 if (course[0].student_admins.filter(id=int(profile.id))):
                     edit_priv = True
-                
-            #If teacher
-            elif (course[0].creator.id == profile.user.id) :
-                edit_priv = True
-                
-            else:
-                edit_priv = False
         else:
-            return render_permission_denied(context, ' access this course\'s calendar')
+            course = Course.objects.filter(id=int(owner_id))[:1]
+            #If teacher
+            if (course and course[0].creator.id == profile.user.id and
+                                    course[0].school.id == profile.school.id) :
+                edit_priv = True
+                calendar = course[0].cal
+            else:
+                return render_permission_denied(context, ' access this course\'s calendar')
     return (calendar, edit_priv)
 
 
@@ -78,13 +79,13 @@ def calendar_view_basic(request, owner_type, owner_id):
                    }
 
         if owner_type == "user":
-            
+
             # send school calendar
             profile_school = user_profile.getSchool()
             response_object['school'] = profile_school
             if profile_school != None:
                 response_object['school_events'] = profile_school.cal.event_set.all()
-           
+
             # send course calendars
             profile_courses = user_profile.courses.all()
             course_calendars = []
