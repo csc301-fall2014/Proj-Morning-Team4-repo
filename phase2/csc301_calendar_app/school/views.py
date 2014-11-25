@@ -10,7 +10,7 @@ from school.forms import SchoolProfileForm, CourseForm, StudentAdminForm
 from school.models import SchoolProfile, Course
 from main.models import UserProfile
 from scheduler.models import Calendar
-from main.utils import render_permission_denied
+from main.utils import render_permission_denied, get_profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -82,7 +82,9 @@ def create_course(request):
     course_added = False
 
     user = request.user
-    if user.has_perm('main.create_course'):
+    profile = get_profile(user)
+
+    if 'Instructor' in profile[1]:
         school = UserProfile.objects.get(user=user).school
         if not school:
             return render_permission_denied(context,
@@ -199,8 +201,9 @@ def add_student_admin(request, course_id):
     student_admin_added = False
 
     user = request.user
+    profile = get_profile(user)
     #If has abillity to create a course then they are an instructor
-    if user.has_perm('main.create_course'):
+    if 'Instructor' in profile[1]:
         school = UserProfile.objects.get(user=user).school
         if not school:
             return render_permission_denied(context,
