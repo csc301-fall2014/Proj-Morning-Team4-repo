@@ -66,7 +66,8 @@ def calendar_view_basic(request, owner_type, owner_id):
     context = RequestContext(request)
 
     user = request.user
-    user_profile = get_profile(user)
+    profile = get_profile(user)
+    user_profile = profile[0]
 
     if request.method == 'GET':
         verified_obj = verified_calendar(context, owner_type, owner_id, user)

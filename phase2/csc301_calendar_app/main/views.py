@@ -21,8 +21,11 @@ def index(request):
     }
 
     if request.user.id:
-        user_profile = get_profile(request.user)
-        if isinstance(user_profile, Instructor):
+        profile= get_profile(request.user)
+        user_profile = profile[0]
+        user_type = profile[1]
+        
+        if 'Instructor' in user_type:
             context_dict['is_instructor'] = True
             context_dict['courses'] = Course.objects.filter(creator=request.user.id)
         else: 
