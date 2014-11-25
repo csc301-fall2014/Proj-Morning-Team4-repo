@@ -6,6 +6,7 @@ from main.models import UserProfile, Student
 from main.utils import render_permission_denied
 from scheduler.models import Calendar, Event
 from scheduler.forms import EventForm
+from scheduler.signals import *
 import json
 
 def verified_calendar(context, owner_type, owner_id, user):
@@ -34,18 +35,18 @@ def verified_calendar(context, owner_type, owner_id, user):
         course = profile.courses.filter(id=int(owner_id))[:1]
         # If the user is enrolled in a course and the school
         if course and course[0].school.id == profile.school.id:
-            calendar = course[0].cal      
-            
+            calendar = course[0].cal
+
             #If student
             if (Student.objects.filter(user=user)):
                 edit_priv = False
                 if (course[0].student_admins.filter(id=int(profile.id))):
                     edit_priv = True
-                
+
             #If teacher
             elif (course[0].creator.id == profile.user.id) :
                 edit_priv = True
-                
+
             else:
                 edit_priv = False
         else:
@@ -78,13 +79,13 @@ def calendar_view_basic(request, owner_type, owner_id):
                    }
 
         if owner_type == "user":
-            
+
             # send school calendar
             profile_school = user_profile.getSchool()
             response_object['school'] = profile_school
             if profile_school != None:
                 response_object['school_events'] = profile_school.cal.event_set.all()
-           
+
             # send course calendars
             profile_courses = user_profile.courses.all()
             course_calendars = []
@@ -127,6 +128,8 @@ def add_event(request, owner_type, owner_id):
             event.save()
 
             event_added = True
+
+            created_event.send(sender=None, owner_type=owner_type, owner_id=owner_id,user=user)
         # Invalid form or forms - mistakes or something else?
         # Print problems to the terminal.
         # They'll also be shown to the user.
