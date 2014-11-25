@@ -4,9 +4,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from main.models import UserProfile, Student
 from main.utils import render_permission_denied
+from school.models import Course
 from scheduler.models import Calendar, Event
 from scheduler.forms import EventForm
-from scheduler.signals import *
+from notifications.signals import *
 import json
 
 def verified_calendar(context, owner_type, owner_id, user):
@@ -42,15 +43,14 @@ def verified_calendar(context, owner_type, owner_id, user):
                 edit_priv = False
                 if (course[0].student_admins.filter(id=int(profile.id))):
                     edit_priv = True
-
-            #If teacher
-            elif (course[0].creator.id == profile.user.id) :
-                edit_priv = True
-
-            else:
-                edit_priv = False
         else:
-            return render_permission_denied(context, ' access this course\'s calendar')
+            course = Course.objects.filter(id=int(owner_id))[:1]
+            #If teacher
+            if course and course[0].creator.id == profile.user.id:
+                edit_priv = True
+                calendar = course[0].cal
+            else:
+                return render_permission_denied(context, ' access this course\'s calendar')
     return (calendar, edit_priv)
 
 
