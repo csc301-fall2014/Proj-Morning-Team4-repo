@@ -1,0 +1,24 @@
+{% extends "page.html" %}
+
+{% block content %}
+
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+        <h2>Student Admin Requests</h2>
+
+            {% if student_admin_added %}
+                <strong>You have sucessfully created a student admin!</strong>
+                <a href="/">Return to the homepage.</a><br />
+            {% else %}
+                <form id="student_admin_form" method="post" action="">
+
+                    {% csrf_token %}
+
+                    {{ student_admin_form.as_p }}
+
+                    <input class="btn btn-primary btn-lg" type="submit" value="Add Student Admin" />
+                <a  class="btn btn-primary btn-lg" href="/">Cancel</a>
+                </form>
+            {% endif %}
+            
+    </div>
+{% endblock %}
