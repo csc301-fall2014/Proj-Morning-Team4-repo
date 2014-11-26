@@ -2,11 +2,9 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from main.models import UserProfile, Student
-from main.utils import render_permission_denied
-from school.models import Course
 from main.models import UserProfile, Student, Instructor
 from main.utils import render_permission_denied, get_profile
+from school.models import Course
 from scheduler.models import Calendar, Event
 from scheduler.forms import EventForm
 from notifications.signals import *
