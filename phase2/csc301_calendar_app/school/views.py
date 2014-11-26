@@ -220,13 +220,12 @@ def add_student_admin(request, course_id):
     if request.method == 'POST' and course:
 
         # Attempt to grab information from the raw form information.
-        student_admin_form = StudentAdminForm(data=request.POST)
+        student_admin_form = StudentAdminForm(course, data=request.POST)
         if student_admin_form.is_valid():
             # Save the event's form data to the database.
             student_admin = student_admin_form.cleaned_data
             course.student_admins = student_admin['student_admins']
             student_admin_added = True
-            
 
         # Invalid form or forms - mistakes
         # Print problems to the terminal.
@@ -236,7 +235,7 @@ def add_student_admin(request, course_id):
     # Not a HTTP POST, so we render our form using the EventForm.
     # These forms will be blank, ready for user input.
     else:
-        student_admin_form = StudentAdminForm()
+        student_admin_form = StudentAdminForm(course)
 
     # Render the template depending on the context.
     return render_to_response(
