@@ -88,7 +88,7 @@ def calendar_view_basic(request, owner_type, owner_id):
             response_object['school'] = profile_school
             if profile_school:
                 response_object['school_events'] = profile_school.cal.event_set.all()
-            
+
             # send course calendars
             if isinstance(user_profile, Instructor):
                 profile_courses = Course.objects.filter(creator=user.id)
@@ -135,7 +135,11 @@ def add_event(request, owner_type, owner_id):
 
             event_added = True
 
-            created_event.send(sender=None, owner_type=owner_type, owner_id=owner_id,user=user)
+            #notify the subscribers
+            created_event.send(sender=None, owner_type=owner_type, owner_id=owner_id,
+                                        event=event, user=user)
+
+
         # Invalid form or forms - mistakes or something else?
         # Print problems to the terminal.
         # They'll also be shown to the user.
@@ -152,6 +156,9 @@ def add_event(request, owner_type, owner_id):
             'scheduler/add_event.html', {'event_form': event_form, 'user' : user,
             'event_added': event_added},
             context)
+
+
+
 
 @login_required
 def view_event(request, owner_type, owner_id, event_id):
@@ -214,6 +221,10 @@ def update_event(request, owner_type, owner_id, event_id):
             e = event_form.save(commit=False)
             e.save()
             event_added = True
+            #notify the subscribers
+            updated_event.send(sender=None, owner_type=owner_type, owner_id=owner_id,
+                                        event=event, user=user)
+
     else:
         event_form = EventForm(instance=event)
 
