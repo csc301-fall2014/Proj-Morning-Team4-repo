@@ -11,6 +11,8 @@ urlpatterns = patterns('',
     url(r'^course/search/$', views.get_courses, name='Search courses'),
     url(r'^course/(?P<course_id>\w+)/$', views.view_course, name='Search courses'),
     url(r'^course/(?P<course_id>\w+)/add_student_admin/$', views.add_student_admin, name='Add Student Admin'),
+    url(r'^course/(?P<course_id>\w+)/accept_student_admin/(?P<student_id>\w+)$', views.accept_student_admin, name='Accept Student Admin'),
+    url(r'^course/(?P<course_id>\w+)/request_student_admin/(?P<student_id>\w+)$', views.request_student_admin, name='Request Student Admin'),
 
 
 )

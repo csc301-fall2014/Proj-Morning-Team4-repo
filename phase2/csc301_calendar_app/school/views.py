@@ -8,11 +8,13 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from school.forms import SchoolProfileForm, CourseForm, StudentAdminForm
 from school.models import SchoolProfile, Course
-from main.models import UserProfile
+from main.models import UserProfile, Student
 from scheduler.models import Calendar
 from main.utils import render_permission_denied, get_profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+
+from notifications.signals import *
 
 @login_required
 def get_schools(request):
@@ -226,6 +228,8 @@ def add_student_admin(request, course_id):
             student_admin = student_admin_form.cleaned_data
             course.student_admins = student_admin['student_admins']
             student_admin_added = True
+            school_admins_added.send(sender=None, owner_type='course', owner_id=course_id,
+                                        students=course.student_admins, user=None)
 
         # Invalid form or forms - mistakes
         # Print problems to the terminal.
@@ -242,3 +246,22 @@ def add_student_admin(request, course_id):
             'school/add_student_admin.html', {'student_admin_form': student_admin_form, 'user' : user,
             'student_admin_added': student_admin_added, 'school': school},
             context)
+
+
+@login_required
+def accept_student_admin(request, course_id, student_id):
+    student = Student.objects.filter(user__id=student_id)
+
+    if student:
+        admin_request_accepted.send(sender=None, owner_type='course', owner_id=course_id,
+                                    student=student[0].user, user=student[0].user)
+
+
+
+@login_required
+def request_student_admin(request, course_id, student_id):
+    student = Student.objects.filter(user__id=student_id)
+
+    if student:
+        admin_requested.send(sender=None, owner_type='course', owner_id=course_id,
+                                student=student[0].user, user=None)

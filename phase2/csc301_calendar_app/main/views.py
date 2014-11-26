@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from main.forms import UserForm, UserProfileForm, UserUpdateForm, UserTypeForm
 from main.models import UserProfile, Student, Instructor
-from main.utils import render_permission_denied, get_profile, get_owner_definition
+from main.utils import render_permission_denied, get_profile
 from school.models import SchoolProfile, Course
 from scheduler.models import Calendar
 from notifications.models import Notification
@@ -210,6 +210,29 @@ def event_notifications(request):
                     "event_id"  : notification.content_object.id,
                     "event_name": notification.content_object.name,
                     'event_date': notification.content_object.start.strftime('%a. %b. %d, %I:%M %p')}
+
+        result.append(notif)
+
+    return HttpResponse(simplejson.dumps(result), content_type='application/json')
+
+@login_required
+def instructor_admin_requests(request):
+
+    context = RequestContext(request)
+    result = []
+
+    # All event notifications for current user
+    notifications = Notification.objects.filter(user__id=request.user.id,
+                                        notification_type__contains='requested_admin')
+    for notification in notifications:
+
+        notif = {   'notify_id' : notification.id,
+                    'type'      : notification.notification_type,
+                    'owner_type': notification.owner_type,
+                    'owner_name': notification.owner_name,
+                    'owner_id'  : notification.owner_id,
+                    "event_id"  : notification.content_object.id,
+                    "event_name": notification.content_object.username}
 
         result.append(notif)
 
