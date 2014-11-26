@@ -8,6 +8,10 @@ from main.models import UserProfile
 created_event = Signal(providing_args=["event", "owner_type", "owner_id", "user"])
 updated_event = Signal(providing_args=["event", "owner_type", "owner_id", "user"])
 
+admin_requested = Signal(providing_args=["student", "owner_type", "owner_id", "user"])
+admin_request_accepted = Signal(providing_args=["student", "owner_type", "owner_id", "user"])
+course_admins_added = Signal(providing_args=["students", "owner_type", "owner_id", "user"])
+
 
 def send_event_notifications(notification_type, owner_type, owner_id, event, user):
     # For an event, we see who the event belongs to.
@@ -73,3 +77,59 @@ def create_updated_event_notification(sender, **kwargs):
                             owner_id=kwargs.get("owner_id"),
                             event=kwargs.get("event"),
                             user=kwargs.get("user"))
+
+@receiver(admin_request_accepted)
+def create_student_admin_acceptance_notifications(sender, **kwargs):
+
+    notification = "accepted_admin"
+    owner_type=kwargs.get("owner_type")
+    owner_id=int(kwargs.get("owner_id"))
+    student=kwargs.get("student")
+    user=kwargs.get("user")
+
+    course = Course.objects.filter(id=owner_id)
+
+    if student and course:
+        Notification.objects.create(notification_type=notification,
+                                content_object = student,
+                                owner_type=owner_type,
+                                owner_id=owner_id,
+                                owner_name=course[0].code,
+                                user=student.user)
+
+@receiver(course_admins_added)
+def create_student_admin_acceptance_notifications(sender, **kwargs):
+
+    notification = "added_admin"
+    owner_type=kwargs.get("owner_type")
+    owner_id=int(kwargs.get("owner_id"))
+    students=kwargs.get("students")
+    user=kwargs.get("user")
+
+    course = Course.objects.filter(id=owner_id)
+
+    for student in students:
+        Notification.objects.create(notification_type=notification,
+                                content_object = student,
+                                owner_type=owner_type,
+                                owner_id=owner_id,
+                                owner_name=course[0].code,
+                                user=student.user)
+
+@receiver(admin_requested)
+def create_instructor_admin_request_notifications(sender, **kwargs):
+    notification = "requested_admin"
+    owner_type=kwargs.get("owner_type")
+    owner_id=int(kwargs.get("owner_id"))
+    student=kwargs.get("student")
+    user=kwargs.get("user")
+
+    course = Course.objects.filter(id=owner_id)
+
+    if student and course:
+        Notification.objects.create(notification_type=notification,
+                                content_object = student,
+                                owner_type=owner_type,
+                                owner_id=owner_id,
+                                owner_name=course[0].code,
+                                user=course[0].creator)
