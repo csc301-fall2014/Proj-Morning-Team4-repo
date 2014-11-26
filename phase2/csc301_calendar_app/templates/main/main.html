@@ -4,20 +4,20 @@
 {{ block.super }}
 {% if not user.is_authenticated %}
 <style>
-    body {
-      /* fallback */
-      background-color: #DCEDC8;
-      /* Safari 4-5, Chrome 1-9 */
-      background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#DCEDC8), to(#ECEFF1));
-      /* Safari 5.1, Chrome 10+ */
-      background: -webkit-linear-gradient(top, #ECEFF1, #DCEDC8);
-      /* Firefox 3.6+ */
-      background: -moz-linear-gradient(top, #ECEFF1, #DCEDC8);
-      /* IE 10 */
-      background: -ms-linear-gradient(top, #ECEFF1, #DCEDC8);
-      /* Opera 11.10+ */
-      background: -o-linear-gradient(top, #ECEFF1, #DCEDC8);
-    }
+body {
+	/* fallback */
+	background-color: #DCEDC8;
+	/* Safari 4-5, Chrome 1-9 */
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#DCEDC8), to(#ECEFF1));
+	/* Safari 5.1, Chrome 10+ */
+	background: -webkit-linear-gradient(top, #ECEFF1, #DCEDC8);
+	/* Firefox 3.6+ */
+	background: -moz-linear-gradient(top, #ECEFF1, #DCEDC8);
+	/* IE 10 */
+	background: -ms-linear-gradient(top, #ECEFF1, #DCEDC8);
+	/* Opera 11.10+ */
+	background: -o-linear-gradient(top, #ECEFF1, #DCEDC8);
+}
 </style>
 {% endif %}
 {% endblock %}
@@ -25,121 +25,238 @@
 {% block js %}
 {{ block.super }}
 <script>
-$(function(){
-	setInterval('console.log(\'some ajax call for new notifications will go here\');', 2000);
-		$('.cm-notification .close').click(function(){
-		// make call to back-end to remove this from notifications
-		$(this).parent().parent().remove();
+// TODO: add these URLS
+var NOTIFICATIONS_GET_URL = "";
+var NOTIFICATIONS_DELETE_URL = "";
+
+/**
+ * Given an array A and an array B, return a list of items that exist in A
+ * but not in B.
+ */
+function diff(A, B) {
+	var difference = [];
+	jQuery.grep(A, function(el) {
+			if (jQuery.inArray(el, B) == -1) difference.push(el);
+			});
+	return difference;
+}
+
+/**
+ * Given a string s, return s such that the first letter is capitalized
+ */
+function capitalize(s) {
+	return s.replace(/^[a-z]/, function(m){ return m.toUpperCase()}); 
+}
+
+/**
+ * Given a notification JSON, return the HTML for them to be inserted as a 
+ * row in the notifications table. 
+ */
+function notificationJSONToHTML(json){
+	{% if is_instructor %}
+	return '<tr id="notif-' + json.notify_id + 
+		'" class="cm-notification"><td>Student Admin Request: ' + 
+		'<strong> <a href="/course/"' + json.course_id  + '">' +
+		json.course_code + '</a></strong> '  + 
+		json.student_username + '; ' +  
+		' <a href="' +  '/course/' + json.course_id + '/add_student_admin/' + 
+		json.student_id + '">Accept</a>' + 
+		'<button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button></td></tr>';
+	{% else %}
+	return '<tr id="notif-' + json.notify_id + 
+		'" class="cm-notification"><td>' + capitalize(json.type) + 
+		'!<strong> ' + json.course_code + '</strong> '  + 
+		json.event_name + '; ' + 
+		json.event_date + 
+		' <a href="' +  '/course/' + json.course_id + '/calendar/event/' + 
+		json.event_id + '">More details...</a>' + 
+		'<button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button></td></tr>';
+	{% endif %}	
+}
+
+/**
+ * Given a notification JSON, parse to HTML and insert into the DOM with
+ * the given selector. 
+ */
+function addToNotificationTable(table_selector, json) {
+	$(table_selector).prepend(notificationJSONToHTML(json));
+	$('#notif-' + json.notify_id + ' .close').click(function() {
+			// send [json.notify_id] to delete url
+			if (true) $(this).parent().parent().remove();
+			});
+}
+
+/** 
+ * Send a delete to the URL given with the given notification ID's. Return true
+ * on success, false otherwise. TODO
+ */
+function sendDelete(url, id_list) {
+	var data = JSON.stringify(id_list);
+	$.ajax({
+		url: url,
+		type: 'DELETE',
+		data: data,
+		error: function() { return; }
 	});
-});
+}
+
+/**
+ * Call the notifications get url to obtain the notifications. Then parse and
+ * display them. TODO
+ */
+function getAndParseNotifications() {
+	$.get(NOTIFICATIONS_GET_URL)
+		.success(function (data) {
+			all_notifications = JSON.parse(data);
+			if (all_notifications.length){
+				new_notifications = diff(all_notifications, notifications);
+				notifications = all_notifications;
+				parseNotifications(new_notifications);
+			}
+			})
+		.error(function() {
+			alert("Something went wrong in getting your notifications");
+			});
+	$('#notifications-count').html(notifications.length);
+}
+
+function parseNotifications(notifications){
+	for (var i = 0; i < notifications.length; i++){
+		addToNotificationTable('#notifications-table tbody', notifications[i]);
+	}
+}
+
+function deleteAll(){
+	var notification_ids = [];
+	for (var i = 0; i < notifications.length; i++) {
+		notification_ids.push(notifications[i].notify_id);
+	}
+	if (sendDelete(NOTIFICATIONS_DELETE_URL, notification_ids)){
+		// empty JS list of notifications
+		notifications = [];
+		// empty the notifications table in DOM
+		$('#notifications-table tbody').empty();
+		$('#notifications-count').html('');
+	}
+
+
+
+}
+
+var notifications = [
+{
+	"notify_id": "0", 
+		"type": "new", 
+		"course_id": "2", 
+		"course_code": "CSC301", 
+		"event_id": "5", 
+		"event_name": "Design Pattern Presentation", 
+		"event_date": "Mon. Nov. 24, 2014, 10:00 AM"
+}];
+$(function(){
+		//setInterval('getAndParseNotifications()', 2000);
+		$('#delete-all').click(deleteAll);
+		});
 </script>
 {% endblock %}
 
 {% block content-header %}
 {% endblock %}
 {% block content %}
-    {% if user.is_authenticated %}
-        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-        <h1>{{ user_profile.nickname }}</h1>
-        <table class="table table-striped table-bordered table-responsive" id="user-profile-info">
-        <tbody>
-            <tr>   
-                <td><b>Account type</b></td>
-                <td>
-                    {% if is_instructor %}
-                        Instructor
-                    {% else %}
-                        Student
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <td><b>E-mail address</b></td><td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <td><b>Username</b></td><td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <td><b>My School</b></td>
-                <td>
-                    {% if user_profile.school %}
-                        <a href="/school/{{ user_profile.school.id }}">{{ user_profile.school }}</a>
-                    {% else %}
-                        You're not enrolled in a school.
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <td><b>My Courses</b></td>
-                <td>
-                    {% if courses %}
-                    <ul>
-                        {% for course in courses %}
-                        <li>
-                            <a href="/school/course/{{course.id}}">{{ course }} ({{ course.code }})</a>
-                        </li>
-                        {% endfor %}
-                    {% else %}
-			{% if is_instructor %}
-			You're not teaching any courses.
-			{% else %}
-                        You're not enrolled in any courses.
-			{% endif %}
-                    {% endif %}
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-        </table>
-            <a class="btn btn-primary btn-lg" href="/edit-profile"><span class="glyphicon glyphicon-pencil"></span>Edit Profile</a>
-            <a class="btn btn-primary btn-lg" href="/user/{{ user.id }}/calendar"><span class="glyphicon glyphicon-calendar"></span> Calendar</a>
-                        <a class="btn btn-primary btn-lg" href="/school/search"><span class="glyphicon glyphicon-tower"></span>
-                {% if user_profile.school %}
-                    Switch schools 
-            	    </a>
-            		{% if is_instructor %}
-        	    <a class="btn btn-primary btn-lg" href="/school/course/create"><span class="glyphicon glyphicon-tower"></span>Create a Course</a>
-            		{% else %}
-                    <a class="btn btn-primary btn-lg" href="/school/{{ user_profile.school.id }}"><span class="glyphicon glyphicon-tower"></span>Enrol in a Course</a>
-            {% endif %}
-                {% else %}
-                    Find your school
-            </a>
-                {% endif %}
-          </table>
-	  <h2>Notifications <span class="badge">2</span></h2>
-	<a class="pull-right" href="#">Delete All</a>
-	<table class="table table-hover table-bordered table-striped">
+{% if user.is_authenticated %}
+<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+	<h1>{{ user_profile.nickname }}</h1>
+	<table class="table table-striped table-bordered table-responsive" id="user-profile-info">
 		<tbody>
-		<tr class="cm-notification"><td>
-		    Updated! <strong>CSC301</strong> Phase 1 deadline, Sept. 31, 2014. <a href="#">More details...</a>
-		    <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button>
-    </td></tr>
-		<tr class="cm-notification"><td>
-		    New! <strong>CSC301</strong> Phase 1 deadline, Sept. 30, 2014. <a href="#">More details...</a>
-		    <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button>
-    </td></tr>
+		<tr>   
+			<td><b>Account type</b></td>
+			<td>
+				{% if is_instructor %}
+				Instructor
+				{% else %}
+				Student
+				{% endif %}
+			</td>
+		</tr>
+		<tr>
+			<td><b>E-mail address</b></td><td>{{ user.email }}</td>
+		</tr>
+		<tr>
+			<td><b>Username</b></td><td>{{ user.username }}</td>
+		</tr>
+		<tr>
+			<td><b>My School</b></td>
+			<td>
+				{% if user_profile.school %}
+				<a href="/school/{{ user_profile.school.id }}">{{ user_profile.school }}</a>
+				{% else %}
+				You're not enrolled in a school.
+				{% endif %}
+			</td>
+		</tr>
+		<tr>
+			<td><b>My Courses</b></td>
+			<td>
+				{% if courses %}
+				<ul>
+					{% for course in courses %}
+					<li>
+					<a href="/school/course/{{course.id}}">{{ course }} ({{ course.code }})</a>
+					</li>
+					{% endfor %}
+					{% else %}
+					{% if is_instructor %}
+					You're not teaching any courses.
+					{% else %}
+					You're not enrolled in any courses.
+					{% endif %}
+					{% endif %}
+				</ul>
+			</td>
+		</tr>
 		</tbody>
+	</table>
+	<a class="btn btn-primary btn-lg" href="/edit-profile"><span class="glyphicon glyphicon-pencil"></span>Edit Profile</a>
+	<a class="btn btn-primary btn-lg" href="/user/{{ user.id }}/calendar"><span class="glyphicon glyphicon-calendar"></span> Calendar</a>
+	<a class="btn btn-primary btn-lg" href="/school/search"><span class="glyphicon glyphicon-tower"></span>
+		{% if user_profile.school %}
+		Switch schools 
+	</a>
+	{% if is_instructor %}
+	<a class="btn btn-primary btn-lg" href="/school/course/create"><span class="glyphicon glyphicon-tower"></span>Create a Course</a>
+	{% else %}
+	<a class="btn btn-primary btn-lg" href="/school/{{ user_profile.school.id }}"><span class="glyphicon glyphicon-tower"></span>Enrol in a Course</a>
+	{% endif %}
+	{% else %}
+	Find your school
+</a>
+{% endif %}
 	  </table>
-	  
-        </div>
+	  <h2>Notifications <span id="notifications-count" class="badge"></span></h2>
+	<a class="pull-right" id="delete-all" href="#">Delete All</a>
+	<table id="notifications-table" class="table table-hover table-bordered table-striped">
+<tbody>
+</tbody>
+	  </table>
+
+	</div>
     {% else %}
-        <div class="col-xs-12 col-sm-4 col-sm-offset-4" id="hey-stranger">
-            <h1>Hey Stranger! </h1>
-            <p>We noticed you're not logged in. You have two options here:</p>
-            <div class="text-center">
-            <a class="btn btn-primary btn-lg" href="/register">
-                <span class="glyphicon glyphicon-thumbs-up"></span> Register
-            </a>
-            </div>
+	<div class="col-xs-12 col-sm-4 col-sm-offset-4" id="hey-stranger">
+	    <h1>Hey Stranger! </h1>
+	    <p>We noticed you're not logged in. You have two options here:</p>
+	    <div class="text-center">
+<a class="btn btn-primary btn-lg" href="/register">
+	<span class="glyphicon glyphicon-thumbs-up"></span> Register
+</a>
+	    </div>
 
-            <hr>
+	    <hr>
 
-            <p class="text-center">
-            <a class="btn btn-primary btn-lg" href="/login">
-                <span class="glyphicon glyphicon-log-in"></span> Login
-            </a>
-            </p>
-        </div>
+	    <p class="text-center">
+	    <a class="btn btn-primary btn-lg" href="/login">
+<span class="glyphicon glyphicon-log-in"></span> Login
+	    </a>
+	    </p>
+	</div>
     {% endif %}
 {% endblock %}
