@@ -25,6 +25,7 @@ body {
 {% block js %}
 {{ block.super }}
 <script>
+// TODO: add these URLS
 var NOTIFICATIONS_GET_URL = "";
 var NOTIFICATIONS_DELETE_URL = "";
 
@@ -50,9 +51,18 @@ function capitalize(s) {
 /**
  * Given a notification JSON, return the HTML for them to be inserted as a 
  * row in the notifications table. 
- * Note: for student notifications.
  */
 function notificationJSONToHTML(json){
+	{% if is_instructor %}
+	return '<tr id="notif-' + json.notify_id + 
+		'" class="cm-notification"><td>Student Admin Request: ' + 
+		'<strong> <a href="/course/"' + json.course_id  + '">' +
+		json.course_code + '</a></strong> '  + 
+		json.student_username + '; ' +  
+		' <a href="' +  '/course/' + json.course_id + '/add_student_admin/' + 
+		json.student_id + '">Accept</a>' + 
+		'<button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button></td></tr>';
+	{% else %}
 	return '<tr id="notif-' + json.notify_id + 
 		'" class="cm-notification"><td>' + capitalize(json.type) + 
 		'!<strong> ' + json.course_code + '</strong> '  + 
@@ -61,6 +71,7 @@ function notificationJSONToHTML(json){
 		' <a href="' +  '/course/' + json.course_id + '/calendar/event/' + 
 		json.event_id + '">More details...</a>' + 
 		'<button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button></td></tr>';
+	{% endif %}	
 }
 
 /**
@@ -80,11 +91,13 @@ function addToNotificationTable(table_selector, json) {
  * on success, false otherwise. TODO
  */
 function sendDelete(url, id_list) {
+	var data = JSON.stringify(id_list);
 	$.ajax({
-url: url,
-type: 'DELETE',
-error: function() {alert();}
-});
+		url: url,
+		type: 'DELETE',
+		data: data,
+		error: function() { return; }
+	});
 }
 
 /**
@@ -92,14 +105,18 @@ error: function() {alert();}
  * display them. TODO
  */
 function getAndParseNotifications() {
-	$.get(NOTIFICATIONS_GET_URL).success(function (data) {
-			all_notifications = JSON.stringify(data);
-			new_notifications = diff(all_notifications, notifications);
-			notifications = all_notifications;
-			parseNotifications(new_notifications);
-			}).error(function() {
-				notifications = [];
-				});
+	$.get(NOTIFICATIONS_GET_URL)
+		.success(function (data) {
+			all_notifications = JSON.parse(data);
+			if (all_notifications.length){
+				new_notifications = diff(all_notifications, notifications);
+				notifications = all_notifications;
+				parseNotifications(new_notifications);
+			}
+			})
+		.error(function() {
+			alert("Something went wrong in getting your notifications");
+			});
 	$('#notifications-count').html(notifications.length);
 }
 
@@ -107,6 +124,23 @@ function parseNotifications(notifications){
 	for (var i = 0; i < notifications.length; i++){
 		addToNotificationTable('#notifications-table tbody', notifications[i]);
 	}
+}
+
+function deleteAll(){
+	var notification_ids = [];
+	for (var i = 0; i < notifications.length; i++) {
+		notification_ids.push(notifications[i].notify_id);
+	}
+	if (sendDelete(NOTIFICATIONS_DELETE_URL, notification_ids)){
+		// empty JS list of notifications
+		notifications = [];
+		// empty the notifications table in DOM
+		$('#notifications-table tbody').empty();
+		$('#notifications-count').html('');
+	}
+
+
+
 }
 
 var notifications = [
@@ -121,6 +155,7 @@ var notifications = [
 }];
 $(function(){
 		//setInterval('getAndParseNotifications()', 2000);
+		$('#delete-all').click(deleteAll);
 		});
 </script>
 {% endblock %}
