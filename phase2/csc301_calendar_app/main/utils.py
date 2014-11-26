@@ -28,29 +28,3 @@ def get_profile(user):
             user_profile = None
             user_type = None
     return [user_profile, user_type]
-
-def get_owner_definition(request, owner_type, owner_id):
-	owner_id = int(owner_id)
-	if 'course' in owner_type:
-		owner = Course.objects.filter(id = owner_id)
-		if owner:
-			owner_name = owner[0].code
-		owner_type = "course"
-	elif 'school' in owner_type:
-		owner = SchoolProfile.objects.filter(id = owner_id)
-		if owner:
-			owner_name = owner[0].name
-		owner_type = "school"
-	elif 'user' in owner_type:
-		owner = User.objects.filter(id = owner_id)
-		if owner:
-			owner_name = "Personal"
-		owner_type = "user"
-	else:
-		owner = ""
-
-
-	if (owner and owner != ""):
-		return [owner[0], owner_type, owner_name]
-	else:
-		return ["", "", ""]
