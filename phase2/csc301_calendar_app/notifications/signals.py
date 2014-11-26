@@ -89,16 +89,31 @@ def create_student_admin_acceptance_notifications(sender, **kwargs):
 
     course = Course.objects.filter(id=owner_id)
 
-    if student and course:
+    # we need to delete the student admin request notification for the instructor
+    request_notif = Notification.objects.filter(notification_type="requested_admin",
+                                    object_id=student.id,
+                                    owner_type=owner_type,
+                                    owner_id=owner_id)
+    if request_notif:
+        request_notif.delete()
+
+    # The query to see if the notification already exist
+    new_notif = request_notif = Notification.objects.filter(notification_type=notification,
+                                    object_id=student.id,
+                                    owner_type=owner_type,
+                                    owner_id=owner_id,
+                                    user=student)
+
+    if not new_notif and student and course:
         Notification.objects.create(notification_type=notification,
                                 content_object = student,
                                 owner_type=owner_type,
                                 owner_id=owner_id,
                                 owner_name=course[0].code,
-                                user=student.user)
+                                user=student)
 
 @receiver(course_admins_added)
-def create_student_admin_acceptance_notifications(sender, **kwargs):
+def create_student_admin_added_notifications(sender, **kwargs):
 
     notification = "added_admin"
     owner_type=kwargs.get("owner_type")

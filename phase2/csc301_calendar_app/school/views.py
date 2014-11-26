@@ -4,7 +4,7 @@ from django.shortcuts import render
 #from django.shortcuts import render
 # Create your views here.
 from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from school.forms import SchoolProfileForm, CourseForm, StudentAdminForm
 from school.models import SchoolProfile, Course
@@ -250,12 +250,25 @@ def add_student_admin(request, course_id):
 
 @login_required
 def accept_student_admin(request, course_id, student_id):
+
+
+    # Get the request's context.
+    context = RequestContext(request)
+
     student = Student.objects.filter(user__id=student_id)
 
     if student:
         admin_request_accepted.send(sender=None, owner_type='course', owner_id=course_id,
                                     student=student[0].user, user=student[0].user)
 
+    user = request.user
+    student_admin_form = None
+    student_admin_added = True
+    school = student[0].school
+    return render_to_response(
+            'school/add_student_admin.html', {'student_admin_form': student_admin_form, 'user' : user,
+            'student_admin_added': student_admin_added, 'school': school},
+            context)
 
 
 @login_required
@@ -265,3 +278,5 @@ def request_student_admin(request, course_id, student_id):
     if student:
         admin_requested.send(sender=None, owner_type='course', owner_id=course_id,
                                 student=student[0].user, user=None)
+
+    return redirect ("/school/course/" + course_id)
