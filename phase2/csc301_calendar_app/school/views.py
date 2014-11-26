@@ -50,7 +50,7 @@ def view_school(request, school_id):
         user_school = UserProfile.objects.get(user=user).school
 
         eligible = school.validate_user_email(user.email)
-        if (user_school):  
+        if (user_school):
             enrolled = school.id == user_school.id
 
         if request.method == 'POST':
@@ -172,9 +172,9 @@ def view_course(request, course_id):
         relation = user_profile.courses.filter(id=course.id)[:1]
         if relation:
             enrolled = True
-        
+
         is_instructor = course.creator.id == user_profile.user.id
-    
+
         if request.method == 'POST':
             #If the user wants to post, then he/she must have clicked enrol
             # button in the school
@@ -195,7 +195,7 @@ def add_student_admin(request, course_id):
 
     """ Add a student admin to the course belonging to the school
        in which the instructor is enrolled in"""
-   
+
     # Get the request's context.
     context = RequestContext(request)
     student_admin_added = False
@@ -211,22 +211,22 @@ def add_student_admin(request, course_id):
     else:
         #return HttpResponse("You don't have permission to add a student admin!")
         return render_permission_denied(context, 'add student admin')
-    
+
     course = Course.objects.filter(id=int(course_id))[:1]
     if (course):
-        course = course[0]    
-        
+        course = course[0]
+
      # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'POST' and course:
 
         # Attempt to grab information from the raw form information.
-        student_admin_form = StudentAdminForm(data=request.POST)
+        student_admin_form = StudentAdminForm(course, data=request.POST)
         if student_admin_form.is_valid():
             # Save the event's form data to the database.
             student_admin = student_admin_form.cleaned_data
             course.student_admins = student_admin['student_admins']
             student_admin_added = True
-            
+
         # Invalid form or forms - mistakes
         # Print problems to the terminal.
         else:
