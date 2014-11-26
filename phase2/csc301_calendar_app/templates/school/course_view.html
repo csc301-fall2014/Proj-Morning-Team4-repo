@@ -15,7 +15,7 @@
                 </tr>
             </tbody>
             </table>
-	
+
             {% if enrolled or is_instructor %}
 	    <p> You are currently {% if is_instructor %}teaching{% else %}enrolled in{% endif %} this course. </p>
                 <a class="btn btn-primary btn-lg" href='/course/{{course.id}}/calendar/'><span class="glyphicon glyphicon-calendar"></span> View Calendar</a>
@@ -27,7 +27,7 @@
 
                     {# {% if is_instructor %} IF THEY ARE NOT ALREADY THE ADMIN #}
 
-                    <a class="btn btn-default pull-right" href='/school/course/{{course.id}}/add_student_admin/'><span class="glyphicon glyphicon-user"></span> Request to be Admin </a>
+                    <a class="btn btn-default pull-right" href='/school/course/{{course.id}}/request_student_admin/{{user.id}}/'><span class="glyphicon glyphicon-user"></span> Request to be Admin </a>
                 {% endif %}
             {% elif eligible %}
                 <form id="event_form" method="post" action="">
