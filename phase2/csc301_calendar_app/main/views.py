@@ -237,3 +237,63 @@ def instructor_admin_requests(request):
         result.append(notif)
 
     return HttpResponse(simplejson.dumps(result), content_type='application/json')
+
+
+@login_required
+def student_admin_requests(request):
+    # courses they've been added/accepted in to
+
+    context = RequestContext(request)
+    result = []
+
+    # All event notifications for current user
+    notifications = Notification.objects.filter(user__id=request.user.id,
+                                        notification_type__contains='added_admin')
+    for notification in notifications:
+
+        notif = {   'notify_id' : notification.id,
+                    'type'      : notification.notification_type,
+                    'owner_type': notification.owner_type,
+                    'owner_name': notification.owner_name,
+                    'owner_id'  : notification.owner_id,
+                    "event_id"  : notification.content_object.id,
+                    "event_name": notification.content_object.username}
+
+        result.append(notif)
+
+    # All event notifications for current user
+    notifications = Notification.objects.filter(user__id=request.user.id,
+                                        notification_type__contains='accepted_admin')
+    for notification in notifications:
+
+        notif = {   'notify_id' : notification.id,
+                    'type'      : notification.notification_type,
+                    'owner_type': notification.owner_type,
+                    'owner_name': notification.owner_name,
+                    'owner_id'  : notification.owner_id,
+                    "event_id"  : notification.content_object.id,
+                    "event_name": notification.content_object.username}
+
+        result.append(notif)
+
+    return HttpResponse(simplejson.dumps(result), content_type='application/json')
+
+
+@login_required
+def delete_notifications(request):
+
+    context = RequestContext(request)
+    result = []
+
+    # More logic needs to be added
+
+    # Not sure how to get the notification id?
+    notification_id=request.data.get("notif_id")
+    
+    # All event notifications for current user
+    notifications = Notification.objects.filter(id=notification_id)
+
+    if notifications:
+        notificatons.delete()
+
+    return HttpResponse(simplejson.dumps(result), content_type='application/json')
