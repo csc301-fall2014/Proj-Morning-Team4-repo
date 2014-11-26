@@ -14,12 +14,19 @@ class Notification(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
 
+    OWNER_TYPES = (('user', 'User'),
+                ('course', 'Course'),
+                ('school', 'School'))
+
     # All notifications are about a course, school or a user
-    owner_type = models.ForeignKey(ContentType, related_name="owner")
+    owner_type = models.CharField(max_length=8, choices=OWNER_TYPES, default='school')
     owner_id = models.PositiveIntegerField()
-    owner = GenericForeignKey('owner_type', 'owner_id')
+    owner_name = models.CharField(max_length=128)
 
     # The owner of the notification
     user = models.ForeignKey(User)
 
     date_created = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["date_created"]

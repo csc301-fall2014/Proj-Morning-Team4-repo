@@ -3,14 +3,17 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from main.forms import UserForm, UserProfileForm, UserUpdateForm, UserTypeForm
-from main.models import UserProfile, Student, Instructor
-from main.utils import render_permission_denied, get_profile
-from school.models import SchoolProfile, Course
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+from main.forms import UserForm, UserProfileForm, UserUpdateForm, UserTypeForm
+from main.models import UserProfile, Student, Instructor
+from main.utils import render_permission_denied, get_profile, get_owner_definition
+from school.models import SchoolProfile, Course
 from scheduler.models import Calendar
+from notifications.models import Notification
+
+from django.http import JsonResponse
+import json as simplejson
 
 def index(request):
     # Request the context of the request.
@@ -24,14 +27,14 @@ def index(request):
         profile = get_profile(request.user)
         user_profile = profile[0]
         user_type = profile[1]
-        
+
         if 'Instructor' in user_type:
             context_dict['is_instructor'] = True
             context_dict['courses'] = Course.objects.filter(creator=request.user.id)
-        else: 
+        else:
             context_dict['is_instructor'] = False
             context_dict['courses'] =  user_profile.courses.all()
-            
+
         context_dict['user_profile'] =  user_profile
 
     return render_to_response('main/main.html', context_dict, context)
@@ -180,3 +183,34 @@ def user_update(request):
             'main/edit_profile.html',
             {'user_form': user_form, 'profile_form': profile_form},
             context)
+
+@login_required
+def event_notifications(request):
+
+    context = RequestContext(request)
+    result = []
+
+    # All event notifications for current user
+    notifications = Notification.objects.filter(user__id=request.user.id,
+                                        notification_type__contains='event')
+    for notification in notifications:
+
+        # get the notification type
+        if "new" in notification.notification_type:
+            notif_type = "new"
+        else:
+            notif_type = "update"
+
+
+        notif = {'notify_id'    : notification.id,
+                    'type'      : notif_type,
+                    'owner_type': notification.owner_type,
+                    'owner_name': notification.owner_name,
+                    'owner_id'  : notification.owner_id,
+                    "event_id"  : notification.content_object.id,
+                    "event_name": notification.content_object.name,
+                    'event_date': notification.content_object.start.strftime('%a. %b. %d, %I:%M %p')}
+
+        result.append(notif)
+
+    return HttpResponse(simplejson.dumps(result), content_type='application/json')
