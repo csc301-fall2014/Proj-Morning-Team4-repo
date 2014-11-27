@@ -26,19 +26,47 @@ body {
 {{ block.super }}
 <script>
 // TODO: add these URLS
-var NOTIFICATIONS_GET_URL = "";
-var NOTIFICATIONS_DELETE_URL = "";
+{% if is_instructor %}
+var NOTIFICATIONS_GET_URL = "/instructor_admin_requests"; 
+{% else %}
+var NOTIFICATIONS_GET_URL = "/event_notifications";
+{% endif %}
+var NOTIFICATIONS_DELETE_URL = "/delete_notifications";
+
+var get_notifications;
 
 /**
  * Given an array A and an array B, return a list of items that exist in A
  * but not in B.
  */
-function diff(A, B) {
-	var difference = [];
-	jQuery.grep(A, function(el) {
-			if (jQuery.inArray(el, B) == -1) difference.push(el);
+function diff(a, b) {
+	// Make hashtable of ids in B
+	var bIds = {}
+	b.forEach(function(obj){
+			bIds[obj.notify_id] = obj;
 			});
-	return difference;
+
+	// Return all elements in A, unless in B
+	return a.filter(function(obj){
+			return !(obj.notify_id in bIds);
+			});
+}
+
+// using jQuery
+function getCookie(name) {
+	var cookieValue = null;
+	if (document.cookie && document.cookie != '') {
+		var cookies = document.cookie.split(';');
+		for (var i = 0; i < cookies.length; i++) {
+			var cookie = jQuery.trim(cookies[i]);
+			// Does this cookie string begin with the name we want?
+			if (cookie.substring(0, name.length + 1) == (name + '=')) {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				break;
+			}
+		}
+	}
+	return cookieValue;
 }
 
 /**
@@ -56,10 +84,10 @@ function notificationJSONToHTML(json){
 	{% if is_instructor %}
 	return '<tr id="notif-' + json.notify_id +
 		'" class="cm-notification"><td>Student Admin Request: ' +
-		'<strong> <a href="/course/"' + json.course_id  + '">' +
-		json.course_code + '</a></strong> '  +
+		'<strong> <a href="/course/' + json.owner_id  + '">' +
+		json.owner_name + '</a></strong> '  +
 		json.student_username + '; ' +
-		' <a href="' +  '/course/' + json.course_id + '/add_student_admin/' +
+		' <a href="' +  '/course/' + json.owner_id + '/add_student_admin/' +
 		json.student_id + '">Accept</a>' +
 		'<button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button></td></tr>';
 	{% else %}
@@ -74,6 +102,12 @@ function notificationJSONToHTML(json){
 	{% endif %}
 }
 
+function removeFromNotifications(notify_id){
+	var to_delete = notifications.filter(function(n) {
+			return n.notify_id == notify_id;});
+	notifications = diff(notifications, to_delete);
+}
+
 /**
  * Given a notification JSON, parse to HTML and insert into the DOM with
  * the given selector.
@@ -81,8 +115,10 @@ function notificationJSONToHTML(json){
 function addToNotificationTable(table_selector, json) {
 	$(table_selector).prepend(notificationJSONToHTML(json));
 	$('#notif-' + json.notify_id + ' .close').click(function() {
-			// send [json.notify_id] to delete url
-			if (true) $(this).parent().parent().remove();
+			if (sendDelete(NOTIFICATIONS_DELETE_URL, [json.notify_id])) 
+				removeFromNotifications(notify_id);
+				$(this).parent().parent().remove();
+				$('#notifications-count').html(notifications.length);
 			});
 }
 
@@ -92,30 +128,43 @@ function addToNotificationTable(table_selector, json) {
  */
 function sendDelete(url, id_list) {
 	var data = JSON.stringify(id_list);
+	var success = false;
 	$.ajax({
-		url: url,
-		type: 'DELETE',
-		data: data,
-		error: function() { return; }
-	});
+url: url,
+type: 'DELETE',
+data: data,
+beforeSend: function(xhr) {
+xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+},
+error: function() { success = false; },
+success: function() { success = true; }
+});
+return success;
 }
 
 /**
  * Call the notifications get url to obtain the notifications. Then parse and
- * display them. TODO
+ * display them. 
  */
 function getAndParseNotifications() {
 	$.get(NOTIFICATIONS_GET_URL)
 		.success(function (data) {
-			all_notifications = JSON.parse(data);
-			if (all_notifications.length){
+				all_notifications = data;
+				if (all_notifications.length){
 				new_notifications = diff(all_notifications, notifications);
 				notifications = all_notifications;
 				parseNotifications(new_notifications);
-			}
-			})
-		.error(function() {
-			alert("Something went wrong in getting your notifications");
+				} else {
+				emptyAll();
+				}
+				})
+	.error(function() {
+			// if the get was unsuccessful, stop grabbing and show error mssg
+			clearInterval(get_notifications);
+			$('#notifications-count').html('');
+			$('#notifications-table tbody').html("<tr><td>Something went wrong in retrieving your notifications. Try refreshing the page. </td></tr>");
+
+
 			});
 	$('#notifications-count').html(notifications.length);
 }
@@ -132,15 +181,19 @@ function deleteAll(){
 		notification_ids.push(notifications[i].notify_id);
 	}
 	if (sendDelete(NOTIFICATIONS_DELETE_URL, notification_ids)){
-		// empty JS list of notifications
-		notifications = [];
-		// empty the notifications table in DOM
-		$('#notifications-table tbody').empty();
-		$('#notifications-count').html('');
+		emptyAll();
 	}
 
 
 
+}
+
+function emptyAll() {
+		// empty JS list of notifications
+		notifications = [];
+		// empty the notifications table in DOM
+		$('#notifications-table tbody').empty();
+		$('#notifications-count').html('0');
 }
 
 var notifications = [
@@ -154,7 +207,8 @@ var notifications = [
 		"event_date": "Mon. Nov. 24, 2014, 10:00 AM"
 }];
 $(function(){
-		//setInterval('getAndParseNotifications()', 2000);
+		getAndParseNotifications();
+		get_notifications = setInterval('getAndParseNotifications()', 2000);
 		$('#delete-all').click(deleteAll);
 		});
 </script>
