@@ -231,8 +231,9 @@ def instructor_admin_requests(request):
                     'owner_type': notification.owner_type,
                     'owner_name': notification.owner_name,
                     'owner_id'  : notification.owner_id,
-                    "event_id"  : notification.content_object.id,
-                    "event_name": notification.content_object.username}
+                    'student_id'  : notification.content_object.id,
+                    'student_username': notification.content_object.username
+                    }
 
         result.append(notif)
 
@@ -288,12 +289,14 @@ def delete_notifications(request):
     # More logic needs to be added
 
     # Not sure how to get the notification id?
-    notification_id=request.data.get("notif_id")
+    notification_ids = simplejson.loads(request.body);
+    print notification_ids
     
     # All event notifications for current user
-    notifications = Notification.objects.filter(id=notification_id)
+    notifications = Notification.objects.filter(id__in=notification_ids)
+    print notifications
 
     if notifications:
-        notificatons.delete()
+        notifications.delete()
 
     return HttpResponse(simplejson.dumps(result), content_type='application/json')
