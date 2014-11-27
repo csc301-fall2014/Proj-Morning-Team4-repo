@@ -26,7 +26,7 @@ body {
 {{ block.super }}
 <script>
 {% if is_instructor %}
-var NOTIFICATIONS_GET_URL = "/instructor_admin_requests"; 
+var NOTIFICATIONS_GET_URL = "/instructor_admin_requests";
 {% else %}
 var NOTIFICATIONS_GET_URL = "/event_notifications";
 {% endif %}
@@ -86,7 +86,7 @@ function notificationJSONToHTML(json){
 		'<strong> <a href="/course/' + json.owner_id  + '">' +
 		json.owner_name + '</a></strong> '  +
 		json.student_username + '; ' +
-		' <a href="' +  '/course/' + json.owner_id + '/accept_student_admin/' +
+		' <a href="' +  '/school/course/' + json.owner_id + '/accept_student_admin/' +
 		json.student_id + '">Accept</a>' +
 		'<button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button></td></tr>';
 	{% else %}
@@ -95,7 +95,7 @@ function notificationJSONToHTML(json){
 		'!<strong> ' + json.owner_name + '</strong> '  +
 		json.event_name + '; ' +
 		json.event_date +
-		' <a href="' +  '/' + json.owner_type + '/' + json.owner_id + '/calendar/event/' + 
+		' <a href="' +  '/' + json.owner_type + '/' + json.owner_id + '/calendar/event/' +
 		json.event_id + '">More details...</a>' +
 		'<button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button></td></tr>';
 	{% endif %}
@@ -114,7 +114,7 @@ function removeFromNotifications(notify_id){
 function addToNotificationTable(table_selector, json) {
 	$(table_selector).prepend(notificationJSONToHTML(json));
 	$('#notif-' + json.notify_id + ' .close').click(function() {
-			if (sendDelete(NOTIFICATIONS_DELETE_URL, [json.notify_id])) 
+			if (sendDelete(NOTIFICATIONS_DELETE_URL, [json.notify_id]))
 				removeFromNotifications(notify_id);
 				$(this).parent().parent().remove();
 				$('#notifications-count').html(notifications.length);
@@ -143,7 +143,7 @@ return success;
 
 /**
  * Call the notifications get url to obtain the notifications. Then parse and
- * display them. 
+ * display them.
  */
 function getAndParseNotifications() {
 	$.get(NOTIFICATIONS_GET_URL)

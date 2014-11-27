@@ -228,8 +228,8 @@ def add_student_admin(request, course_id):
             student_admin = student_admin_form.cleaned_data
             course.student_admins = student_admin['student_admins']
             student_admin_added = True
-            school_admins_added.send(sender=None, owner_type='course', owner_id=course_id,
-                                        students=course.student_admins, user=None)
+            #course_admins_added.send(sender=None, owner_type='course', owner_id=course_id,
+            #                            students=course.student_admins, user=None)
 
         # Invalid form or forms - mistakes
         # Print problems to the terminal.
@@ -256,8 +256,9 @@ def accept_student_admin(request, course_id, student_id):
     context = RequestContext(request)
 
     student = Student.objects.filter(user__id=student_id)
-
-    if student:
+    course = Course.objects.filter(id=course_id)
+    if student and course:
+        course[0].student_admins.add(student[0])
         admin_request_accepted.send(sender=None, owner_type='course', owner_id=course_id,
                                     student=student[0].user, user=student[0].user)
 
