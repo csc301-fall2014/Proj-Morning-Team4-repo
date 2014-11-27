@@ -25,7 +25,6 @@ body {
 {% block js %}
 {{ block.super }}
 <script>
-// TODO: add these URLS
 {% if is_instructor %}
 var NOTIFICATIONS_GET_URL = "/instructor_admin_requests"; 
 {% else %}
@@ -87,7 +86,7 @@ function notificationJSONToHTML(json){
 		'<strong> <a href="/course/' + json.owner_id  + '">' +
 		json.owner_name + '</a></strong> '  +
 		json.student_username + '; ' +
-		' <a href="' +  '/course/' + json.owner_id + '/add_student_admin/' +
+		' <a href="' +  '/course/' + json.owner_id + '/accept_student_admin/' +
 		json.student_id + '">Accept</a>' +
 		'<button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button></td></tr>';
 	{% else %}
