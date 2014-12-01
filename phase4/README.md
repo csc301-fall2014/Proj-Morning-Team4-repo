@@ -23,6 +23,7 @@ Since the process our group used worked very well our “ideal” process would 
 ## Architecture
 ### Process execution structure  
 ![MTV Diagram](mtv-diagram-730x1024.png "MTV Diagram")
+
 (Ref: http://littlegreenriver.com/weblog/wp-content/uploads/mtv-diagram-730x1024.png)
 
 ### Module structure
