@@ -1,14 +1,19 @@
 ## Product
 Our group chose to make a Calendar application. With our product, students will be able to view a wide variety of events, from lectures to even birthdays; this all-encompassing tool will allow users to seamlessly manage their schedules on the web. After creating an account, students will have the ability to subscribe to a school and then to courses they are enrolled in. Students will then be able to see their schedules in a web calendar displaying information such as the times and locations of lectures, tutorials and upcoming events.
+
 Our product showcases many unique additional features which set it apart from rival calendar applications. For instance, our product solves the common administrative issue whereby the professor forgets to update the class calendar in a unique way. Our product allows the instructors of each class to nominate “student admins” from the list of students in that course.These student admins are then given extra privileges including the ability to fix course calendar errors and add additional events. Students themselves also have the ability to navigate to the course page and request to become a student admin.
+
 Another notable feature included in our product is the ability to ‘overlay’ course calendars. A user will typically have many different classes and personal calendars on their account and it will be very likely for their main calendar to get crowded. By allowing the user to filter by calendar type the user is able to better manage their schedule.
+
 One final exemplary feature that is unique to our product is our Calendar’s notifications tool. A user will receive notifications to their homepage when the system needs to convey important information such as: a reminder for an upcoming event, or if they have just gained student admin privileges.     
 
 ##  Process
 ### What worked well?
 During the planning stages of Phase I our group laid out software development procedures to ensure that we worked effectively as a team. One of the most crucial elements to our team’s success is our use of the “scrum” software development framework. This began by splitting group members up into either “front-end” or “back-end” developers, also by assigning and setting realistic coding tasks for each group member at the beginning of each scrum iteration. The combined tasks would form the milestone for each week. These tasks and milestones would then be logged and recorded on Github. As the week progressed, our group would hold multiple in-person and online scrum meetings to ensure timelines were being met. Our group would also hold informal Facebook chats throughout the week to seek the group’s advice on problems that were encountered.
+
 We found this process to be quite effective. Splitting the group up into front end and back end teams allowed members to specialize and become experts on their respective sections of the product, enhancing the whole group’s collective productivity. Furthermore, we noticed that frequent meetings kept our group abreast of fellow group member’s progress. Members who completed their tasks early could then offer assistance to those who needed it. Additionally, we noticed that holding informal Facebook chats worked quite well as it allowed us to quickly bounce ideas off each other without having to assemble the whole group.
-What worked poorly?
+
+### What worked poorly?
 One aspect of our process which we initially struggled with was coordinating in person meetings. Each of our group members have a very demanding course schedule making it very difficult to find mutually agreed upon meeting times. Fortunately, we were able to solve this conundrum with the use of our very own Calendar product. Each group member would input their obligations into a calendar and using the “overlay” feature we were able to determine which times worked well for everybody.
 
 If you had to continue and design your process what would it look like? ie ideal process
