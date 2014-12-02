@@ -10,7 +10,11 @@
 
 ## Michael Li (limich17)
 
-Michael's stuff will go here
+- My most significant contribution was work on pushing notifications to users of the app, however my work did not end up being used in the final product, as there were too many issues with it.
+- While working on the calendar I learned about the Django framework, and learned more about the software development process. 
+- One of my strengths is that I made sure I kept track of what was going on in discussion in the group offline and online. 
+- Something I need to improve on is meeting deadlines my group members set out for me.
+
 
 ## Tommy Li (tommyzli)
 - My most significant contribution was the implementation of the user permissions. 
