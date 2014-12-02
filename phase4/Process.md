@@ -7,5 +7,5 @@ We found this process to be quite effective. Splitting the group up into front e
 ## What worked poorly?
 One aspect of our process which we initially struggled with was coordinating in person meetings. Each of our group members have a very demanding course schedule making it very difficult to find mutually agreed upon meeting times. Fortunately, we were able to solve this conundrum with the use of our very own Calendar product. Each group member would input their obligations into a calendar and using the “overlay” feature we were able to determine which times worked well for everybody.
 
-If you had to continue and design your process what would it look like? ie ideal process
+## If you had to continue and design your process what would it look like? ie ideal process
 Since the process our group used worked very well our “ideal” process would likely closely resemble the process we implemented. In a perfect world we would have liked to hold meetings once a day, everyday. Unfortunately, given the time constraints in our lives this is naturally a lofty goal. In a perfect world we would have also appreciated more time for each phase so we would have more time for planning and discussing different approaches
