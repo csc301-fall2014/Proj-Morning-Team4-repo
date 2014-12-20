@@ -85,10 +85,9 @@ AUTH_PROFILE_MODULE = 'main.models.UserProfile'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':  'csc301_users',
+        'NAME':  'csc301_calendar',
         'USER' : 'root',
         'PASSWORD' :'PASSWORD',
-        'HOST' : '127.0.0.1'
     }
 }
 

@@ -18,8 +18,13 @@
 
 ## Tommy Li (tommyzli)
 - My most significant contribution was the implementation of the user permissions. 
+<<<<<<< HEAD
     - https://github.com/csc301-fall2014/Proj-Morning-Team4-repo/blob/master/phase2/csc301_calendar_app/main/models.py
     - https://github.com/csc301-fall2014/Proj-Morning-Team4-repo/blob/master/phase2/csc301_calendar_app/main/utils.py 
+=======
+    - https://github.com/csc301-fall2014/Proj-Morning-Team4-repo/commit/45ece1cdd568cfe4b642fe398ebe35aedb1b4a4a
+    - https://github.com/csc301-fall2014/Proj-Morning-Team4-repo/commit/dbc9666fa19a461b94b9a9bf7410a42403363825
+>>>>>>> 6686079ce705e1db171c8588519c9587aa8a5b87
 - While working on this project, I learned how Django handles user authentication and permissions in the back end. There were many options to choose from, including permission objects and user groups, as well as completely custom permission checks, which I chose.
 - One of my strengths was that I stayed very up to date on the team’s progress, in meetings and in group chats to make sure I was not falling behind in anything.
 - Something I could improve on is keeping my team members up to date on my progress by communicating more throughout the sprints and through more frequent commits.
