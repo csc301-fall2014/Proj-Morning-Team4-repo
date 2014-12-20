@@ -1,0 +1,23 @@
+@font-face {
+	font-family: RobotoCondensed;
+	src: url(../ttf/RobotoCondensed-Regular.ttf);
+}
+
+* {
+	font-family: RobotoCondensed, sans-serif;
+}
+#top-bar {
+	background-color: #8bc34a;	
+	border-color: #4caf50;
+}
+
+#top-bar .navbar-brand {
+	color: #fafafa;
+}
+
+.table ul {
+	padding-left: 15px;
+}
+
+.table ul li{
+}
