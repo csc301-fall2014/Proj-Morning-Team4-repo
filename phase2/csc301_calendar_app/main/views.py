@@ -36,6 +36,7 @@ def index(request):
             context_dict['courses'] =  user_profile.courses.all()
 
         context_dict['user_profile'] =  user_profile
+        context_dict['user_id'] = request.user.id
 
     return render_to_response('main/main.html', context_dict, context)
 

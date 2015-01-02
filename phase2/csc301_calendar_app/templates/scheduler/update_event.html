@@ -9,7 +9,7 @@
 
         {% if event_added %}
         <strong>The event has been updated!</strong>
-        <a href="/">Return to the homepage.</a><br />
+        <a href="{% url 'index' %}">Return to the homepage.</a><br />
         {% else %}
 
         <form id="event_form" method="post" action=""

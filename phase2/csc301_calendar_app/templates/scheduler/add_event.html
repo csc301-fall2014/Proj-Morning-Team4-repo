@@ -9,7 +9,7 @@
 
         {% if event_added %}
             <strong>Your event has been added to the calendar</strong>
-            <a href="/">Return to the homepage.</a><br />
+            <a href="{% url 'index' %}">Return to the homepage.</a><br />
         {% else %}
             <form id="event_form" method="post" action=""
                     enctype="multipart/form-data">
@@ -23,7 +23,7 @@
 
                 <!-- Provide a button to click to submit the form. -->
                 <input class="btn btn-primary" type="submit" name="submit" value="Add Event" />
-                <a class="btn btn-primary" href="/user/{{user.id}}/calendar/">Cancel</a>
+                <a class="btn btn-primary" href="{% url 'scheduler:calendar_basic' 'user' user.id %}">Cancel</a>
             </form>
         {% endif %}
 

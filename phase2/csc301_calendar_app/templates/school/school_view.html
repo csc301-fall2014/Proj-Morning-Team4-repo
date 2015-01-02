@@ -12,18 +12,18 @@
                 <p> You are not eligible to enrol in this school.</p>
             {% else %}
                 <p> You are currently enrolled in this school.</p>
-                <a href='/school/{{school.id}}/calendar/' class='btn btn-primary btn-lg'>View Calendar</a>
+                <a href="{% url 'scheduler:calendar_basic' 'school' school.id %}" class='btn btn-primary btn-lg'>View Calendar</a>
             {% endif %}
             <br>
 
             <h3>Available Courses</h3>
             <ul>
                 {% for c in courses %}
-                    <li><a href="/school/course/{{ c.id }}">{{c.name}}</a></li>
+                    <li><a href="{% url 'school:View course' c.id %}">{{c.name}}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p>Broken link. No course with course id {{course.id}}.</p>
+            <p>Broken link. No school with school id {{school.id}}.</p>
         {% endif %}
     </p>
 {% endblock %}

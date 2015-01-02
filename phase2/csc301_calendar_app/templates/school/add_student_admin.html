@@ -9,7 +9,7 @@
                 <strong>You have sucessfully created a student admin!</strong>
                 <a href="/">Return to the homepage.</a><br />
             {% else %}
-                <form id="student_admin_form" method="post" action="">
+                <form id="student_admin_form" method="post" action="{% url 'index' %}">
 
                     {% csrf_token %}
 

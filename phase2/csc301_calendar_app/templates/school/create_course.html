@@ -7,7 +7,7 @@
 
         {% if course_added %}
             <strong>You have sucessfully created the course!</strong>
-            <a href="/">Return to the homepage.</a><br />
+            <a href="{% url 'index' %}">Return to the homepage.</a><br />
         {% else %}
             <form id="course_form" method="post" action="">
                 {% csrf_token %}
@@ -15,7 +15,7 @@
                 {{ course_form.as_p }}
 
                 <input class="btn btn-primary btn-lg" type="submit" value="Create Course" />
-            <a  class="btn btn-primary btn-lg" href="/">Cancel</a>
+            <a  class="btn btn-primary btn-lg" href="{% url 'index' %}">Cancel</a>
             </form>
         {% endif %}
     </div>

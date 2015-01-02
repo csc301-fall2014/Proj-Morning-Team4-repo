@@ -7,9 +7,9 @@
 
                 {% if user.is_authenticated %}
                     <h2>You are already logged in!</h2>
-                    <p><a href="/">Return to the homepage.</a></p>
+                    <p><a href="{% url 'index' %}">Return to the homepage.</a></p>
                 {% else %}
-                    <form class="form-signin" role="form" id="login_form" method="post" action="/login/">
+                    <form class="form-signin" role="form" id="login_form" method="post" action="{% url 'login' %}">
                         <h2 class="form-signin-heading">Please sign in</h2>
                         {% csrf_token %}
                         <input name="username" type="text" class="form-control" placeholder="Username" required autofocus>

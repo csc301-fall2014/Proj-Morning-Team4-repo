@@ -186,7 +186,7 @@ def view_event(request, owner_type, owner_id, event_id):
 
     # Render the template depending on the context.
     return render_to_response(
-           'scheduler/view_event.html', {'event': event, 'edit_priv': edit_priv},
+           'scheduler/view_event.html', {'event': event, 'edit_priv': edit_priv, 'owner_type': owner_type},
            context)
 
 @login_required

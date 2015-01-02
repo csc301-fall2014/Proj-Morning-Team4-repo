@@ -26,11 +26,11 @@ body {
 {{ block.super }}
 <script>
 {% if is_instructor %}
-var NOTIFICATIONS_GET_URL = "/instructor_admin_requests";
+var NOTIFICATIONS_GET_URL = "{% url 'admin requests' %}";
 {% else %}
-var NOTIFICATIONS_GET_URL = "/event_notifications";
+var NOTIFICATIONS_GET_URL = "{% url 'notifications' %}";
 {% endif %}
-var NOTIFICATIONS_DELETE_URL = "/delete_notifications";
+var NOTIFICATIONS_DELETE_URL = "{% url 'delete notifications' %}";
 
 var get_notifications;
 
@@ -75,6 +75,28 @@ function capitalize(s) {
 	return s.replace(/^[a-z]/, function(m){ return m.toUpperCase()});
 }
 
+var COURSE_URL = "{% url 'school:View course' '__COURSE_ID__' %}";
+var CALENDAR_URL = "{% url 'scheduler:calendar_basic' 'user' '__OWNER_ID__' %}";
+
+function replaceURLWithDict(url, dict) {
+	var new_url = url;
+	for (key in dict) {
+		new_url = url.replace(key, dict[key]);
+	}
+	return new_url;
+}
+
+function getCourseURL(course_id) {
+	var dict = {"__COURSE_ID__":course_id};
+	return replaceURLWithDict(COURSE_URL, dict);
+}
+
+function getCalendarURL(owner_type, owner_id) {
+	var dict = {"user":owner_type, "__OWNER_ID__":owner_id};
+	return replaceURLWithDict(EVENT_URL, dict);
+}
+
+
 /**
  * Given a notification JSON, return the HTML for them to be inserted as a
  * row in the notifications table.
@@ -83,19 +105,20 @@ function notificationJSONToHTML(json){
 	{% if is_instructor %}
 	return '<tr id="notif-' + json.notify_id +
 		'" class="cm-notification"><td>Student Admin Request: ' +
-		'<strong> <a href="/course/' + json.owner_id  + '">' +
+		'<strong> <a href="' + getCourseURL(json.owner_id)  + '">' +
 		json.owner_name + '</a></strong> '  +
 		json.student_username + '; ' +
-		' <a href="' +  '/school/course/' + json.owner_id + '/accept_student_admin/' +
+		' <a href="' + getCourseURL(json.owner_id) + '/accept_student_admin/' +
 		json.student_id + '">Accept</a>' +
 		'<button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button></td></tr>';
 	{% else %}
+	
 	return '<tr id="notif-' + json.notify_id +
 		'" class="cm-notification"><td>' + capitalize(json.type) +
 		'!<strong> ' + json.owner_name + '</strong> '  +
 		json.event_name + '; ' +
 		json.event_date +
-		' <a href="' +  '/' + json.owner_type + '/' + json.owner_id + '/calendar/event/' +
+		' <a href="' +  getCalendarURL(json.owner_type,json.owner_id) + '/event/' +
 		json.event_id + '">More details...</a>' +
 		'<button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button></td></tr>';
 	{% endif %}
@@ -241,7 +264,7 @@ $(function(){
 			<td><b>My School</b></td>
 			<td>
 				{% if user_profile.school %}
-				<a href="/school/{{ user_profile.school.id }}">{{ user_profile.school }}</a>
+				<a href="{% url 'school:View School' user_profile.school.id %}">{{ user_profile.school }}</a>
 				{% else %}
 				You're not enrolled in a school.
 				{% endif %}
@@ -254,7 +277,7 @@ $(function(){
 				<ul>
 					{% for course in courses %}
 					<li>
-					<a href="/school/course/{{course.id}}">{{ course }} ({{ course.code }})</a>
+					<a href="{% url 'school:View course' course.id %}">{{ course }} ({{ course.code }})</a>
 					</li>
 					{% endfor %}
 					{% else %}
@@ -269,16 +292,16 @@ $(function(){
 		</tr>
 		</tbody>
 	</table>
-	<a class="btn btn-primary btn-lg" href="/edit-profile"><span class="glyphicon glyphicon-pencil"></span>Edit Profile</a>
-	<a class="btn btn-primary btn-lg" href="/user/{{ user.id }}/calendar"><span class="glyphicon glyphicon-calendar"></span> Calendar</a>
-	<a class="btn btn-primary btn-lg" href="/school/search"><span class="glyphicon glyphicon-tower"></span>
+	<a class="btn btn-primary btn-lg" href="{% url 'edit-profile' %}"><span class="glyphicon glyphicon-pencil"></span>Edit Profile</a>
+	<a class="btn btn-primary btn-lg" href="{% url 'scheduler:calendar_basic' 'user' user_id%}"><span class="glyphicon glyphicon-calendar"></span> Calendar</a>
+	<a class="btn btn-primary btn-lg" href="{% url 'school:Search Schools' %}"><span class="glyphicon glyphicon-tower"></span>
 		{% if user_profile.school %}
 		Switch schools
 	</a>
 	{% if is_instructor %}
-	<a class="btn btn-primary btn-lg" href="/school/course/create"><span class="glyphicon glyphicon-tower"></span>Create a Course</a>
+	<a class="btn btn-primary btn-lg" href="{% url 'school:Create course' %}"><span class="glyphicon glyphicon-tower"></span>Create a Course</a>
 	{% else %}
-	<a class="btn btn-primary btn-lg" href="/school/{{ user_profile.school.id }}"><span class="glyphicon glyphicon-tower"></span>Enrol in a Course</a>
+	<a class="btn btn-primary btn-lg" href="{% url 'school:View School' user_profile.school.id %}"><span class="glyphicon glyphicon-tower"></span>Enrol in a Course</a>
 	{% endif %}
 	{% else %}
 	Find your school
@@ -298,7 +321,7 @@ $(function(){
 	    <h1>Hey Stranger! </h1>
 	    <p>We noticed you're not logged in. You have two options here:</p>
 	    <div class="text-center">
-<a class="btn btn-primary btn-lg" href="/register">
+<a class="btn btn-primary btn-lg" href="{% url 'registration' %}">
 	<span class="glyphicon glyphicon-thumbs-up"></span> Register
 </a>
 	    </div>
@@ -306,7 +329,7 @@ $(function(){
 	    <hr>
 
 	    <p class="text-center">
-	    <a class="btn btn-primary btn-lg" href="/login">
+	    <a class="btn btn-primary btn-lg" href="{% url 'login' %}">
 <span class="glyphicon glyphicon-log-in"></span> Login
 	    </a>
 	    </p>

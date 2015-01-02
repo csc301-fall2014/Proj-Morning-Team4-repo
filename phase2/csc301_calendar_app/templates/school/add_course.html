@@ -8,7 +8,7 @@
         <h1>Add Course</h1>
         
         {% if user.is_authenticated %}
-            <form id="add_course_form" method="post" action="/main/">
+            <form id="add_course_form" method="post" action="{% url 'index' %}">
                 {% csrf_token %}
                 Course: <input type="text" name="username" value="" size="50" />
                 <br /><br />

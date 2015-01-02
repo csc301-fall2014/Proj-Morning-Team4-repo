@@ -27,7 +27,7 @@
                 {% if schools %}
                   <div class="list list-group">
                   {% for school in schools %}
-                    <a class="list-group-item" href="/school/{{ school.id }}"><span class="name">{{ school.name }}</span></a>
+                    <a class="list-group-item" href="{% url 'school:View School' school.id %}"><span class="name">{{ school.name }}</span></a>
                   {% endfor %}
                   </div>
                 {% endif %}
