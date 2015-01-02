@@ -229,10 +229,13 @@ var notifications = [
 		"event_date": "Mon. Nov. 24, 2014, 10:00 AM"
 }];
 $(function(){
+	{% if user.is_authenticated %}
 		getAndParseNotifications();
 		get_notifications = setInterval('getAndParseNotifications()', 2000);
 		$('#delete-all').click(deleteAll);
+	{% endif %}
 		});
+	}
 </script>
 {% endblock %}
 
