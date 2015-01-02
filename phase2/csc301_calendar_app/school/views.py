@@ -13,6 +13,7 @@ from scheduler.models import Calendar
 from main.utils import render_permission_denied, get_profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 
 from notifications.signals import *
 
@@ -280,4 +281,4 @@ def request_student_admin(request, course_id, student_id):
         admin_requested.send(sender=None, owner_type='course', owner_id=course_id,
                                 student=student[0].user, user=None)
 
-    return redirect ("/school/course/" + course_id)
+    return redirect (reverse('View course', args=(course_id,)))

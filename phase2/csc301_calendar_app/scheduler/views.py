@@ -8,6 +8,7 @@ from school.models import Course
 from scheduler.models import Calendar, Event
 from scheduler.forms import EventForm
 from notifications.signals import *
+from django.core.urlresolvers import reverse 
 import json
 
 def verified_calendar(context, owner_type, owner_id, user):
@@ -182,7 +183,7 @@ def view_event(request, owner_type, owner_id, event_id):
             return render_permission_denied(context, 'view this event')
 
     else:
-        return render_to_response('/', {}, context)
+        return render_to_response(reverse('index'), {}, context)
 
     # Render the template depending on the context.
     return render_to_response(

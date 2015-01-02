@@ -11,6 +11,7 @@ from main.utils import render_permission_denied, get_profile
 from school.models import SchoolProfile, Course
 from scheduler.models import Calendar
 from notifications.models import Notification
+from django.core.urlresolvers import reverse
 
 from django.http import JsonResponse
 import json as simplejson
@@ -138,7 +139,7 @@ def user_login(request):
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect(reverse('index'))
             else:
                 # An inactive account was used - no logging in!
                 return HttpResponse("Your account is disabled.")
@@ -162,7 +163,7 @@ def user_logout(request):
     logout(request)
 
     # Take the user back to the homepage.
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(reverse('index'))
 
 @login_required
 def user_update(request):
@@ -172,11 +173,11 @@ def user_update(request):
     user_profile = UserProfile.objects.get(user=user.id)
     if request.method == 'POST':
         user_form = UserUpdateForm(data=request.POST, instance=user)
-        profile_form = UserProfileForm(data=request.POST, instance=user)
+        profile_form = UserProfileForm(data=request.POST, instance=user_profile)
         if (user_form.is_valid() and profile_form.is_valid()):
             user_form.save()
             profile_form.save()
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(reverse('index'))
     else:
         user_form = UserUpdateForm(instance=user)
         profile_form = UserProfileForm(instance=user_profile)
