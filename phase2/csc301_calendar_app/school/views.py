@@ -281,4 +281,4 @@ def request_student_admin(request, course_id, student_id):
         admin_requested.send(sender=None, owner_type='course', owner_id=course_id,
                                 student=student[0].user, user=None)
 
-    return redirect (reverse('View course', args=(course_id,)))
+    return redirect (reverse('school:View course', args=(course_id,)))
